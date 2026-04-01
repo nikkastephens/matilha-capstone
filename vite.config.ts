@@ -15,6 +15,17 @@ const config = defineConfig({
     tanstackStart(),
     viteReact(),
   ],
+
+  // 👇 ADD THIS SECTION
+  server: {
+    host: true,
+    allowedHosts: ['devserver-preview--matilha-capstone.netlify.app']
+  },
+  preview: {
+    host: true,
+    allowedHosts: ['devserver-preview--matilha-capstone.netlify.app']
+  }
+})
 })
 
 export default config
