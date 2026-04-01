@@ -5,6 +5,8 @@ import viteTsConfigPaths from 'vite-tsconfig-paths'
 import tailwindcss from '@tailwindcss/vite'
 import netlify from '@netlify/vite-plugin-tanstack-start'
 
+const allowedHost = 'devserver-preview--matilha-capstone.netlify.app'
+
 const config = defineConfig({
   plugins: [
     viteTsConfigPaths({
@@ -15,11 +17,14 @@ const config = defineConfig({
     tanstackStart(),
     viteReact(),
   ],
-
-server: {
-  host: true,
-  allowedHosts: 'all'
-}
+  server: {
+    host: true,
+    allowedHosts: [allowedHost],
+  },
+  preview: {
+    host: true,
+    allowedHosts: [allowedHost],
+  },
 })
 
 export default config
