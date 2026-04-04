@@ -179,7 +179,7 @@ function HeroSection() {
 
       <div className="relative max-w-6xl mx-auto px-6 pt-24 pb-16 text-center">
         {/* Logo mark */}
-        <div className="pulse-logo inline-flex items-center justify-center w-20 h-20 rounded-full mb-6 overflow-hidden" }}>
+        <div className="pulse-logo inline-flex items-center justify-center w-20 h-20 rounded-full mb-6 overflow-hidden">
          <img
   src={`${import.meta.env.BASE_URL}greentech-logo.png`}
   alt="Greentech Alliance logo"
@@ -1455,7 +1455,6 @@ function Footer() {
         <div className="border-t pt-6 flex flex-col sm:flex-row items-center justify-between gap-3" style={{ borderColor: 'rgba(255,255,255,0.08)' }}>
           <p className="text-xs">© 2026 Matilha Capstone Project. All rights reserved.</p>
           <div className="flex items-center gap-2 text-xs">
-          
             <span>Built for a greener tomorrow.</span>
           </div>
       </div>
