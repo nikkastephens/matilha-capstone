@@ -1455,12 +1455,8 @@ function Footer() {
         <div className="border-t pt-6 flex flex-col sm:flex-row items-center justify-between gap-3" style={{ borderColor: 'rgba(255,255,255,0.08)' }}>
           <p className="text-xs">© 2025 Greentech Alliance Capstone Project. All rights reserved.</p>
           <div className="flex items-center gap-2 text-xs">
-            <img
-  src={`${import.meta.env.BASE_URL}greentech-logo.png`}
-  alt="Greentech Alliance logo"
-  className="w-full h-full object-contain"
-/>
-            <span>Built for a greener tomorrow</span>
+          
+            <span>Built for a greener tomorrow.</span>
           </div>
         </div>
       </div>
