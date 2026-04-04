@@ -3,28 +3,16 @@ import { tanstackStart } from '@tanstack/react-start/plugin/vite'
 import viteReact from '@vitejs/plugin-react'
 import viteTsConfigPaths from 'vite-tsconfig-paths'
 import tailwindcss from '@tailwindcss/vite'
-import netlify from '@netlify/vite-plugin-tanstack-start'
 
-const allowedHost = 'devserver-preview--matilha-capstone.netlify.app'
+export default defineConfig({
+  base: '/matilha-capstone/', // 👈 VERY IMPORTANT
 
-const config = defineConfig({
   plugins: [
     viteTsConfigPaths({
       projects: ['./tsconfig.json'],
     }),
     tailwindcss(),
-    netlify(),
     tanstackStart(),
     viteReact(),
   ],
-  server: {
-    host: true,
-    allowedHosts: [allowedHost],
-  },
-  preview: {
-    host: true,
-    allowedHosts: [allowedHost],
-  },
-})
-
-export default config
+})Is 
