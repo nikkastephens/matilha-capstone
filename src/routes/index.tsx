@@ -1,7 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useEffect, useRef, useState } from 'react'
 import {
-  Leaf,
   Target,
   BarChart2,
   Users,
@@ -177,7 +176,11 @@ function HeroSection() {
       <div className="relative max-w-6xl mx-auto px-6 pt-24 pb-16 text-center">
         {/* Logo mark */}
         <div className="pulse-logo inline-flex items-center justify-center w-20 h-20 rounded-2xl mb-6 shadow-2xl" style={{ background: 'rgba(255,255,255,0.2)', border: '2px solid rgba(255,255,255,0.4)' }}>
-          <Leaf size={36} color="white" />
+          <img
+    src="/greentech-logo.jpeg"
+    alt="Greentech Alliance logo"
+    className="w-16 h-16 object-contain"
+  />
         </div>
 
         <div className="tag tag-teal mb-4 inline-flex" style={{ background: 'rgba(255,255,255,0.2)', color: 'white', border: '1px solid rgba(255,255,255,0.3)' }}>
