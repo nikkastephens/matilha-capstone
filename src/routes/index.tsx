@@ -179,7 +179,7 @@ function HeroSection() {
 
       <div className="relative max-w-6xl mx-auto px-6 pt-24 pb-16 text-center">
         {/* Logo mark */}
-        <div className="pulse-logo inline-flex items-center justify-center w-20 h-20 rounded-2xl mb-6 shadow-2xl" style={{ background: 'rgba(255,255,255,0.2)', border: '2px solid rgba(255,255,255,0.4)' }}>
+        <div className="pulse-logo inline-flex items-center justify-center w-20 h-20 rounded-full mb-6 shadow-lg overflow-hidden" }}>
          <img
   src={`${import.meta.env.BASE_URL}greentech-logo.png`}
   alt="Greentech Alliance logo"
