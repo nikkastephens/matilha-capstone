@@ -305,7 +305,7 @@ function IntroSection() {
     },
   ]
 
-  return (
+ return (
     <section id="intro" className="section-pad section-gradient-teal">
       <div className="max-w-6xl mx-auto">
         <SectionHeader
@@ -317,13 +317,21 @@ function IntroSection() {
         <div className="grid md:grid-cols-2 gap-8 mb-14">
           <div className="reveal reveal-left callout-teal">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: '#0D7377' }}>
+              <div
+                className="w-10 h-10 rounded-xl flex items-center justify-center"
+                style={{ background: '#0D7377' }}
+              >
                 <Globe size={20} color="white" />
               </div>
-              <h3 className="font-bold text-xl" style={{ color: '#1A2332' }}>Who is Greentech Alliance?</h3>
+              <h3 className="font-bold text-xl" style={{ color: '#1A2332' }}>
+                Who is Greentech Alliance?
+              </h3>
             </div>
+
             <p style={{ color: '#4A5568', lineHeight: '1.75' }}>
               Greentech Alliance is a volunteer-run, global climate technology community. It builds ecosystems that connect technology, policy, and capital to support the development and deployment of solutions addressing climate change and sustainable development challenges worldwide.
+            </p>
+
             <p className="mt-3" style={{ color: '#4A5568', lineHeight: '1.75' }}>
               At the time of this capstone engagement, Greentech Alliance was preparing for its formal platform launch — a pivotal moment requiring a clear strategy, a defined value proposition, and a strong understanding of what prospective members truly need and value.
             </p>
@@ -331,28 +339,36 @@ function IntroSection() {
 
           <div className="reveal reveal-right callout-green">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: '#27ae60' }}>
+              <div
+                className="w-10 h-10 rounded-xl flex items-center justify-center"
+                style={{ background: '#27ae60' }}
+              >
                 <BookOpen size={20} color="white" />
               </div>
-              <h3 className="font-bold text-xl" style={{ color: '#1A2332' }}>Presented Project Summary</h3>
+              <h3 className="font-bold text-xl" style={{ color: '#1A2332' }}>
+                Presented Project Summary
+              </h3>
             </div>
+
             <p style={{ color: '#4A5568', lineHeight: '1.75' }}>
               Greentech Alliance has over 5,000 members connected through informal channels like Slack and WhatsApp, free of charge. As it formally expands into Canada and helps launch Calgary’s first Climate Week, the organization is entering a critical growth phase. The project followed an applied research methodology, combining desk research, primary data collection, and strategic frameworks widely used in product development and community platform design.
             </p>
+
             <p className="mt-3" style={{ color: '#4A5568', lineHeight: '1.75' }}>
-             The main challenge is to scale sustainably without losing its core strengths — accessibility, trust, and engagement — while:
-          </p>
+              The main challenge is to scale sustainably without losing its core strengths — accessibility, trust, and engagement — while:
+            </p>
+
+            <ul className="mt-3 list-disc pl-6" style={{ color: '#4A5568', lineHeight: '1.75' }}>
+              <li>Migrating members to a dedicated platform</li>
+              <li>Introducing a paid membership model for the first time</li>
+              <li>Integrating 2,000 new members from an international merger</li>
+              <li>Maintaining alignment across regions and sectors</li>
+            </ul>
+
             <p className="mt-3" style={{ color: '#4A5568', lineHeight: '1.75' }}>
-•	Migrating members to a dedicated platform 
-•	Introducing a paid membership model for the first time 
-•	Integrating 2,000 new members from an international merger 
-•	Maintaining alignment across regions and sectors
-          </p>
-            <p className="mt-3" style={{ color: '#4A5568', lineHeight: '1.75' }}>
-             Overall, the project focuses on transforming a fast-growing informal network into a structured and scalable global community.
-          </p>
-            </div>
-            
+              Overall, the project focuses on transforming a fast-growing informal network into a structured and scalable global community.
+            </p>
+          </div>
         </div>
 
         {/* Team */}
