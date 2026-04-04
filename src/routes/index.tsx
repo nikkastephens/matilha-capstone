@@ -108,7 +108,7 @@ function StickyNav() {
               <img
   src={`${import.meta.env.BASE_URL}greentech-logo.png`}
   alt="Greentech Alliance logo"
-  className="w-full h-full object-cover scale-125"
+  className="w-full h-full object-contain"
 />
             </div>
             <span className="font-bold text-sm" style={{ color: '#0D7377' }}>Greentech Alliance</span>
@@ -183,7 +183,7 @@ function HeroSection() {
          <img
   src={`${import.meta.env.BASE_URL}greentech-logo.png`}
   alt="Greentech Alliance logo"
-  className="w-full h-full object-cover scale-125"
+  className="w-full h-full object-contain"
 />
         </div>
 
@@ -1410,7 +1410,7 @@ function Footer() {
               <img
   src={`${import.meta.env.BASE_URL}greentech-logo.png`}
   alt="Greentech Alliance logo"
-  className="w-full h-full object-cover scale-125"
+  className="w-full h-full object-contain"
 />
               </div>
               <span className="font-bold text-white text-sm">Greentech Alliance</span>
@@ -1458,7 +1458,7 @@ function Footer() {
             <img
   src={`${import.meta.env.BASE_URL}greentech-logo.png`}
   alt="Greentech Alliance logo"
-  className="w-full h-full object-cover scale-125"
+  className="w-full h-full object-contain"
 />
             <span>Built for a greener tomorrow</span>
           </div>
