@@ -1458,7 +1458,6 @@ function Footer() {
           
             <span>Built for a greener tomorrow.</span>
           </div>
-        </div>
       </div>
     </footer>
   )
