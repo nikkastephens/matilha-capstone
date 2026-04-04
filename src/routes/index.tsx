@@ -311,7 +311,6 @@ function IntroSection() {
         <SectionHeader
           tag="About the Company"
           title="Greentech Alliance"
-          subtitle="A university capstone partnership exploring growth strategy for a climate-tech community platform."
         />
 
         <div className="grid md:grid-cols-2 gap-8 mb-14">
