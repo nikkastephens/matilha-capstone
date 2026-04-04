@@ -188,16 +188,16 @@ function HeroSection() {
         </div>
 
         <div className="tag tag-teal mb-4 inline-flex" style={{ background: 'rgba(255,255,255,0.2)', color: 'white', border: '1px solid rgba(255,255,255,0.3)' }}>
-          <Zap size={12} /> PRESENTED BY MATILHA GROUP
+          <Zap size={12} /> SAIT CAPSTONE 2026 · MATILHA GROUP
         </div>
 
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white mb-6 leading-tight">
           Greentech Alliance<br />
-          <span style={{ color: '#F4D03F' }}>Capstone Project</span>
+          <span style={{ color: '#F4D03F' }}>Building the Future of Climate-Tech Communities</span>
         </h1>
 
         <p className="text-lg sm:text-xl text-white/85 max-w-3xl mx-auto mb-10 leading-relaxed">
-          Exploring how Greentech Alliance can strengthen its value proposition, improve member understanding, and develop a clearer membership and marketing strategy for a successful platform launch.
+         A strategic capstone exploring how Greentech Alliance can evolve from a fast-growing network into a structured, high-value global platform—driven by clear positioning, member insight, and scalable growth.
         </p>
 
         <div className="flex flex-wrap gap-3 justify-center mb-16">
