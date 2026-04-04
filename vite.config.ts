@@ -5,8 +5,7 @@ import viteTsConfigPaths from 'vite-tsconfig-paths'
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
-  base: '/matilha-capstone/', // 👈 VERY IMPORTANT
-
+  base: '/matilha-capstone/',
   plugins: [
     viteTsConfigPaths({
       projects: ['./tsconfig.json'],
@@ -15,4 +14,4 @@ export default defineConfig({
     tanstackStart(),
     viteReact(),
   ],
-})Is 
+})
