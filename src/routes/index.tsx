@@ -106,7 +106,7 @@ function StickyNav() {
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #0D7377, #2ECC71)' }}>
               <img
-    src="/greentech-logo.jpeg"
+    src="/greentech-logo.png"
     alt="Greentech Alliance logo"
     className="w-12 h-12 object-contain"
   />
@@ -181,7 +181,7 @@ function HeroSection() {
         {/* Logo mark */}
         <div className="pulse-logo inline-flex items-center justify-center w-20 h-20 rounded-2xl mb-6 shadow-2xl" style={{ background: 'rgba(255,255,255,0.2)', border: '2px solid rgba(255,255,255,0.4)' }}>
           <img
-    src="/greentech-logo.jpeg"
+    src="/greentech-logo.png"
     alt="Greentech Alliance logo"
     className="w-16 h-16 object-contain"
   />
@@ -1408,7 +1408,7 @@ function Footer() {
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #0D7377, #2ECC71)' }}>
                 <img
-    src="/greentech-logo.jpeg"
+    src="/greentech-logo.png"
     alt="Greentech Alliance logo"
     className="w-12 h-12 object-contain"
   />
@@ -1456,7 +1456,7 @@ function Footer() {
           <p className="text-xs">© 2025 Greentech Alliance Capstone Project. All rights reserved.</p>
           <div className="flex items-center gap-2 text-xs">
             <img
-    src="/greentech-logo.jpeg"
+    src="/greentech-logo.png"
     alt="Greentech Alliance logo"
     className="w-12 h-12 object-contain"
   />
