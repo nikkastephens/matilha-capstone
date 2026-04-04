@@ -197,7 +197,7 @@ function HeroSection() {
         </div>
 
         <div className="tag tag-teal mb-4 inline-flex" style={{ background: 'rgba(255,255,255,0.2)', color: 'white', border: '1px solid rgba(255,255,255,0.3)' }}>
-          <Zap size={12} /> Capstone Research Project · 2025
+          <Zap size={12} /> PRESENTED BY MATILHA GROUP
         </div>
 
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white mb-6 leading-tight">
@@ -1450,10 +1450,10 @@ function Footer() {
           <div>
             <p className="text-white font-semibold mb-4 text-sm">Project Credits</p>
             <ul className="space-y-2 text-sm">
-              <li>Capstone Team · Graduate Program</li>
+              <li>Capstone Team · Matilha</li>
               <li>Industry Partner · Greentech Alliance</li>
-              <li>Academic Year · 2024–2025</li>
-              <li>Submitted · April 2025</li>
+              <li>Academic Year · 2026</li>
+              <li>SAIT · School of Business</li>
             </ul>
             <div className="mt-5 p-3 rounded-xl text-xs leading-relaxed" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
               This project was produced for academic purposes. All strategic recommendations are intended as advisory and require validation before implementation.
