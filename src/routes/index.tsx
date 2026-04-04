@@ -102,20 +102,11 @@ function StickyNav() {
       className={`fixed top-0 left-0 right-0 z-50 glass-nav transition-all duration-300 ${scrolled ? 'shadow-lg' : ''}`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #0D7377, #2ECC71)' }}>
-              <img
-  src={`${import.meta.env.BASE_URL}greentech-logo.png`}
-  alt="Greentech Alliance logo"
-  className="w-full h-full object-contain"
-/>
-            </div>
-            <span className="font-bold text-sm" style={{ color: '#0D7377' }}>Greentech Alliance</span>
-          </div>
+        <div className="flex items-center justify-center h-16">
+          
 
           {/* Desktop Nav */}
-          <div className="hidden xl:flex items-center gap-1">
+          <div className="hidden xl:flex items-center justify-center gap-2 w-full">
             {navLinks.map((link) => {
               const id = link.href.replace('#', '')
               return (
