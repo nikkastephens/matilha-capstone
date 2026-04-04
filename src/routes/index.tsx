@@ -172,7 +172,16 @@ function StickyNav() {
 function HeroSection() {
   return (
     <section id="home" className="relative min-h-screen flex flex-col justify-center overflow-hidden">
-      <div className="hero-gradient absolute inset-0" />
+      {/* Background image */}
+<div
+  className="absolute inset-0 bg-cover bg-center"
+  style={{
+    backgroundImage: `url(${import.meta.env.BASE_URL}background.jpg)`
+  }}
+/>
+
+{/* Dark overlay */}
+<div className="absolute inset-0 bg-black/50" />
       {/* Decorative circles */}
       <div className="absolute top-1/4 right-[8%] w-72 h-72 rounded-full opacity-10" style={{ background: 'rgba(255,255,255,0.3)', filter: 'blur(40px)' }} />
       <div className="absolute bottom-1/4 left-[6%] w-96 h-96 rounded-full opacity-10" style={{ background: 'rgba(255,255,255,0.2)', filter: 'blur(60px)' }} />
