@@ -106,10 +106,10 @@ function StickyNav() {
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #0D7377, #2ECC71)' }}>
               <img
-    src="/greentech-logo.png"
-    alt="Greentech Alliance logo"
-    className="w-full h-full object-cover scale-125"
-  />
+  src={`${import.meta.env.BASE_URL}greentech-logo.png`}
+  alt="Greentech Alliance logo"
+  className="w-full h-full object-cover scale-125"
+/>
             </div>
             <span className="font-bold text-sm" style={{ color: '#0D7377' }}>Greentech Alliance</span>
           </div>
@@ -180,11 +180,11 @@ function HeroSection() {
       <div className="relative max-w-6xl mx-auto px-6 pt-24 pb-16 text-center">
         {/* Logo mark */}
         <div className="pulse-logo inline-flex items-center justify-center w-20 h-20 rounded-2xl mb-6 shadow-2xl" style={{ background: 'rgba(255,255,255,0.2)', border: '2px solid rgba(255,255,255,0.4)' }}>
-          <img
-    src="/greentech-logo.png"
-    alt="Greentech Alliance logo"
-    className="w-full h-full object-cover scale-125"
-  />
+         <img
+  src={`${import.meta.env.BASE_URL}greentech-logo.png`}
+  alt="Greentech Alliance logo"
+  className="w-full h-full object-cover scale-125"
+/>
         </div>
 
         <div className="tag tag-teal mb-4 inline-flex" style={{ background: 'rgba(255,255,255,0.2)', color: 'white', border: '1px solid rgba(255,255,255,0.3)' }}>
@@ -1407,11 +1407,11 @@ function Footer() {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #0D7377, #2ECC71)' }}>
-                <img
-    src="/greentech-logo.png"
-    alt="Greentech Alliance logo"
-    className="w-full h-full object-cover scale-125"
-  />
+              <img
+  src={`${import.meta.env.BASE_URL}greentech-logo.png`}
+  alt="Greentech Alliance logo"
+  className="w-full h-full object-cover scale-125"
+/>
               </div>
               <span className="font-bold text-white text-sm">Greentech Alliance</span>
             </div>
@@ -1456,10 +1456,10 @@ function Footer() {
           <p className="text-xs">© 2025 Greentech Alliance Capstone Project. All rights reserved.</p>
           <div className="flex items-center gap-2 text-xs">
             <img
-    src="/greentech-logo.png"
-    alt="Greentech Alliance logo"
-    className="w-full h-full object-cover scale-125"
-  />
+  src={`${import.meta.env.BASE_URL}greentech-logo.png`}
+  alt="Greentech Alliance logo"
+  className="w-full h-full object-cover scale-125"
+/>
             <span>Built for a greener tomorrow</span>
           </div>
         </div>
