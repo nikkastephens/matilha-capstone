@@ -105,7 +105,11 @@ function StickyNav() {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #0D7377, #2ECC71)' }}>
-              <Leaf size={16} color="white" />
+              <img
+    src="/greentech-logo.jpeg"
+    alt="Greentech Alliance logo"
+    className="w-12 h-12 object-contain"
+  />
             </div>
             <span className="font-bold text-sm" style={{ color: '#0D7377' }}>Greentech Alliance</span>
           </div>
@@ -1403,7 +1407,11 @@ function Footer() {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #0D7377, #2ECC71)' }}>
-                <Leaf size={16} color="white" />
+                <img
+    src="/greentech-logo.jpeg"
+    alt="Greentech Alliance logo"
+    className="w-12 h-12 object-contain"
+  />
               </div>
               <span className="font-bold text-white text-sm">Greentech Alliance</span>
             </div>
@@ -1447,7 +1455,11 @@ function Footer() {
         <div className="border-t pt-6 flex flex-col sm:flex-row items-center justify-between gap-3" style={{ borderColor: 'rgba(255,255,255,0.08)' }}>
           <p className="text-xs">© 2025 Greentech Alliance Capstone Project. All rights reserved.</p>
           <div className="flex items-center gap-2 text-xs">
-            <Leaf size={12} style={{ color: '#2ECC71' }} />
+            <img
+    src="/greentech-logo.jpeg"
+    alt="Greentech Alliance logo"
+    className="w-12 h-12 object-contain"
+  />
             <span>Built for a greener tomorrow</span>
           </div>
         </div>
