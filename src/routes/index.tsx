@@ -179,7 +179,7 @@ function HeroSection() {
 
       <div className="relative max-w-6xl mx-auto px-6 pt-24 pb-16 text-center">
         {/* Logo mark */}
-        <div className="pulse-logo inline-flex items-center justify-center w-20 h-20 rounded-full mb-6 shadow-lg overflow-hidden" }}>
+        <div className="pulse-logo inline-flex items-center justify-center w-20 h-20 rounded-full mb-6 overflow-hidden" }}>
          <img
   src={`${import.meta.env.BASE_URL}greentech-logo.png`}
   alt="Greentech Alliance logo"
@@ -1407,10 +1407,10 @@ function Footer() {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #0D7377, #2ECC71)' }}>
-              <img
+              <<img
   src={`${import.meta.env.BASE_URL}greentech-logo.png`}
   alt="Greentech Alliance logo"
-  className="w-full h-full object-contain"
+  className="w-20 h-20 object-contain opacity-80"
 />
               </div>
               <span className="font-bold text-white text-sm">Greentech Alliance</span>
