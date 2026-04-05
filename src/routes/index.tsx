@@ -27,6 +27,11 @@ import {
   Linkedin,
   Twitter,
   Heart,
+  UserCheck,
+  Crown,
+  Rocket,
+  Route as RouteIcon,
+  Funnel,
 } from 'lucide-react'
 
 export const Route = createFileRoute('/')({
@@ -1996,27 +2001,48 @@ function SurveySection() {
 
 // ─── Conversion Study Section ──────────────────────────────────────────
 function ConversionSection() {
-  const risks = [
-    { icon: <AlertTriangle size={18} />, text: 'Weak or generic positioning fails to differentiate Greentech Alliance in a crowded sustainability landscape' },
-    { icon: <AlertTriangle size={18} />, text: 'Unclear member benefits create decision friction that prevents conversion even among interested prospects' },
-    { icon: <AlertTriangle size={18} />, text: 'Early adopters who have a poor onboarding experience are unlikely to renew or refer others' },
-    { icon: <AlertTriangle size={18} />, text: 'High churn in early cohorts can damage organizational credibility and deter future prospects' },
-    { icon: <AlertTriangle size={18} />, text: 'Misaligned pricing — either too high or too low — signals the wrong value tier to prospective members' },
-  ]
-
-  const conditions = [
-    { icon: <CheckCircle2 size={18} />, text: 'Clearly articulated value proposition tailored to each identified member segment' },
-    { icon: <CheckCircle2 size={18} />, text: 'Structured onboarding journey that moves new members from sign-up to first value moment within days' },
-    { icon: <CheckCircle2 size={18} />, text: 'Audience segmentation that enables targeted, personalized messaging and offer structuring' },
-    { icon: <CheckCircle2 size={18} />, text: 'Social proof — testimonials, case studies, and early member success stories — integrated into conversion flows' },
-    { icon: <CheckCircle2 size={18} />, text: 'Pricing anchored to validated willingness-to-pay data, not assumptions or competitor benchmarks alone' },
+  const steps = [
+    {
+      number: '01',
+      title: 'Focus on the Right Members',
+      text: 'Not everyone will pay. Start with the most engaged 20% and focus first on members most likely to convert.',
+      icon: <UserCheck size={18} />,
+      color: '#0D7377',
+    },
+    {
+      number: '02',
+      title: 'Build Real Premium Value',
+      text: 'Paid membership should offer direct access, exclusive opportunities, and a high-quality curated network — not more content, but better outcomes.',
+      icon: <Crown size={18} />,
+      color: '#F4D03F',
+    },
+    {
+      number: '03',
+      title: 'Start Small (Founding Members)',
+      text: 'Launch with top users first, offer early pricing, and build exclusivity before expanding more broadly.',
+      icon: <Rocket size={18} />,
+      color: '#2ECC71',
+    },
+    {
+      number: '04',
+      title: 'Improve Platform Experience',
+      text: 'Success depends on organized content, better interaction design, and clear member journeys across the platform.',
+      icon: <RouteIcon size={18} />,
+      color: '#14BDAC',
+    },
+    {
+      number: '05',
+      title: 'Use Free as a Funnel',
+      text: 'The free community should show success stories, preview premium value, and create curiosity: free attracts, paid transforms.',
+      icon: <Funnel size={18} />,
+      color: '#1A5F7A',
+    },
   ]
 
   const stats = [
-    { label: 'Conversion Rate Benchmark (Community Platforms)', value: '2–8%', note: 'Industry average for open freemium to paid conversion' },
-    { label: 'Avg. Time to First Value Moment', value: '< 7 days', note: 'Critical window for early member retention and engagement' },
-    { label: 'Churn Risk Without Clear Value Prop', value: '3× higher', note: 'Estimated relative churn increase for poorly differentiated platforms' },
-    { label: 'Placeholder Stat', value: 'XX%', note: 'Insert validated statistic from research or survey here' },
+    { label: 'Conversion benchmark', value: '2–8%', note: 'Typical range for open-to-paid community conversion' },
+    { label: 'Time to first value', value: '< 7 days', note: 'Critical window to deliver a meaningful early win' },
+    { label: 'Churn risk without value prop', value: '3× higher', note: 'Poor differentiation sharply increases early drop-off' },
   ]
 
   return (
@@ -2024,60 +2050,286 @@ function ConversionSection() {
       <div className="max-w-6xl mx-auto">
         <SectionHeader
           tag="Conversion Study"
-          title="Launch Readiness & Conversion Dynamics"
-          subtitle="A structured analysis of the conditions that determine whether a platform launch succeeds or struggles to gain traction."
+          subtitle=""
         />
 
-        <div className="grid md:grid-cols-2 gap-8 mb-14">
-          <div className="reveal reveal-left rounded-2xl p-7 border" style={{ borderColor: '#fca5a5', background: '#fff7f7' }}>
-            <div className="flex items-center gap-3 mb-5">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: '#ef4444' }}>
-                <AlertTriangle size={20} color="white" />
+        <div className="reveal px-8 pt-0 pb-2 md:px-14 md:pt-0 md:pb-4 max-w-6xl mx-auto -mt-8 mb-6 text-center">
+          <h3
+            className="text-4xl sm:text-5xl md:text-6xl leading-[1.15]"
+            style={{ color: '#1A2332', fontFamily: "'Outfit', 'Nunito', system-ui, sans-serif", fontWeight: 800 }}
+          >
+            Launch Readiness{' '}
+            <span style={{ color: '#0D7377' }}>& Path to Conversion.</span>
+          </h3>
+        </div>
+
+        <p className="reveal max-w-4xl mx-auto mb-10 text-center text-sm md:text-base" style={{ color: '#718096', lineHeight: '1.85' }}>
+          This section examines what may happen if Greentech Alliance launches the platform as it is today, and the key conditions needed to support stronger conversion and long-term success.
+        </p>
+
+        <div
+          className="reveal max-w-4xl rounded-[24px] border-l-4 px-6 py-6 md:px-8 md:py-7 mb-12"
+          style={{
+            borderColor: '#0D7377',
+            background: 'linear-gradient(90deg, rgba(13,115,119,0.12) 0%, rgba(20,189,172,0.08) 48%, rgba(228,240,240,0.85) 82%, rgba(228,240,240,0) 100%)',
+          }}
+        >
+          <p className="text-[15px] md:text-[17px]" style={{ color: '#1A2332', lineHeight: '1.9' }}>
+            After identifying low engagement as a critical barrier, our team conducted a conversion study to understand how Greentech Alliance can successfully transition from a free to a paid model.
+          </p>
+          <p className="text-[15px] md:text-[17px] mt-3" style={{ color: '#355061', lineHeight: '1.9' }}>
+            Our objective was not only to understand conversion rates, but to use these insights to guide our final recommendations on pricing and the launch strategy of the new platform - <strong>Mighty Networks</strong>.
+          </p>
+        </div>
+
+        <div className="mb-7">
+          <h3 className="text-xl md:text-2xl font-bold" style={{ color: '#1A2332' }}>Turning Engagement into Conversion</h3>
+        </div>
+
+        <div className="relative mb-12">
+          <div
+            className="hidden xl:block absolute left-1/2 top-0 bottom-0 -translate-x-1/2 w-px"
+            style={{ background: 'linear-gradient(180deg, rgba(13,115,119,0.10), rgba(13,115,119,0.4), rgba(13,115,119,0.12))' }}
+          />
+
+          <div className="space-y-5 md:space-y-6">
+            {steps.map((step, index) => {
+              const isLeft = index % 2 === 0
+              return (
+                <div
+                  key={step.number}
+                  className={`reveal reveal-delay-${Math.min(index + 1, 5)} grid gap-4 items-center xl:grid-cols-[1fr_88px_1fr]`}
+                >
+                  <div className={`hidden xl:flex ${isLeft ? 'justify-end' : 'justify-start'}`}>
+                    {isLeft ? (
+                      <div
+                        className="card-hover w-full max-w-[520px] rounded-[24px] border p-5 bg-white h-full"
+                        style={{
+                          borderColor: '#E3EAED',
+                          boxShadow: '0 10px 24px rgba(16,39,52,0.05)',
+                        }}
+                      >
+                        <div className="flex items-center gap-3 mb-4">
+                          <span
+                            className="inline-flex h-9 min-w-[52px] items-center justify-center rounded-full px-3 text-xs font-bold"
+                            style={{ background: `${step.color}18`, color: step.color }}
+                          >
+                            {step.number}
+                          </span>
+                          <h4 className="text-base md:text-[17px] font-bold" style={{ color: step.color, lineHeight: '1.35' }}>{step.title}</h4>
+                        </div>
+                        <p className="text-sm md:text-[15px]" style={{ color: '#5C6B78', lineHeight: '1.8' }}>{step.text}</p>
+                      </div>
+                    ) : (
+                      <div className="w-full max-w-[420px]" />
+                    )}
+                  </div>
+
+                  <div
+                    className="card-hover rounded-[24px] border p-5 bg-white h-full xl:hidden"
+                    style={{
+                      borderColor: '#E3EAED',
+                      boxShadow: '0 10px 24px rgba(16,39,52,0.05)',
+                    }}
+                  >
+                    <div className="flex items-center gap-3 mb-4">
+                      <span
+                        className="inline-flex h-9 min-w-[52px] items-center justify-center rounded-full px-3 text-xs font-bold"
+                        style={{ background: `${step.color}18`, color: step.color }}
+                      >
+                        {step.number}
+                      </span>
+                      <h4 className="text-base md:text-[17px] font-bold" style={{ color: step.color, lineHeight: '1.35' }}>{step.title}</h4>
+                    </div>
+                    <p className="text-sm md:text-[15px]" style={{ color: '#5C6B78', lineHeight: '1.8' }}>{step.text}</p>
+                  </div>
+
+                  <div className="hidden xl:flex items-center justify-center h-full xl:col-start-2">
+                    <div className="relative flex h-full min-h-[116px] items-center justify-center">
+                      <div
+                        className="absolute left-1/2 top-0 bottom-0 -translate-x-1/2 w-px"
+                        style={{ background: 'linear-gradient(180deg, rgba(13,115,119,0.12), rgba(13,115,119,0.45), rgba(13,115,119,0.12))' }}
+                      />
+                      <div
+                        className="relative z-10 flex h-11 w-11 items-center justify-center rounded-full border bg-white"
+                        style={{ borderColor: 'rgba(13,115,119,0.16)', boxShadow: '0 8px 18px rgba(13,115,119,0.08)' }}
+                      >
+                        <div
+                          className="flex h-8 w-8 items-center justify-center rounded-full"
+                          style={{ background: `${step.color}18`, color: step.color }}
+                        >
+                          {step.icon}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className={`hidden xl:flex ${!isLeft ? 'justify-start' : 'justify-end'}`}>
+                    {!isLeft ? (
+                      <div
+                        className="card-hover w-full max-w-[520px] rounded-[24px] border p-5 bg-white h-full"
+                        style={{
+                          borderColor: '#E3EAED',
+                          boxShadow: '0 10px 24px rgba(16,39,52,0.05)',
+                        }}
+                      >
+                        <div className="flex items-center gap-3 mb-4">
+                          <span
+                            className="inline-flex h-9 min-w-[52px] items-center justify-center rounded-full px-3 text-xs font-bold"
+                            style={{ background: `${step.color}18`, color: step.color }}
+                          >
+                            {step.number}
+                          </span>
+                          <h4 className="text-base md:text-[17px] font-bold" style={{ color: step.color, lineHeight: '1.35' }}>{step.title}</h4>
+                        </div>
+                        <p className="text-sm md:text-[15px]" style={{ color: '#5C6B78', lineHeight: '1.8' }}>{step.text}</p>
+                      </div>
+                    ) : (
+                      <div className="w-full max-w-[420px]" />
+                    )}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+
+        <div
+          className="reveal rounded-[28px] px-6 py-8 md:px-10 md:py-10 mb-12 text-center"
+          style={{
+            background: 'linear-gradient(135deg, #0A5C60 0%, #0D7377 58%, #157B63 100%)',
+            boxShadow: '0 18px 38px rgba(13,115,119,0.16)',
+          }}
+        >
+          <p className="text-sm uppercase tracking-[0.18em] mb-3" style={{ color: 'rgba(255,255,255,0.74)' }}>
+            One key insight emerged from our research
+          </p>
+          <p className="text-xl md:text-2xl font-bold mb-3" style={{ color: '#ffffff', lineHeight: '1.5' }}>
+            <strong>Conversion is not driven by access — it is driven by perceived value and outcomes.</strong>
+          </p>
+          <p className="text-[15px] md:text-base max-w-3xl mx-auto" style={{ color: 'rgba(255,255,255,0.86)', lineHeight: '1.9' }}>
+            Through our research, we identified what drives paid membership adoption and used those insights to align pricing and platform migration with member behavior and expectations.
+          </p>
+        </div>
+
+        <div className="mb-7 text-center">
+          <h3 className="text-xl md:text-2xl font-bold" style={{ color: '#1A2332' }}>How Success Would Look Like</h3>
+        </div>
+
+        <div
+          className="relative rounded-[30px] p-4 md:p-6 mb-14"
+          style={{
+            background: 'linear-gradient(135deg, rgba(255,255,255,0.78) 0%, rgba(245,249,249,0.92) 100%)',
+            border: '1px solid rgba(13,115,119,0.08)',
+            boxShadow: '0 14px 34px rgba(16,39,52,0.05)',
+          }}
+        >
+        <div className="relative grid md:grid-cols-2 gap-6 md:gap-8 items-stretch">
+          <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none">
+            <div className="relative flex h-[260px] w-12 items-center justify-center">
+              <div
+                className="absolute left-1/2 top-0 bottom-0 -translate-x-1/2 w-px"
+                style={{ background: 'linear-gradient(180deg, rgba(13,115,119,0.08), rgba(13,115,119,0.28), rgba(239,68,68,0.18))' }}
+              />
+              <div
+                className="relative z-10 inline-flex h-14 w-14 items-center justify-center rounded-full border bg-white text-xs font-bold"
+                style={{ borderColor: 'rgba(13,115,119,0.16)', color: '#0D7377', boxShadow: '0 10px 24px rgba(13,115,119,0.10)' }}
+              >
+                <span
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full"
+                  style={{ background: 'linear-gradient(135deg, rgba(13,115,119,0.12) 0%, rgba(20,189,172,0.10) 100%)' }}
+                >
+                  VS
+                </span>
               </div>
-              <h3 className="font-bold text-lg" style={{ color: '#1A2332' }}>Risks of Launching Too Early</h3>
             </div>
+          </div>
+
+          <div className="reveal reveal-left card-hover rounded-[24px] p-7 border" style={{ borderColor: '#86efac', background: 'linear-gradient(135deg, #f2fcf6 0%, #ebfaf1 100%)', boxShadow: '0 10px 24px rgba(39,174,96,0.08)' }}>
+            <div className="flex items-center gap-3 mb-5">
+              <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: '#27ae60' }}>
+                <TrendingUp size={20} color="white" />
+              </div>
+              <h3 className="font-bold text-lg" style={{ color: '#1A2332' }}>If Done Right</h3>
+            </div>
+            <p className="text-sm mb-5" style={{ color: '#4C6B5A', lineHeight: '1.8' }}>
+              Members experience visible value and stronger reasons to engage.
+            </p>
             <ul className="space-y-4">
-              {risks.map((r, i) => (
-                <li key={i} className="flex gap-3 text-sm" style={{ color: '#4A5568', lineHeight: '1.7' }}>
-                  <span className="mt-0.5 flex-shrink-0" style={{ color: '#ef4444' }}>{r.icon}</span>
-                  {r.text}
+              {[
+                ['Active member engagement', 'Signals momentum and stronger participation.'],
+                ['Value becomes visible', 'Members can clearly recognize what the platform delivers.'],
+                ['Stronger relationships', 'Trust and collaboration deepen over time.'],
+                ['Paid membership feels worth it', 'The offer feels justified because outcomes are clear.'],
+              ].map(([lead, rest], index) => (
+                <li
+                  key={lead}
+                  className="flex gap-3 text-sm rounded-[18px] px-4 py-4"
+                  style={{
+                    color: '#3E5B4A',
+                    lineHeight: '1.85',
+                    background: index === 3 ? 'rgba(46,204,113,0.12)' : 'rgba(255,255,255,0.58)',
+                    border: index === 3 ? '1px solid rgba(46,204,113,0.24)' : '1px solid rgba(39,174,96,0.10)',
+                  }}
+                >
+                  <span className="mt-1 flex-shrink-0" style={{ color: '#27ae60' }}><CheckCircle2 size={17} /></span>
+                  <span
+                    style={
+                      index === 3
+                        ? {
+                            color: '#1B8F52',
+                            fontWeight: 800,
+                            fontSize: '1rem',
+                            background: 'rgba(46,204,113,0.10)',
+                            borderRadius: '999px',
+                            padding: '0',
+                            display: 'inline-block',
+                          }
+                        : undefined
+                    }
+                  >
+                    <strong>{lead}</strong> {index === 3 ? '' : ` ${rest}`}
+                  </span>
                 </li>
               ))}
             </ul>
           </div>
 
-          <div className="reveal reveal-right rounded-2xl p-7 border" style={{ borderColor: '#86efac', background: '#f0fdf4' }}>
+          <div className="reveal reveal-right card-hover rounded-[24px] p-7 border" style={{ borderColor: '#f3b3b3', background: 'linear-gradient(135deg, #fff7f7 0%, #fff2f2 100%)', boxShadow: '0 10px 24px rgba(239,68,68,0.07)' }}>
             <div className="flex items-center gap-3 mb-5">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: '#27ae60' }}>
-                <CheckCircle2 size={20} color="white" />
+              <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: '#ef4444' }}>
+                <Shield size={20} color="white" />
               </div>
-              <h3 className="font-bold text-lg" style={{ color: '#1A2332' }}>Success Conditions for Launch</h3>
+              <h3 className="font-bold text-lg" style={{ color: '#1A2332' }}>If Not</h3>
             </div>
+            <p className="text-sm mb-5" style={{ color: '#7B5A5A', lineHeight: '1.8' }}>
+              Low engagement continues and conversion remains weak.
+            </p>
             <ul className="space-y-4">
-              {conditions.map((c, i) => (
-                <li key={i} className="flex gap-3 text-sm" style={{ color: '#4A5568', lineHeight: '1.7' }}>
-                  <span className="mt-0.5 flex-shrink-0" style={{ color: '#27ae60' }}>{c.icon}</span>
-                  {c.text}
+              {[
+                ['Members stay passive', 'Activity remains limited and momentum stalls.'],
+                ['Value remains unclear', 'The platform feels accessible but not compelling.'],
+                ['Paid model struggles', 'Conversion becomes difficult without visible reasons to upgrade.'],
+              ].map(([lead, rest]) => (
+                <li
+                  key={lead}
+                  className="flex gap-3 text-sm rounded-[18px] px-4 py-4 min-h-[78px]"
+                  style={{
+                    color: '#6D4B4B',
+                    lineHeight: '1.85',
+                    background: 'rgba(255,255,255,0.62)',
+                    border: '1px solid rgba(239,68,68,0.10)',
+                  }}
+                >
+                  <span className="mt-1 flex-shrink-0" style={{ color: '#ef4444' }}><AlertTriangle size={17} /></span>
+                  <span><strong>{lead}</strong> {` ${rest}`}</span>
                 </li>
               ))}
             </ul>
           </div>
         </div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-12">
-          {stats.map((s, i) => (
-            <div key={i} className={`reveal reveal-delay-${i + 1} text-center rounded-2xl p-5 bg-white border`} style={{ borderColor: '#E8ECEF', boxShadow: '0 2px 12px rgba(0,0,0,0.05)' }}>
-              <p className="text-2xl font-extrabold mb-1 gradient-text">{s.value}</p>
-              <p className="text-xs font-semibold mb-1" style={{ color: '#1A2332' }}>{s.label}</p>
-              <p className="text-xs" style={{ color: '#9CA3AF' }}>{s.note}</p>
-            </div>
-          ))}
         </div>
 
-        <BridgeText>
-          With conversion success closely tied to perceived value and strategic clarity, the project next explored how membership structure and pricing could support a stronger overall offer — one that is both compelling to members and sustainable for Greentech Alliance as an organization.
-        </BridgeText>
       </div>
     </section>
   )
