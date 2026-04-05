@@ -396,10 +396,20 @@ function IntroSection() {
       <div className="max-w-6xl mx-auto">
         <SectionHeader
           tag="About the Company"
-          title="GREENTECH ALLIANCE"
+          title=""
         />
 
-        <div className="flex flex-col gap-6 mb-14 mt-10">
+        <div className="reveal px-8 pt-0 pb-2 md:px-14 md:pt-0 md:pb-4 max-w-6xl mx-auto -mt-8 mb-6 text-center">
+          <h3
+            className="text-4xl sm:text-5xl md:text-6xl leading-[1.15]"
+            style={{ color: '#1A2332', fontFamily: "'Outfit', 'Nunito', system-ui, sans-serif", fontWeight: 800 }}
+          >
+            Greentech{' '}
+            <span style={{ color: '#0D7377' }}>Alliance</span>
+          </h3>
+        </div>
+
+        <div className="flex flex-col gap-6 mb-14 mt-4">
           <div className="reveal reveal-left">
             <div
               className="relative overflow-hidden w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] px-6 md:px-10 py-10 md:py-12"
@@ -445,7 +455,7 @@ function IntroSection() {
             </p>
 
             <p className="mt-3" style={{ color: '#4A5568', lineHeight: '1.75' }}>
-              As it formally expands into Canada and helps launch Calgary's first Climate Week, the organization is entering a critical growth phase.
+              As it formally expands into Canada and helps launch Calgary's first Climate Week, the organisation is entering a critical growth phase.
             </p>
 
             <p className="mt-3" style={{ color: '#4A5568', lineHeight: '1.75' }}>
@@ -484,10 +494,14 @@ function IntroSection() {
         </div>
 
         {/* Team */}
-        <div id="team" className="max-w-4xl mx-auto mb-6 scroll-mt-20">
+        <div id="team" className="max-w-4xl mx-auto mb-14 scroll-mt-20">
           <div className="reveal">
-          <h3 className="text-3xl md:text-4xl text-center mb-5" style={{ color: '#1A2332' }}>
-            Matilha Team Members
+          <h3
+            className="text-4xl sm:text-5xl md:text-6xl text-center mb-10 leading-[1.15]"
+            style={{ color: '#1A2332', fontFamily: "'Outfit', 'Nunito', system-ui, sans-serif", fontWeight: 800 }}
+          >
+            Matilha Team{' '}
+            <span style={{ color: '#0D7377' }}>Members</span>
           </h3>
           <div
             className="mx-auto rounded-[28px] border px-6 py-6 md:px-8 md:py-7"
@@ -516,22 +530,33 @@ function IntroSection() {
           </div>
           </div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 mb-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 mb-2 mt-12">
           {teamMembers.map((member, i) => (
             <div
               key={member.name}
-              className={`card-hover reveal reveal-delay-${i + 1} rounded-2xl p-6 text-center bg-white border`}
-              style={{ borderColor: '#E8ECEF', boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}
+              className={`card-hover reveal reveal-delay-${i + 1} rounded-[28px] p-6 text-center border overflow-hidden relative`}
+              style={{
+                background: `linear-gradient(160deg, rgba(255,255,255,0.99) 0%, ${member.color}0B 100%)`,
+                borderColor: `${member.color}22`,
+                boxShadow: '0 16px 34px rgba(16,39,52,0.08)',
+              }}
             >
+              <div className="absolute inset-x-0 top-0 h-1.5" style={{ background: `linear-gradient(90deg, ${member.color} 0%, ${member.color}aa 100%)` }} />
+              <div className="absolute -top-6 -right-6 h-20 w-20 rounded-full" style={{ background: `radial-gradient(circle, ${member.color}18 0%, ${member.color}00 72%)` }} />
               <img
                 src={`${import.meta.env.BASE_URL}${member.image}`}
                 alt={member.name}
-                className="w-20 h-20 rounded-full mx-auto mb-4 object-cover"
-                style={{ border: `3px solid ${member.color}` }}
+                className="w-20 h-20 rounded-full mx-auto mb-4 object-cover relative"
+                style={{ border: `3px solid ${member.color}`, boxShadow: `0 12px 24px ${member.color}24` }}
               />
-              <h4 className="font-bold text-sm mb-1" style={{ color: '#1A2332' }}>{member.name}</h4>
-              <p className="text-[10px] font-semibold mb-2" style={{ color: member.color }}>{member.role}</p>
-              <p className="text-xs" style={{ color: '#718096', lineHeight: '1.6' }}>{member.bio}</p>
+              <h4 className="font-bold text-[15px] mb-1 leading-tight" style={{ color: '#1A2332' }}>{member.name}</h4>
+              <p
+                className="inline-flex items-center justify-center rounded-full px-3 py-1 text-[10px] font-semibold mb-3"
+                style={{ color: member.color, background: `${member.color}12` }}
+              >
+                {member.role}
+              </p>
+              <p className="text-xs" style={{ color: '#5B6878', lineHeight: '1.72' }}>{member.bio}</p>
             </div>
           ))}
         </div>
@@ -545,15 +570,15 @@ function IntroSection() {
 function ChallengeSection() {
   const problems = [
     {
-      icon: <Target size={22} />,
+      icon: <Lightbulb size={22} />,
       title: 'Project Focus',
       desc: 'Design a sustainable growth and governance model for a rapidly expanding global climate-tech community as it formalizes operations in Canada and introduces a paid membership model.',
       color: '#0D7377',
     },
     {
-      icon: <Users size={22} />,
+      icon: <AlertTriangle size={22} />,
       title: 'Business Challenge',
-      desc: 'This organization must transition from an informal, volunteer-run network of 5,000+ global members to a structured, financially sustainable organization without losing accessibility, trust, or cohesion.',
+      desc: 'This organisation must transition from an informal, volunteer-run network of 5,000+ global members to a structured, financially sustainable organisation without losing accessibility, trust, or cohesion.',
       color: '#2ECC71',
     },
   ]
@@ -596,14 +621,16 @@ function ChallengeSection() {
         <div
           className="reveal relative overflow-hidden w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] px-6 md:px-10 py-10 md:py-12 -mt-4 mb-12"
           style={{
-            background: 'linear-gradient(135deg, #05383b 0%, #0a5c60 48%, #0D7377 100%)',
-            boxShadow: '0 30px 70px rgba(13,115,119,0.22), 0 10px 26px rgba(26,35,50,0.08)',
+            background: 'linear-gradient(135deg, #04292d 0%, #0a4f54 36%, #0D7377 68%, #14919B 100%)',
+            boxShadow: '0 34px 78px rgba(13,115,119,0.24), 0 12px 28px rgba(26,35,50,0.08)',
           }}
         >
+          <div className="absolute inset-x-0 top-0 h-1.5" style={{ background: 'linear-gradient(90deg, rgba(244,208,63,0.95) 0%, rgba(20,189,172,0.9) 52%, rgba(255,255,255,0.25) 100%)' }} />
           <div className="absolute -top-14 -right-10 h-44 w-44 rounded-full" style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0) 72%)' }} />
           <div className="absolute -bottom-24 -left-12 h-48 w-48 rounded-full" style={{ background: 'radial-gradient(circle, rgba(244,208,63,0.16) 0%, rgba(244,208,63,0) 72%)' }} />
+          <div className="absolute inset-0 opacity-70" style={{ background: 'radial-gradient(circle at 16% 22%, rgba(244,208,63,0.14) 0%, rgba(244,208,63,0) 24%), radial-gradient(circle at 82% 24%, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0) 24%), radial-gradient(circle at 72% 78%, rgba(46,204,113,0.12) 0%, rgba(46,204,113,0) 26%)' }} />
           <div className="relative max-w-5xl mx-auto space-y-4 text-base md:text-lg" style={{ color: 'rgba(255,255,255,0.92)', lineHeight: '1.85' }}>
-            <h3 className="text-2xl md:text-3xl mb-3" style={{ color: '#ffffff' }}>
+            <h3 className="text-2xl md:text-3xl mb-3" style={{ color: '#ffffff', fontFamily: "'Outfit', 'Nunito', system-ui, sans-serif", fontWeight: 800 }}>
               How the Challenge Became Clear
             </h3>
             <p>
@@ -619,11 +646,12 @@ function ChallengeSection() {
               <div
                 className="rounded-[24px] border px-5 py-5 md:px-6"
                 style={{
-                  background: 'linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 100%)',
+                  background: 'linear-gradient(135deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.1) 100%)',
                   borderColor: 'rgba(255,255,255,0.2)',
-                  boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.12)',
+                  boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.12), 0 14px 28px rgba(5,46,51,0.14)',
                 }}
               >
+                <div className="mb-4 h-1.5 w-16 rounded-full" style={{ background: 'linear-gradient(90deg, #F4D03F 0%, rgba(255,255,255,0.45) 100%)' }} />
                 <p
                   className="text-sm md:text-base"
                   style={{
@@ -631,18 +659,19 @@ function ChallengeSection() {
                     lineHeight: '1.8',
                   }}
                 >
-                  <strong style={{ color: '#F4D03F' }}>As a team, we quickly aligned on the core issue:</strong> Greentech Alliance is transitioning from an informal, volunteer-driven network into a structured organization.
+                  <strong style={{ color: '#F4D03F' }}>As a team, we quickly aligned on the core issue:</strong> Greentech Alliance is transitioning from an informal, volunteer-driven network into a structured organisation.
                 </p>
               </div>
 
               <div
                 className="rounded-[24px] border px-5 py-5 md:px-6"
                 style={{
-                  background: 'linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 100%)',
+                  background: 'linear-gradient(135deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.1) 100%)',
                   borderColor: 'rgba(255,255,255,0.2)',
-                  boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.12)',
+                  boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.12), 0 14px 28px rgba(5,46,51,0.14)',
                 }}
               >
+                <div className="mb-4 h-1.5 w-16 rounded-full" style={{ background: 'linear-gradient(90deg, #F4D03F 0%, rgba(255,255,255,0.45) 100%)' }} />
                 <p
                   className="text-sm md:text-base"
                   style={{
@@ -657,23 +686,29 @@ function ChallengeSection() {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6 mb-12 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-6 mb-4 max-w-5xl mx-auto">
           {problems.map((p, i) => (
             <div
               key={p.title}
-              className={`card-hover reveal reveal-delay-${i + 1} rounded-[24px] p-7 md:p-8 bg-white border h-full`}
-              style={{ borderColor: '#E8ECEF', boxShadow: '0 4px 18px rgba(0,0,0,0.06)' }}
+              className={`card-hover reveal reveal-delay-${i + 1} rounded-[28px] p-7 md:p-8 border h-full overflow-hidden relative`}
+              style={{
+                background: `linear-gradient(160deg, rgba(255,255,255,0.99) 0%, ${p.color}0A 100%)`,
+                borderColor: `${p.color}20`,
+                boxShadow: '0 18px 36px rgba(16,39,52,0.08)',
+              }}
             >
+              <div className="absolute inset-x-0 top-0 h-1.5" style={{ background: `linear-gradient(90deg, ${p.color} 0%, ${p.color}aa 100%)` }} />
+              <div className="absolute -top-8 -right-8 h-24 w-24 rounded-full" style={{ background: `radial-gradient(circle, ${p.color}14 0%, ${p.color}00 72%)` }} />
               <div className="flex items-center gap-3 mb-4">
                 <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center text-white"
-                  style={{ background: p.color }}
+                  className="w-12 h-12 rounded-[16px] flex items-center justify-center text-white"
+                  style={{ background: `linear-gradient(135deg, ${p.color} 0%, ${p.color}cc 100%)`, boxShadow: `0 12px 24px ${p.color}30` }}
                 >
                   {p.icon}
                 </div>
-                <h3 className="font-bold text-lg" style={{ color: '#1A2332' }}>{p.title}</h3>
+                <h3 className="font-bold text-xl leading-tight" style={{ color: '#1A2332' }}>{p.title}</h3>
               </div>
-              <p className="text-sm md:text-base" style={{ color: '#718096', lineHeight: '1.75' }}>{p.desc}</p>
+              <p className="text-sm md:text-base" style={{ color: '#5B6878', lineHeight: '1.8' }}>{p.desc}</p>
             </div>
           ))}
         </div>
@@ -766,7 +801,7 @@ function MarketingSection() {
               </div>
 
               <div
-                className="relative flex h-24 w-24 items-center justify-center rounded-full border"
+                className="relative flex h-24 w-24 items-center justify-center rounded-full border slow-pulse"
                 style={{
                   background: 'linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.08) 100%)',
                   borderColor: 'rgba(255,255,255,0.22)',
@@ -781,9 +816,10 @@ function MarketingSection() {
           </div>
         </div>
 
-        <div id="marketing-analysis-start" className="grid md:grid-cols-2 gap-10 mb-14 items-stretch">
-          <div className="reveal reveal-left h-full">
-            <div className="callout-teal mb-6">
+        <div className="grid md:grid-cols-2 gap-10 mb-14 items-stretch">
+          <div id="marketing-analysis-start" className="reveal reveal-left h-full scroll-mt-24">
+            <div className="callout-teal mb-6 relative overflow-hidden">
+              <div className="absolute inset-x-0 top-0 h-1.5" style={{ background: 'linear-gradient(90deg, #0D7377 0%, #14BDAC 100%)' }} />
               <p
                 className="mb-3"
                 style={{
@@ -797,10 +833,10 @@ function MarketingSection() {
                 The Marketing Challenge
               </p>
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: '#0D7377' }}>
+                <div className="w-11 h-11 rounded-[14px] flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #0D7377 0%, #14BDAC 100%)', boxShadow: '0 12px 24px rgba(13,115,119,0.2)' }}>
                   <Lightbulb size={20} color="white" />
                 </div>
-                <h3 className="font-bold text-lg" style={{ color: '#1A2332' }}>Identifying the Real Problem</h3>
+                <h3 className="font-bold text-xl" style={{ color: '#1A2332' }}>Identifying the Real Problem</h3>
               </div>
               <p style={{ color: '#4A5568', lineHeight: '1.75' }}>
                 We realized very early in our project that Greentech Alliance was facing a marketing issue. Initially, we believed the main marketing goal revolved around informing members about the new platform.
@@ -812,10 +848,11 @@ function MarketingSection() {
                 So, we started to draw a strategy to communicate it.
               </p>
               <div
-                className="mt-5 rounded-[20px] border px-5 py-4"
+                className="mt-5 rounded-[22px] border px-5 py-4"
                 style={{
-                  background: 'linear-gradient(135deg, rgba(13,115,119,0.08) 0%, rgba(46,204,113,0.08) 100%)',
+                  background: 'linear-gradient(135deg, rgba(13,115,119,0.1) 0%, rgba(46,204,113,0.1) 100%)',
                   borderColor: 'rgba(13,115,119,0.14)',
+                  boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.6)',
                 }}
               >
                 <p style={{ color: '#1A2332', lineHeight: '1.7' }}>
@@ -824,10 +861,13 @@ function MarketingSection() {
               </div>
             </div>
 
-            <div className="callout-green">
+            <div className="callout-green relative overflow-hidden">
+              <div className="absolute inset-x-0 top-0 h-1.5" style={{ background: 'linear-gradient(90deg, #2ECC71 0%, #0D7377 100%)' }} />
               <div className="flex items-center gap-3 mb-4">
-                <MessageSquare size={18} style={{ color: '#27ae60' }} />
-                <h4 className="font-bold" style={{ color: '#1A2332' }}>How to Communicate Value</h4>
+                <div className="w-11 h-11 rounded-[14px] flex items-center justify-center" style={{ background: 'linear-gradient(135deg, rgba(46,204,113,0.18) 0%, rgba(13,115,119,0.14) 100%)', color: '#27ae60', boxShadow: '0 12px 24px rgba(39,174,96,0.14)' }}>
+                  <MessageSquare size={18} />
+                </div>
+                <h4 className="font-bold text-xl" style={{ color: '#1A2332' }}>How to Communicate Value</h4>
               </div>
 
               <div className="relative">
@@ -852,7 +892,7 @@ function MarketingSection() {
                           Step {index + 1}
                         </div>
                       </div>
-                      <div className="rounded-xl border bg-white px-4 py-4 min-h-[56px] flex items-center" style={{ borderColor: '#E8ECEF' }}>
+                      <div className="card-hover rounded-[18px] border bg-white px-4 py-4 min-h-[56px] flex items-center shadow-sm" style={{ borderColor: 'rgba(13,115,119,0.1)', boxShadow: '0 12px 24px rgba(16,39,52,0.05)' }}>
                         <p className="font-semibold text-sm" style={{ color: '#1A2332' }}>{label}</p>
                       </div>
                     </div>
@@ -864,18 +904,19 @@ function MarketingSection() {
 
           <div className="reveal reveal-right h-full">
             <div
-              className="rounded-[24px] border p-7 md:p-8 h-full flex flex-col justify-center"
+              className="rounded-[28px] border p-7 md:p-8 h-full flex flex-col justify-center overflow-hidden relative"
               style={{
-                background: 'linear-gradient(135deg, rgba(13,115,119,0.06) 0%, rgba(46,204,113,0.08) 100%)',
-                borderColor: '#D9E8E7',
-                boxShadow: '0 8px 26px rgba(13,115,119,0.08)',
+                background: 'linear-gradient(160deg, rgba(255,255,255,0.99) 0%, rgba(233,248,243,0.94) 100%)',
+                borderColor: 'rgba(13,115,119,0.12)',
+                boxShadow: '0 18px 40px rgba(13,115,119,0.1)',
               }}
             >
+              <div className="absolute inset-x-0 top-0 h-1.5" style={{ background: 'linear-gradient(90deg, #0D7377 0%, #2ECC71 100%)' }} />
               <h3 className="font-bold text-2xl mb-2 text-center" style={{ color: '#1A2332' }}>What Members Really Gain</h3>
               <p className="font-semibold mb-6 text-center" style={{ color: '#0D7377' }}>Our Core Value Proposition</p>
 
               <div className="space-y-4 mb-6">
-                <div className="rounded-[20px] border p-4 bg-white flex min-h-[104px] items-center gap-4" style={{ borderColor: '#E8ECEF' }}>
+                <div className="card-hover rounded-[22px] border p-4 bg-white flex min-h-[104px] items-center gap-4" style={{ borderColor: 'rgba(13,115,119,0.1)', boxShadow: '0 12px 24px rgba(16,39,52,0.05)' }}>
                   <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style={{ background: '#0D7377' }}>
                     <Users size={20} color="white" />
                   </div>
@@ -887,7 +928,7 @@ function MarketingSection() {
                   </div>
                 </div>
 
-                <div className="rounded-[20px] border p-4 bg-white flex min-h-[104px] items-center gap-4" style={{ borderColor: '#E8ECEF' }}>
+                <div className="card-hover rounded-[22px] border p-4 bg-white flex min-h-[104px] items-center gap-4" style={{ borderColor: 'rgba(13,115,119,0.1)', boxShadow: '0 12px 24px rgba(16,39,52,0.05)' }}>
                   <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style={{ background: '#2ECC71' }}>
                     <Lightbulb size={20} color="white" />
                   </div>
@@ -899,7 +940,7 @@ function MarketingSection() {
                   </div>
                 </div>
 
-                <div className="rounded-[20px] border p-4 bg-white flex min-h-[104px] items-center gap-4" style={{ borderColor: '#E8ECEF' }}>
+                <div className="card-hover rounded-[22px] border p-4 bg-white flex min-h-[104px] items-center gap-4" style={{ borderColor: 'rgba(13,115,119,0.1)', boxShadow: '0 12px 24px rgba(16,39,52,0.05)' }}>
                   <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style={{ background: '#F4D03F' }}>
                     <TrendingUp size={20} color="#1A2332" />
                   </div>
@@ -1011,7 +1052,7 @@ function MarketingSection() {
                   title: 'Direct Outreach',
                   iconBg: '#0D7377',
                   icon: <Users size={18} color="white" />,
-                  desc: 'Personalized outreach that builds trust through direct conversation, warm connections, and relationship-led engagement.',
+                  desc: 'Personalised outreach that builds trust through direct conversation, warm connections, and relationship-led engagement.',
                 },
                 {
                   title: 'Emotional Aspect',
@@ -1121,7 +1162,15 @@ function CompetitorSection() {
           </h3>
         </div>
 
-        <div className="reveal rounded-[28px] border p-7 md:p-8 mb-10 bg-white -mt-2" style={{ borderColor: '#DDE8E7', boxShadow: '0 10px 26px rgba(13,115,119,0.06)' }}>
+        <div
+          className="reveal rounded-[28px] border p-7 md:p-8 mb-10 -mt-2 overflow-hidden relative"
+          style={{
+            background: 'linear-gradient(160deg, rgba(255,255,255,0.99) 0%, rgba(238,249,246,0.95) 100%)',
+            borderColor: 'rgba(13,115,119,0.12)',
+            boxShadow: '0 18px 40px rgba(13,115,119,0.08)',
+          }}
+        >
+          <div className="absolute inset-x-0 top-0 h-1.5" style={{ background: 'linear-gradient(90deg, #0D7377 0%, #14BDAC 52%, #2ECC71 100%)' }} />
           <p
             className="mb-3"
             style={{
@@ -1139,51 +1188,59 @@ function CompetitorSection() {
           </h3>
 
           <div className="grid gap-6 mb-8">
-            <div className="rounded-[22px] p-5" style={{ background: 'linear-gradient(135deg, rgba(13,115,119,0.08) 0%, rgba(20,189,172,0.06) 100%)' }}>
+            <div className="rounded-[24px] p-5 border" style={{ background: 'linear-gradient(135deg, rgba(13,115,119,0.1) 0%, rgba(20,189,172,0.06) 100%)', borderColor: 'rgba(13,115,119,0.08)' }}>
               <div className="flex items-center gap-3 mb-4">
-                <MapPin size={18} style={{ color: '#0D7377' }} />
+                <div className="w-11 h-11 rounded-[14px] flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #0D7377 0%, #14BDAC 100%)', boxShadow: '0 12px 24px rgba(13,115,119,0.16)' }}>
+                  <MapPin size={18} color="white" />
+                </div>
                 <h4 className="text-lg font-bold" style={{ color: '#1A2332' }}>Local Players</h4>
               </div>
-              <div className="space-y-4">
+              <div className="grid gap-4 md:grid-cols-4">
                 {[
                   ['Foresight Canada', 'Turns connections into real outcomes like funding and growth.', 'People engage because they know what they will gain.'],
                   ['Green Economy Canada', 'Focuses on measurable impact and real progress.', 'People stay because they see results.'],
                   ['Smart Prosperity Institute', 'Delivers value through insights and research.', 'Value does not always need constant interaction.'],
                   ['Diversity & Sustainability', 'Builds community through identity, inclusion, and sustainability-centred belonging.', 'Shared values can strengthen retention and long-term engagement.'],
                 ].map(([name, body, note]) => (
-                  <div key={name} className="rounded-[18px] border bg-white px-4 py-4 flex items-start gap-4" style={{ borderColor: '#E8ECEF' }}>
-                    <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style={{ background: '#0D7377' }}>
-                      <MapPin size={18} color="white" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="font-semibold mb-1" style={{ color: '#1A2332' }}>{name}</p>
+                  <div key={name} className="card-hover h-full rounded-[20px] border bg-white px-4 py-4" style={{ borderColor: 'rgba(13,115,119,0.1)', boxShadow: '0 12px 24px rgba(16,39,52,0.05)' }}>
+                    <div>
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="flex h-7 w-7 items-center justify-center rounded-full border" style={{ borderColor: 'rgba(13,115,119,0.16)', color: '#0D7377', background: 'rgba(13,115,119,0.04)' }}>
+                          <MapPin size={14} />
+                        </span>
+                        <p className="font-semibold" style={{ color: '#1A2332' }}>{name}</p>
+                      </div>
                       <p className="text-sm mb-2" style={{ color: '#4A5568', lineHeight: '1.65' }}>{body}</p>
-                      <p className="text-sm" style={{ color: '#0D7377', lineHeight: '1.65' }}>• {note}</p>
+                      <p className="text-sm pt-1" style={{ color: '#0D7377', lineHeight: '1.65' }}>• {note}</p>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="rounded-[22px] p-5" style={{ background: 'linear-gradient(135deg, rgba(46,204,113,0.08) 0%, rgba(255,255,255,0.7) 100%)' }}>
+            <div className="rounded-[24px] p-5 border" style={{ background: 'linear-gradient(135deg, rgba(46,204,113,0.1) 0%, rgba(255,255,255,0.78) 100%)', borderColor: 'rgba(46,204,113,0.1)' }}>
               <div className="flex items-center gap-3 mb-4">
-                <Globe size={18} style={{ color: '#2ECC71' }} />
+                <div className="w-11 h-11 rounded-[14px] flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #2ECC71 0%, #14BDAC 100%)', boxShadow: '0 12px 24px rgba(39,174,96,0.16)' }}>
+                  <Globe size={18} color="white" />
+                </div>
                 <h4 className="text-lg font-bold" style={{ color: '#1A2332' }}>Global Players</h4>
               </div>
-              <div className="space-y-4">
+              <div className="grid gap-4 md:grid-cols-3">
                 {[
                   ['Climate Tech Cities', 'Connects climate ecosystems across cities.', 'Expands opportunities globally.'],
                   ['Climate & Capital Connect', 'Offers curated 1:1 networking and paid membership.', 'People pay for direct, meaningful connections.'],
                   ['Climate Tech Coalition', 'Creates exclusive networks with investor matchmaking.', 'Exclusivity increases perceived value.'],
                 ].map(([name, body, note]) => (
-                  <div key={name} className="rounded-[18px] border bg-white px-4 py-4 flex items-start gap-4" style={{ borderColor: '#E8ECEF' }}>
-                    <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style={{ background: '#2ECC71' }}>
-                      <Globe size={18} color="white" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="font-semibold mb-1" style={{ color: '#1A2332' }}>{name}</p>
+                  <div key={name} className="card-hover h-full rounded-[20px] border bg-white px-4 py-4" style={{ borderColor: 'rgba(46,204,113,0.1)', boxShadow: '0 12px 24px rgba(16,39,52,0.05)' }}>
+                    <div>
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="flex h-7 w-7 items-center justify-center rounded-full border" style={{ borderColor: 'rgba(46,204,113,0.18)', color: '#27ae60', background: 'rgba(46,204,113,0.05)' }}>
+                          <Globe size={14} />
+                        </span>
+                        <p className="font-semibold" style={{ color: '#1A2332' }}>{name}</p>
+                      </div>
                       <p className="text-sm mb-2" style={{ color: '#4A5568', lineHeight: '1.65' }}>{body}</p>
-                      <p className="text-sm" style={{ color: '#27ae60', lineHeight: '1.65' }}>• {note}</p>
+                      <p className="text-sm pt-1" style={{ color: '#27ae60', lineHeight: '1.65' }}>• {note}</p>
                     </div>
                   </div>
                 ))}
@@ -1194,7 +1251,15 @@ function CompetitorSection() {
         </div>
 
         <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] mt-10 mb-10">
-          <div className="reveal rounded-[26px] border p-7 md:p-8 bg-white" style={{ borderColor: '#DDE8E7', boxShadow: '0 10px 24px rgba(13,115,119,0.06)' }}>
+          <div
+            className="reveal rounded-[28px] border p-7 md:p-8 overflow-hidden relative"
+            style={{
+              background: 'linear-gradient(160deg, rgba(255,255,255,0.99) 0%, rgba(238,249,246,0.94) 100%)',
+              borderColor: 'rgba(13,115,119,0.12)',
+              boxShadow: '0 18px 38px rgba(13,115,119,0.08)',
+            }}
+          >
+            <div className="absolute inset-x-0 top-0 h-1.5" style={{ background: 'linear-gradient(90deg, #0D7377 0%, #2ECC71 100%)' }} />
             <h3 className="text-2xl md:text-3xl mb-5" style={{ color: '#1A2332', fontFamily: "'Outfit', 'Nunito', system-ui, sans-serif", fontWeight: 800 }}>
               It&apos;s Not a Member Problem: It&apos;s a Value Problem
             </h3>
@@ -1207,7 +1272,7 @@ function CompetitorSection() {
             </div>
 
             <div className="grid gap-4 md:grid-cols-2 mb-6">
-              <div className="rounded-[20px] border p-5" style={{ borderColor: '#E8ECEF', background: 'linear-gradient(135deg, rgba(46,204,113,0.08) 0%, rgba(255,255,255,0.9) 100%)' }}>
+              <div className="card-hover rounded-[22px] border p-5" style={{ borderColor: 'rgba(46,204,113,0.14)', background: 'linear-gradient(135deg, rgba(46,204,113,0.1) 0%, rgba(255,255,255,0.92) 100%)', boxShadow: '0 12px 24px rgba(16,39,52,0.05)' }}>
                 <div className="flex items-center gap-2 mb-3">
                   <CheckCircle2 size={18} style={{ color: '#2ECC71' }} />
                   <p className="font-semibold" style={{ color: '#1A2332' }}>Others</p>
@@ -1219,7 +1284,7 @@ function CompetitorSection() {
                 </div>
               </div>
 
-              <div className="rounded-[20px] border p-5" style={{ borderColor: '#E8ECEF', background: 'linear-gradient(135deg, rgba(244,208,63,0.09) 0%, rgba(255,255,255,0.92) 100%)' }}>
+              <div className="card-hover rounded-[22px] border p-5" style={{ borderColor: 'rgba(244,208,63,0.18)', background: 'linear-gradient(135deg, rgba(244,208,63,0.12) 0%, rgba(255,255,255,0.92) 100%)', boxShadow: '0 12px 24px rgba(16,39,52,0.05)' }}>
                 <div className="flex items-center gap-2 mb-3">
                   <Users size={18} style={{ color: '#0D7377' }} />
                   <p className="font-semibold" style={{ color: '#1A2332' }}>Greentech Alliance</p>
@@ -1230,6 +1295,22 @@ function CompetitorSection() {
                   <p>• Undefined pathways</p>
                 </div>
               </div>
+            </div>
+
+            <div
+              className="rounded-[22px] border px-5 py-5"
+              style={{
+                background: 'linear-gradient(135deg, rgba(13,115,119,0.08) 0%, rgba(46,204,113,0.08) 100%)',
+                borderColor: 'rgba(13,115,119,0.12)',
+                boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.65)',
+              }}
+            >
+              <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em]" style={{ color: '#0D7377' }}>
+                Strategic Takeaway
+              </p>
+              <p className="text-sm md:text-base font-medium" style={{ color: '#1A2332', lineHeight: '1.75' }}>
+                The issue is not that members lack interest. The issue is that value is not yet structured in a way members can clearly experience.
+              </p>
             </div>
           </div>
 
@@ -1402,7 +1483,7 @@ function SurveySection() {
     {
       id: 'q9',
       number: '09',
-      text: 'Which of the following services or opportunities would provide the most value for you and/or your organization within the Greentech Alliance network?',
+      text: 'Which of the following services or opportunities would provide the most value for you and/or your organisation within the Greentech Alliance network?',
     },
   ]
 
@@ -1963,7 +2044,7 @@ function SurveySection() {
                   centerLabel="Share saying"
                 />
                 <ResultBars
-                  title="Likely Behavior if Platform Becomes Paid"
+                  title="Likely Behaviour if Platform Becomes Paid"
                   badge="Most would consider joining"
                   rows={paidBehavior}
                   accent="#0D7377"
@@ -2991,7 +3072,7 @@ function ConclusionSection() {
           </div>
           <div className="mt-7 text-center">
             <p className="inline-flex max-w-3xl items-center justify-center rounded-full px-6 py-3 text-base md:text-[18px] font-semibold" style={{ color: '#1A2332', lineHeight: '1.7', background: 'linear-gradient(135deg, rgba(255,255,255,0.92) 0%, rgba(247,252,249,0.95) 100%)', border: '1px solid rgba(13,115,119,0.1)', boxShadow: '0 10px 22px rgba(16,39,52,0.05)' }}>
-              When value is not clear or personalized, it does not feel important.
+              When value is not clear or personalised, it does not feel important.
             </p>
           </div>
         </div>
@@ -3073,7 +3154,7 @@ function ConclusionSection() {
             </p>
             <div className="mx-auto mb-4 h-1.5 w-20 rounded-full" style={{ background: 'linear-gradient(90deg, #0D7377 0%, #14BDAC 50%, #2ECC71 100%)' }} />
             <p className="max-w-5xl mx-auto text-lg md:text-[22px] font-semibold" style={{ color: '#16313A', lineHeight: '1.7' }}>
-              The current strategy reflects what the organization believes members want,
+              The current strategy reflects what the organisation believes members want,
               <br className="hidden md:block" /> but not what members are clearly demonstrating through behaviour.
             </p>
           </div>
@@ -3164,40 +3245,112 @@ function RecommendationsSection() {
     {
       number: 1,
       color: '#0D7377',
-      title: 'Hire a Specialist to Better Understand Member Needs',
-      subtitle: 'Internal hire or third-party researcher',
-      body: 'Commission a dedicated member discovery process. This could involve hiring an internal employee with expertise in community strategy and user research, or engaging a specialized third-party firm to conduct in-depth qualitative interviews, focus groups, and expanded quantitative surveys with a representative sample of prospective and current members.',
+      label: 'Understand Members First',
+      title: 'Hire a Specialist',
+      body: 'Bring in a dedicated professional, either internally or as a third party, to better understand member needs, expectations, and behaviours.',
+      bulletsTitle: 'This should include:',
+      detailGroups: [
+        {
+          title: 'Specialist Role',
+          points: [
+            'internal or third-party support',
+            'member research and insight gathering',
+          ],
+        },
+        {
+          title: 'Strategic Focus',
+          points: [
+            'understanding member needs and expectations',
+            'reducing internal bias in future decisions',
+          ],
+        },
+      ],
+      bodySecondary: 'This step reduces internal bias and ensures future decisions are grounded in real user insight rather than assumption.',
       outcomes: [
-        'Validated member personas and journey maps',
-        'Confirmed willingness-to-pay thresholds by segment',
-        'Prioritized feature and programming wish lists',
-        'Articulated motivations, barriers, and decision triggers',
+        'Deeper understanding of member needs and behaviours',
+        'Clearer expectations across member groups',
+        'Better evidence for future strategic decisions',
+        'Reduced reliance on internal assumptions',
       ],
     },
     {
       number: 2,
       color: '#2ECC71',
-      title: 'Redesign the Strategy Based on Those Findings',
-      subtitle: 'Evidence-driven strategic planning',
-      body: 'Once member insight has been gathered and validated, use it as the foundation for a comprehensive strategy refresh. This includes redefining the value proposition, refining the membership tiers and pricing, restructuring the platform feature roadmap, and clarifying the organizational positioning within the competitive landscape.',
+      label: 'Redesign the Strategy',
+      title: 'From Access to Value',
+      body: 'Rebuild the strategy using validated insight. Define member segments, align value to each group, and create structured pathways to outcomes such as funding, partnerships, and growth.',
+      bulletsTitle: 'This should include:',
+      detailGroups: [
+        {
+          title: 'Strategy Design',
+          points: [
+            'clear member segmentation',
+            'value aligned to different user groups',
+          ],
+        },
+        {
+          title: 'Outcome Pathways',
+          points: [
+            'structured paths to funding, partnerships, and growth',
+            'a shift from connection alone to measurable results',
+          ],
+        },
+      ],
+      bodySecondary: 'The goal is to move from a network that connects people to an ecosystem that creates results.',
       outcomes: [
-        'Refined, evidence-based value proposition',
-        'Validated pricing tiers with member-confirmed rationale',
-        'Updated feature roadmap aligned to member priorities',
-        'Clear organizational positioning statement',
+        'Clear member segmentation',
+        'Value aligned to different user groups',
+        'Stronger pathways to outcomes',
+        'More structured and intentional strategy',
       ],
     },
     {
       number: 3,
       color: '#F4D03F',
-      title: 'Build a Well-Structured Marketing Plan',
-      subtitle: 'Value proposition + tactics + measurement',
-      body: 'With a validated strategy in place, develop a comprehensive marketing and communication plan. This plan should clearly articulate the value proposition to each audience segment, outline the channels and tactics to be used at each stage of the member journey, and establish measurement frameworks to track conversion, engagement, and retention.',
+      label: 'Build a Strong Marketing Foundation',
+      title: 'Structured Marketing Plan',
+      body: 'Develop a clear and consistent marketing plan that makes value visible and tangible.',
+      bulletsTitle: 'This should include:',
+      detailGroups: [
+        {
+          title: 'Value Proposition',
+          points: [
+            'clear, specific, and outcome-driven',
+            'aligned with what members actually want',
+          ],
+        },
+      ],
+      closing: 'The goal is not only to promote the platform, but to clearly communicate why it matters.',
       outcomes: [
-        'Segment-specific messaging and positioning frameworks',
-        'Channel strategy with reach, activation, and conversion tactics',
-        'Content calendar and editorial framework',
-        'KPI framework for conversion, retention, and growth measurement',
+        'Clearer value proposition',
+        'Stronger messaging foundation',
+        'More consistent communication direction',
+        'Better alignment between strategy and execution',
+      ],
+    },
+    {
+      number: 4,
+      color: '#14BDAC',
+      label: 'Activate the Plan',
+      title: 'Tactics',
+      body: 'Turn the strategy into visible action through targeted communication, engagement strategies, and content and experience design.',
+      bulletsTitle: 'This should include:',
+      detailGroups: [
+        {
+          title: 'Tactics',
+          points: [
+            'targeted communication',
+            'engagement strategies',
+            'content and experience design',
+          ],
+        },
+      ],
+      closing: 'The goal is to make value visible in ways members can quickly understand, experience, and respond to.',
+      outcomes: [
+        'More effective communication tactics',
+        'Stronger engagement messaging',
+        'Better visibility of member value',
+        'More consistent execution across channels',
       ],
     },
   ]
@@ -3207,27 +3360,233 @@ function RecommendationsSection() {
       <div className="max-w-5xl mx-auto">
         <SectionHeader
           tag="Final Recommendations"
-          title="Strategic Recommendations"
-          subtitle="Three clear, sequenced actions to move Greentech Alliance from strategic uncertainty to launch readiness."
+          subtitle=""
         />
 
-        <div className="space-y-8 mb-14">
+        <div className="reveal px-8 pt-0 pb-2 md:px-14 md:pt-0 md:pb-4 max-w-6xl mx-auto -mt-8 mb-6 text-center">
+          <h3
+            className="text-4xl sm:text-5xl md:text-6xl leading-[1.15]"
+            style={{ color: '#1A2332', fontFamily: "'Outfit', 'Nunito', system-ui, sans-serif", fontWeight: 800 }}
+          >
+            From Insight{' '}
+            <span style={{ color: '#0D7377' }}>to Action</span>
+          </h3>
+        </div>
+
+        <div
+          className="reveal relative overflow-hidden w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] px-6 md:px-10 py-10 md:py-12 mb-8 -mt-2"
+          style={{
+            background: 'linear-gradient(135deg, #05383b 0%, #0a5c60 48%, #0D7377 100%)',
+            boxShadow: '0 30px 70px rgba(13,115,119,0.22), 0 10px 26px rgba(26,35,50,0.08)',
+          }}
+        >
+          <div className="absolute -top-14 -right-10 h-44 w-44 rounded-full" style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0) 72%)' }} />
+          <div className="absolute -bottom-24 -left-12 h-48 w-48 rounded-full" style={{ background: 'radial-gradient(circle, rgba(244,208,63,0.16) 0%, rgba(244,208,63,0) 72%)' }} />
+          <div className="relative max-w-6xl mx-auto text-center">
+            <div className="mx-auto max-w-5xl">
+              <p className="mb-3 text-sm md:text-[15px] font-semibold uppercase tracking-[0.22em]" style={{ color: 'rgba(255,255,255,0.76)' }}>
+                Growth Alone Will Not Sustain Greentech Alliance
+              </p>
+              <div className="mx-auto mb-5 h-1.5 w-24 rounded-full" style={{ background: 'linear-gradient(90deg, rgba(255,255,255,0.25) 0%, #F4D03F 50%, rgba(255,255,255,0.25) 100%)' }} />
+              <h3 className="mx-auto max-w-4xl mb-6 text-2xl md:text-[2.2rem]" style={{ color: '#ffffff', fontFamily: "'Outfit', 'Nunito', system-ui, sans-serif", fontWeight: 800, lineHeight: '1.25' }}>
+                After analysing engagement, member behaviour, competitor strategies, and conversion dynamics, one conclusion became clear:
+              </h3>
+              <div
+                className="mx-auto max-w-3xl rounded-[24px] border px-6 py-5 md:px-7 md:py-6"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0.08) 100%)',
+                  borderColor: 'rgba(255,255,255,0.16)',
+                  boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.12)',
+                }}
+              >
+                <p className="text-lg md:text-[22px] font-extrabold" style={{ color: '#F4D03F', lineHeight: '1.45' }}>
+                  Sustainable growth depends on delivering clear, experienced, and meaningful value to the right members.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="reveal mb-10 rounded-[32px] border px-7 py-8 md:px-9 md:py-9 overflow-hidden relative" style={{ background: 'radial-gradient(circle at 12% 16%, rgba(244,208,63,0.12) 0, transparent 18%), radial-gradient(circle at 88% 18%, rgba(20,189,172,0.1) 0, transparent 18%), linear-gradient(135deg, rgba(255,250,238,0.9) 0%, rgba(244,251,248,0.94) 100%)', borderColor: 'rgba(13,115,119,0.1)', boxShadow: '0 14px 34px rgba(16,39,52,0.06)' }}>
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em]" style={{ color: '#0D7377' }}>
+            Translating Insight into Action
+          </p>
+          <p className="mx-auto max-w-3xl text-center text-base md:text-[17px]" style={{ color: '#1A2332', lineHeight: '1.9' }}>
+            At this stage, our team focused on translating insight into action by turning the research into a clear, consistent, and sustainable path forward.
+          </p>
+          <div className="mt-6 grid gap-5 lg:grid-cols-3 lg:items-stretch">
+              <div className="card-hover flex h-full flex-col rounded-[24px] border px-5 py-5" style={{ borderColor: 'rgba(13,115,119,0.1)', background: 'rgba(255,255,255,0.84)', boxShadow: '0 12px 28px rgba(16,39,52,0.06)' }}>
+                <div className="mb-3 flex items-center gap-3">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-2xl" style={{ background: 'rgba(13,115,119,0.1)', color: '#0D7377' }}>
+                    <Users className="h-5 w-5" />
+                  </span>
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em]" style={{ color: '#0D7377' }}>
+                    How We Worked
+                  </p>
+                </div>
+                <p className="text-sm md:text-[15px]" style={{ color: '#4A5568', lineHeight: '1.9' }}>
+                  With guidance from our instructor, Jill, and through several in-person working sessions, we shaped a final strategy that brought together the perspectives of the full team.
+                </p>
+              </div>
+              <div className="card-hover flex h-full flex-col rounded-[24px] border px-5 py-5" style={{ borderColor: 'rgba(13,115,119,0.1)', background: 'rgba(255,255,255,0.84)', boxShadow: '0 12px 28px rgba(16,39,52,0.06)' }}>
+                <div className="mb-3 flex items-center gap-3">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-2xl" style={{ background: 'rgba(244,208,63,0.16)', color: '#D4A017' }}>
+                    <Target className="h-5 w-5" />
+                  </span>
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em]" style={{ color: '#0D7377' }}>
+                    What We Focused On
+                  </p>
+                </div>
+                <p className="text-sm md:text-[15px]" style={{ color: '#4A5568', lineHeight: '1.9' }}>
+                  Rather than adding more analysis, we focused on what would be required to move forward with stronger member understanding, a clearer strategy, and better communication of value.
+                </p>
+              </div>
+            <div className="card-hover flex h-full flex-col rounded-[24px] border px-5 py-5" style={{ borderColor: 'rgba(13,115,119,0.1)', background: 'rgba(255,255,255,0.88)', boxShadow: '0 12px 28px rgba(16,39,52,0.06)' }}>
+              <div className="mb-3 flex items-center gap-3">
+                <span className="flex h-10 w-10 items-center justify-center rounded-2xl" style={{ background: 'rgba(46,204,113,0.12)', color: '#2ECC71' }}>
+                  <Network className="h-5 w-5" />
+                </span>
+                <p className="text-xs font-semibold uppercase tracking-[0.2em]" style={{ color: '#0D7377' }}>
+                  Three Connected Priorities
+                </p>
+              </div>
+              <ul className="space-y-3 text-sm md:text-[15px]" style={{ color: '#4A5568', lineHeight: '1.8' }}>
+                {[
+                  'Strengthening member understanding',
+                  'Refining the strategy',
+                  'Ensuring value is clearly defined and effectively communicated',
+                ].map((item) => (
+                  <li key={item} className="flex gap-3">
+                    <span className="mt-2 h-2.5 w-2.5 rounded-full shrink-0" style={{ background: '#0D7377' }} />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <div className="mt-6 rounded-[24px] border px-5 py-5 text-center" style={{ borderColor: 'rgba(13,115,119,0.12)', background: 'linear-gradient(135deg, rgba(255,255,255,0.72) 0%, rgba(229,248,243,0.86) 100%)', boxShadow: '0 10px 24px rgba(16,39,52,0.05)' }}>
+            <p className="text-xs font-semibold uppercase tracking-[0.2em]" style={{ color: '#0D7377' }}>
+              Why This Matters
+            </p>
+            <p className="mx-auto mt-2 max-w-3xl font-semibold text-base md:text-[18px]" style={{ color: '#1A2332', lineHeight: '1.75' }}>
+              These are not separate initiatives, but interdependent steps in a more structured, value-driven path forward.
+            </p>
+          </div>
+        </div>
+
+        <div className="reveal mb-8 rounded-[30px] border border-white/70 bg-white/92 p-7 text-center overflow-hidden relative" style={{ boxShadow: '0 12px 28px rgba(16,39,52,0.06)' }}>
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.24em]" style={{ color: '#0D7377' }}>
+            Strategic Shift
+          </p>
+          <div className="relative mx-auto flex max-w-4xl flex-col items-center justify-center gap-5 text-lg font-bold md:flex-row md:gap-6 md:text-[24px]" style={{ color: '#1A2332', lineHeight: '1.4' }}>
+            <div className="flex flex-col items-center gap-2 md:flex-1">
+              <span className="text-[10px] font-semibold uppercase tracking-[0.28em]" style={{ color: 'rgba(74,85,104,0.7)' }}>
+                From
+              </span>
+              <span className="rounded-full px-4 py-2 md:px-5" style={{ color: 'rgba(74,85,104,0.95)', background: 'rgba(13,115,119,0.05)' }}>
+                From assumption-driven decisions
+              </span>
+            </div>
+            <div className="relative flex items-center justify-center py-1 md:px-2">
+              <div className="pointer-events-none absolute left-1/2 top-1/2 h-px w-28 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-transparent via-[#14BDAC]/45 to-transparent md:w-40" />
+              <span
+                className="relative flex h-14 w-14 items-center justify-center rounded-full border text-2xl font-semibold animate-pulse"
+                style={{
+                  color: '#14BDAC',
+                  borderColor: 'rgba(20,189,172,0.24)',
+                  background: 'radial-gradient(circle, rgba(20,189,172,0.2) 0%, rgba(20,189,172,0.08) 58%, rgba(20,189,172,0.02) 100%)',
+                  boxShadow: '0 0 0 10px rgba(20,189,172,0.05), 0 10px 24px rgba(20,189,172,0.18)',
+                }}
+              >
+                →
+              </span>
+            </div>
+            <div className="flex flex-col items-center gap-2 md:flex-1">
+              <span className="text-[10px] font-semibold uppercase tracking-[0.28em]" style={{ color: 'rgba(13,115,119,0.8)' }}>
+                To
+              </span>
+              <span
+                className="card-hover rounded-full px-4 py-2 md:px-5"
+                style={{
+                  color: '#0D7377',
+                  background: 'linear-gradient(135deg, rgba(46,204,113,0.12) 0%, rgba(20,189,172,0.12) 100%)',
+                  boxShadow: '0 10px 24px rgba(20,189,172,0.12)',
+                }}
+              >
+                To insight-driven strategy
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div className="mb-14 grid gap-8 lg:grid-cols-2">
           {recs.map((rec, i) => (
-            <div key={rec.number} className={`reveal reveal-delay-${i + 1} bg-white rounded-2xl border overflow-hidden`} style={{ borderColor: '#E8ECEF', boxShadow: '0 4px 20px rgba(0,0,0,0.07)' }}>
+            <div
+              key={rec.number}
+              className={`reveal reveal-delay-${i + 1} card-hover rounded-[28px] border overflow-hidden relative`}
+              style={{
+                background: `linear-gradient(160deg, rgba(255,255,255,0.99) 0%, ${rec.color}08 100%)`,
+                borderColor: `${rec.color}22`,
+                boxShadow: '0 16px 36px rgba(16,39,52,0.08)',
+              }}
+            >
+              <div className="absolute inset-x-0 top-0 h-1.5" style={{ background: `linear-gradient(90deg, ${rec.color} 0%, ${rec.color}bb 100%)` }} />
               <div className="flex flex-col md:flex-row">
                 <div className="p-6 md:p-8 flex-1">
-                  <div className="flex items-start gap-4 mb-4">
-                    <div className="rec-number flex-shrink-0" style={{ background: `linear-gradient(135deg, ${rec.color}, ${rec.color}aa)` }}>
+                  <div className="flex items-start gap-4 mb-5">
+                    <div
+                      className="rec-number flex-shrink-0"
+                      style={{
+                        background: `linear-gradient(135deg, ${rec.color}, ${rec.color}aa)`,
+                        boxShadow: `0 12px 24px ${rec.color}33`,
+                      }}
+                    >
                       {rec.number}
                     </div>
                     <div>
-                      <p className="text-xs font-semibold uppercase tracking-wider mb-1" style={{ color: rec.color }}>{rec.subtitle}</p>
-                      <h3 className="text-xl font-bold" style={{ color: '#1A2332' }}>{rec.title}</h3>
+                      <p className="text-xs font-semibold uppercase tracking-[0.22em] mb-1.5" style={{ color: rec.color }}>{rec.label}</p>
+                      <h3 className="text-[1.4rem] leading-tight font-bold" style={{ color: '#1A2332' }}>{rec.title}</h3>
                     </div>
                   </div>
-                  <p className="text-sm leading-relaxed mb-5" style={{ color: '#4A5568', lineHeight: '1.8' }}>{rec.body}</p>
-                  <div className="rounded-xl p-4" style={{ background: `${rec.color}10`, border: `1px solid ${rec.color}25` }}>
-                    <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: rec.color }}>Expected Outcomes</p>
+                  <p className="text-sm leading-relaxed mb-5" style={{ color: '#4A5568', lineHeight: '1.85' }}>{rec.body}</p>
+                  {'bodySecondary' in rec && rec.bodySecondary ? (
+                    <p
+                      className="text-sm leading-relaxed mb-5 font-medium rounded-[20px] px-4 py-3"
+                      style={{
+                        color: '#1A2332',
+                        lineHeight: '1.8',
+                        background: `${rec.color}0D`,
+                        border: `1px solid ${rec.color}1F`,
+                      }}
+                    >
+                      {rec.bodySecondary}
+                    </p>
+                  ) : null}
+                  {'bulletsTitle' in rec && rec.bulletsTitle ? (
+                    <div className="mb-5 rounded-[22px] p-5" style={{ background: `linear-gradient(160deg, ${rec.color}12 0%, rgba(255,255,255,0.92) 100%)`, border: `1px solid ${rec.color}25`, boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.55)' }}>
+                      <p className="text-xs font-bold uppercase tracking-[0.22em] mb-4" style={{ color: rec.color }}>{rec.bulletsTitle}</p>
+                      <div className="space-y-4">
+                        {rec.detailGroups?.map((group) => (
+                          <div key={group.title} className="rounded-[18px] px-4 py-3" style={{ background: 'rgba(255,255,255,0.68)' }}>
+                            <p className="text-sm font-semibold mb-2" style={{ color: '#1A2332' }}>{group.title}</p>
+                            <ul className="space-y-2">
+                              {group.points.map((point) => (
+                                <li key={point} className="flex gap-2 text-sm" style={{ color: '#4A5568' }}>
+                                  <ArrowRight size={14} style={{ color: rec.color, flexShrink: 0, marginTop: '3px' }} />
+                                  {point}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ) : null}
+                  {'closing' in rec && rec.closing ? (
+                    <p className="text-sm leading-relaxed mb-5 font-medium" style={{ color: '#1A2332', lineHeight: '1.85' }}>{rec.closing}</p>
+                  ) : null}
+                  <div className="rounded-[22px] p-5" style={{ background: `linear-gradient(160deg, rgba(255,255,255,0.98) 0%, ${rec.color}10 100%)`, border: `1px solid ${rec.color}25`, boxShadow: '0 10px 22px rgba(16,39,52,0.04)' }}>
+                    <p className="text-xs font-bold uppercase tracking-[0.22em] mb-4" style={{ color: rec.color }}>Expected Outcomes</p>
                     <ul className="space-y-2">
                       {rec.outcomes.map((o) => (
                         <li key={o} className="flex gap-2 text-sm" style={{ color: '#4A5568' }}>
@@ -3243,42 +3602,137 @@ function RecommendationsSection() {
           ))}
         </div>
 
-        {/* Roadmap Placeholder */}
-        <div className="reveal bg-white rounded-2xl border p-8 mb-12" style={{ borderColor: '#E8ECEF', boxShadow: '0 2px 14px rgba(0,0,0,0.06)' }}>
-          <h3 className="font-bold text-xl mb-6 text-center" style={{ color: '#1A2332' }}>Strategic Roadmap</h3>
-          <div className="flex flex-col md:flex-row items-stretch gap-4">
+        <div
+          className="reveal rounded-[30px] border p-8 mb-12 overflow-hidden relative"
+          style={{
+            background: 'radial-gradient(circle at 14% 18%, rgba(20,189,172,0.12) 0%, rgba(20,189,172,0) 22%), radial-gradient(circle at 85% 20%, rgba(244,208,63,0.1) 0%, rgba(244,208,63,0) 20%), linear-gradient(145deg, rgba(250,255,253,0.98) 0%, rgba(241,250,247,0.96) 52%, rgba(235,247,244,0.98) 100%)',
+            borderColor: 'rgba(13,115,119,0.1)',
+            boxShadow: '0 18px 42px rgba(16,39,52,0.08), inset 0 1px 0 rgba(255,255,255,0.72)',
+          }}
+        >
+          <div className="absolute inset-x-0 top-0 h-1.5" style={{ background: 'linear-gradient(90deg, rgba(13,115,119,0.9) 0%, rgba(20,189,172,0.85) 35%, rgba(46,204,113,0.82) 68%, rgba(244,208,63,0.8) 100%)' }} />
+          <div className="absolute -top-16 right-10 h-36 w-36 rounded-full" style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0) 72%)' }} />
+          <div className="absolute -bottom-20 left-8 h-44 w-44 rounded-full" style={{ background: 'radial-gradient(circle, rgba(13,115,119,0.08) 0%, rgba(13,115,119,0) 72%)' }} />
+          <h3 className="font-bold text-xl text-center" style={{ color: '#1A2332' }}>Execution Roadmap</h3>
+          <p className="mx-auto mt-3 mb-8 max-w-3xl text-center text-sm md:text-[15px]" style={{ color: '#4A5568', lineHeight: '1.85' }}>
+            To ensure success, the implementation should follow a clear sequence:
+          </p>
+          <div className="mx-auto max-w-4xl space-y-2 md:space-y-2.5">
             {[
-              { phase: 'Phase 1', label: 'Discovery', duration: 'Months 1–3', color: '#0D7377', items: ['Commission member research', 'Conduct interviews & surveys', 'Analyze and synthesize findings'] },
-              { phase: 'Phase 2', label: 'Strategy', duration: 'Months 3–5', color: '#2ECC71', items: ['Redefine value proposition', 'Validate pricing model', 'Refine platform roadmap'] },
-              { phase: 'Phase 3', label: 'Marketing', duration: 'Months 5–7', color: '#14BDAC', items: ['Develop messaging frameworks', 'Build launch communication plan', 'Prepare content and channels'] },
-              { phase: 'Phase 4', label: 'Launch', duration: 'Month 7+', color: '#F4D03F', items: ['Soft launch with early cohort', 'Measure and iterate', 'Scale outreach and conversion'] },
+              { phase: 'Phase 1', label: 'Understand', color: '#0D7377', text: 'Understand member needs through research and feedback', icon: Search, offset: 'md:ml-[0%]' },
+              { phase: 'Phase 2', label: 'Validate', color: '#14BDAC', text: 'Validate value before introducing pricing', icon: CheckCircle2, offset: 'md:ml-[10.5%]' },
+              { phase: 'Phase 3', label: 'Engage', color: '#2ECC71', text: 'Build engagement through structured experiences', icon: Users, offset: 'md:ml-[21%]' },
+              { phase: 'Phase 4', label: 'Launch', color: '#F4D03F', text: 'Launch strategically, starting with the most engaged members', icon: Rocket, offset: 'md:ml-[31.5%]' },
+              { phase: 'Phase 5', label: 'Scale', color: '#14919B', text: 'Scale based on evidence, not assumptions', icon: TrendingUp, offset: 'md:ml-[42%]' },
             ].map((p, i) => (
-              <div key={p.phase} className={`flex-1 rounded-xl p-5 text-center reveal reveal-delay-${i + 1}`} style={{ background: `${p.color}12`, border: `1px solid ${p.color}30` }}>
-                <p className="text-xs font-bold uppercase tracking-wider mb-1" style={{ color: p.color }}>{p.phase}</p>
-                <p className="font-extrabold text-lg mb-1" style={{ color: '#1A2332' }}>{p.label}</p>
-                <p className="text-xs mb-4" style={{ color: '#9CA3AF' }}>{p.duration}</p>
-                <ul className="text-left space-y-2">
-                  {p.items.map((item) => (
-                    <li key={item} className="flex gap-2 text-xs" style={{ color: '#4A5568' }}>
-                      <span style={{ color: p.color }}>•</span>{item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <Fragment key={p.phase}>
+                <div className={`${p.offset} reveal reveal-delay-${i + 1} relative w-full md:w-[58%] ${p.label === 'Engage' ? 'md:scale-[1.015]' : ''}`}>
+                  <div
+                    className="card-hover rounded-2xl px-4 py-2.5 text-center h-full"
+                    style={{
+                      background: `linear-gradient(180deg, ${p.color}${p.label === 'Engage' ? '18' : '10'} 0%, rgba(255,255,255,0.99) 100%)`,
+                      border: `1px solid ${p.color}${p.label === 'Engage' ? '55' : '30'}`,
+                      boxShadow: p.label === 'Engage'
+                        ? `0 16px 34px ${p.color}22, 0 8px 20px rgba(16,39,52,0.08)`
+                        : '0 12px 26px rgba(16,39,52,0.07)',
+                    }}
+                  >
+                    <div className="mb-1.5 flex items-center justify-center gap-2">
+                      <span className="flex h-9 w-9 items-center justify-center rounded-full border" style={{ color: p.color, borderColor: `${p.color}35`, background: `${p.color}12` }}>
+                        <p.icon className="h-4 w-4" />
+                      </span>
+                      <div className="h-1.5 w-10 rounded-full" style={{ background: p.color }} />
+                      <p className="text-xs font-bold uppercase tracking-wider" style={{ color: p.color }}>{p.phase}</p>
+                    </div>
+                    <p className="font-extrabold text-[16px] mb-0.5" style={{ color: p.color }}>{p.label}</p>
+                    <p className="text-[13px] mt-0.5" style={{ color: '#4A5568', lineHeight: '1.55' }}>{p.text}</p>
+                  </div>
+                </div>
+                {i < 4 ? (
+                  <div className={`${p.offset} flex justify-center md:w-[58%]`}>
+                    <div className="flex flex-col items-center gap-1">
+                      <div className="h-4 w-px" style={{ background: `linear-gradient(180deg, ${p.color}00 0%, ${p.color}70 100%)` }} />
+                      <span className="flex h-7 w-7 items-center justify-center rounded-full border text-[11px] font-semibold" style={{ color: p.color, borderColor: `${p.color}40`, background: `linear-gradient(180deg, ${p.color}16 0%, rgba(255,255,255,0.98) 100%)`, boxShadow: '0 8px 18px rgba(16,39,52,0.06)' }}>
+                        ↓
+                      </span>
+                      <div className="h-4 w-px" style={{ background: `linear-gradient(180deg, ${p.color}70 0%, ${p.color}00 100%)` }} />
+                    </div>
+                  </div>
+                ) : null}
+              </Fragment>
             ))}
           </div>
-          <p className="text-xs text-center mt-4 italic" style={{ color: '#9CA3AF' }}>— Roadmap is indicative and subject to revision based on organizational capacity and research findings —</p>
         </div>
 
-        {/* Final takeaway */}
-        <div className="reveal rounded-3xl p-10 text-center" style={{ background: 'linear-gradient(135deg, #0D7377, #2ECC71)', boxShadow: '0 16px 48px rgba(13,115,119,0.25)' }}>
-          <div className="w-14 h-14 rounded-full mx-auto mb-4 flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.2)' }}>
-            <Shield size={24} color="white" />
+        <div
+          className="reveal rounded-[36px] px-8 py-16 text-center overflow-hidden relative md:px-10 md:py-24"
+          style={{
+            background: 'radial-gradient(circle at 15% 18%, rgba(244,208,63,0.16) 0%, rgba(244,208,63,0) 22%), radial-gradient(circle at 85% 20%, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0) 22%), linear-gradient(135deg, #052E33 0%, #0A5358 38%, #0D7377 68%, #1FA88D 100%)',
+            boxShadow: '0 28px 70px rgba(13,115,119,0.28), inset 0 1px 0 rgba(255,255,255,0.08)',
+          }}
+        >
+          <div className="absolute -left-10 top-12 h-36 w-36 rounded-full border" style={{ borderColor: 'rgba(255,255,255,0.1)' }} />
+          <div className="absolute -right-8 bottom-10 h-28 w-28 rounded-full border" style={{ borderColor: 'rgba(255,255,255,0.1)' }} />
+          <div className="absolute inset-x-12 top-1/2 h-px -translate-y-1/2" style={{ background: 'linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.16) 18%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0.16) 82%, rgba(255,255,255,0) 100%)' }} />
+          <div className="relative z-10">
+            <div className="mx-auto max-w-5xl">
+              <p
+                className="leading-[1.15] text-2xl sm:text-3xl md:text-4xl font-extrabold"
+                style={{
+                  color: 'rgba(248,255,252,0.99)',
+                  textShadow: '0 10px 28px rgba(5,46,51,0.28)',
+                  fontFamily: "'Outfit', 'Nunito', system-ui, sans-serif",
+                }}
+              >
+                Sustainable growth does not come from adding more members.
+              </p>
+              <p
+                className="mx-auto mt-5 max-w-4xl leading-[1.18] text-xl sm:text-2xl md:text-3xl font-extrabold"
+                style={{
+                  color: '#F4D03F',
+                  textShadow: '0 8px 22px rgba(5,46,51,0.24)',
+                  fontFamily: "'Outfit', 'Nunito', system-ui, sans-serif",
+                }}
+              >
+                It comes from delivering clear, experienced, and meaningful value to the right ones.
+              </p>
+            </div>
+
+            <div className="mx-auto mt-10 flex max-w-5xl flex-col items-center justify-center gap-3 md:flex-row md:gap-4">
+              {[
+                { text: 'Clear Value', highlight: false },
+                { text: 'Engagement', highlight: false },
+                { text: 'Conversion', highlight: false },
+                { text: 'Sustainable Growth', highlight: true },
+              ].map((item, index) => (
+                <Fragment key={item.text}>
+                  <div
+                    className="rounded-full px-5 py-3 md:px-6"
+                    style={{
+                      background: item.highlight
+                        ? 'linear-gradient(135deg, rgba(244,208,63,0.22) 0%, rgba(255,248,220,0.16) 100%)'
+                        : 'linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(235,250,244,0.12) 100%)',
+                      border: item.highlight
+                        ? '1px solid rgba(244,208,63,0.34)'
+                        : '1px solid rgba(255,255,255,0.16)',
+                      boxShadow: item.highlight
+                        ? '0 16px 28px rgba(244,208,63,0.16), inset 0 1px 0 rgba(255,255,255,0.12)'
+                        : 'inset 0 1px 0 rgba(255,255,255,0.12)',
+                    }}
+                  >
+                    <p className="text-sm md:text-[15px] font-semibold" style={{ color: item.highlight ? '#FFF4C3' : 'rgba(247,255,251,0.96)' }}>
+                      {item.text}
+                    </p>
+                  </div>
+                  {index < 3 ? (
+                    <span className="text-lg md:text-xl font-semibold" style={{ color: 'rgba(247,255,251,0.72)' }}>
+                      →
+                    </span>
+                  ) : null}
+                </Fragment>
+              ))}
+            </div>
           </div>
-          <h3 className="text-2xl font-bold text-white mb-4">A Platform Built on Real Member Insight</h3>
-          <p className="text-white/85 max-w-2xl mx-auto leading-relaxed">
-            Greentech Alliance has everything it needs to build a truly exceptional member community. The path forward is clear: invest in understanding your members deeply, build your strategy on that foundation, and launch with confidence. The climate-tech community is ready — and Greentech Alliance is well-positioned to lead it.
-          </p>
         </div>
       </div>
     </section>
@@ -3287,19 +3741,10 @@ function RecommendationsSection() {
 
 // ─── Footer ────────────────────────────────────────────────────────────
 function Footer() {
-  const footerLinks = [
-    { label: 'Home', href: '#home' },
-    { label: 'About', href: '#intro' },
-    { label: 'Analysis', href: '#challenge' },
-    { label: 'Insights', href: '#survey' },
-    { label: 'Strategy', href: '#marketing' },
-    { label: 'Final', href: '#conclusion' },
-  ]
-
   return (
     <footer style={{ background: '#0D1A1A', color: '#9CA3AF' }}>
-      <div className="max-w-6xl mx-auto px-6 py-16">
-        <div className="grid md:grid-cols-3 gap-10 mb-12">
+      <div className="max-w-6xl mx-auto px-6 py-14">
+        <div className="grid md:grid-cols-[1.2fr_0.8fr] gap-10 mb-10 items-start">
           <div>
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #0D7377, #2ECC71)' }}>
@@ -3311,30 +3756,25 @@ function Footer() {
               </div>
               <span className="font-bold text-white text-sm">Greentech Alliance</span>
             </div>
-            <p className="text-sm leading-relaxed">
-              A university capstone research project exploring value proposition development, member strategy, and platform launch readiness for Greentech Alliance.
-            </p>
-            <div className="flex gap-3 mt-4">
-              {[Linkedin, Twitter, Mail].map((Icon, i) => (
-                <a key={i} href="#" className="w-9 h-9 rounded-lg flex items-center justify-center transition-colors" style={{ background: 'rgba(255,255,255,0.08)' }}>
-                  <Icon size={16} style={{ color: '#14BDAC' }} />
-                </a>
-              ))}
+            <div className="mb-4 space-y-2 text-sm leading-relaxed">
+              <p style={{ color: '#E5E7EB' }}>
+                Aasiyah Rasheed, Lais Garcia, Nikka Stephens, John Salinas, and Yashpreet Kaur Sohi
+              </p>
+              <p>
+                Business Diploma Integrative Experience Capston (ACWE-300-E1)
+              </p>
             </div>
+            <a
+              href="#home"
+              className="inline-flex items-center gap-2 text-sm font-medium transition-colors"
+              style={{ color: '#14BDAC' }}
+            >
+              <span>Back to top</span>
+              <span aria-hidden="true">↑</span>
+            </a>
           </div>
 
-          <div>
-            <p className="text-white font-semibold mb-4 text-sm">Navigation</p>
-            <div className="grid grid-cols-2 gap-2">
-              {footerLinks.map((link) => (
-                <a key={link.label} href={link.href} className="text-sm hover:text-white transition-colors" style={{ color: '#9CA3AF' }}>
-                  {link.label}
-                </a>
-              ))}
-            </div>
-          </div>
-
-          <div>
+          <div className="md:text-right">
             <p className="text-white font-semibold mb-4 text-sm">Project Credits</p>
             <ul className="space-y-2 text-sm">
               <li>Capstone Team · Matilha</li>
@@ -3342,18 +3782,12 @@ function Footer() {
               <li>Academic Year · 2026</li>
               <li>SAIT · School of Business</li>
             </ul>
-            <div className="mt-5 p-3 rounded-xl text-xs leading-relaxed" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
-              This project was produced for academic purposes. All strategic recommendations are intended as advisory and require validation before implementation.
-            </div>
           </div>
         </div>
 
-        <div className="border-t pt-6 flex flex-col sm:flex-row items-center justify-between gap-3" style={{ borderColor: 'rgba(255,255,255,0.08)' }}>
+        <div className="border-t pt-6 flex items-center justify-between gap-3" style={{ borderColor: 'rgba(255,255,255,0.08)' }}>
           <p className="text-xs">© 2026 Matilha Capstone Project. All rights reserved.</p>
-          <div className="flex items-center gap-2 text-xs">
-            <span>Built for a greener tomorrow.</span>
-          </div>
-      </div>
+        </div>
       </div>
     </footer>
   )
