@@ -1794,12 +1794,14 @@ function SurveySection() {
                 ].map(([title, body]) => (
                   <div
                     key={title}
-                    className="rounded-[18px] border px-4 py-4"
+                    className="card-hover rounded-[22px] border px-4 py-4 overflow-hidden relative"
                     style={{
-                      background: 'linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 100%)',
+                      background: 'linear-gradient(135deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.1) 100%)',
                       borderColor: 'rgba(255,255,255,0.18)',
+                      boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.14), 0 12px 24px rgba(5,46,51,0.12)',
                     }}
                   >
+                    <div className="absolute inset-x-0 top-0 h-1" style={{ background: 'linear-gradient(90deg, rgba(244,208,63,0.92) 0%, rgba(20,189,172,0.9) 100%)' }} />
                     <p className="text-sm font-semibold mb-1" style={{ color: '#F4D03F', lineHeight: '1.5' }}>{title}</p>
                     <p className="text-sm" style={{ color: '#ffffff', lineHeight: '1.7' }}>{body}</p>
                   </div>
@@ -1864,14 +1866,23 @@ function SurveySection() {
               ['Responses', '23 responses were collected, though some respondents were founders or internal members rather than external community participants alone.', <BarChart2 size={20} color="white" />, '#2ECC71'],
               ['Participation', 'Participation was voluntary, allowing the team to gather early directional insight into engagement, value perception, and paid membership potential.', <Target size={20} color="#1A2332" />, '#F4D03F'],
             ].map(([title, body, icon, color]) => (
-              <div key={title as string} className="rounded-[22px] border p-5 bg-white" style={{ borderColor: '#E8ECEF', boxShadow: '0 4px 14px rgba(0,0,0,0.05)' }}>
+              <div
+                key={title as string}
+                className="card-hover rounded-[24px] border p-5 bg-white overflow-hidden relative"
+                style={{
+                  background: `linear-gradient(160deg, rgba(255,255,255,0.99) 0%, ${color as string}0A 100%)`,
+                  borderColor: `${color as string}22`,
+                  boxShadow: '0 14px 30px rgba(16,39,52,0.07)',
+                }}
+              >
+                <div className="absolute inset-x-0 top-0 h-1.5" style={{ background: `linear-gradient(90deg, ${color as string} 0%, ${color as string}bb 100%)` }} />
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style={{ background: color as string }}>
+                  <div className="w-11 h-11 rounded-[14px] flex items-center justify-center shrink-0" style={{ background: `linear-gradient(135deg, ${color as string} 0%, ${color as string}cc 100%)`, boxShadow: `0 12px 22px ${color as string}30` }}>
                     {icon as ReactNode}
                   </div>
                   <p className="font-bold" style={{ color: '#1A2332' }}>{title}</p>
                 </div>
-                <p className="text-sm" style={{ color: '#718096', lineHeight: '1.75' }}>{body}</p>
+                <p className="text-sm" style={{ color: '#5B6878', lineHeight: '1.75' }}>{body}</p>
               </div>
             ))}
           </div>
@@ -1901,7 +1912,16 @@ function SurveySection() {
               {surveyQuestions.map((question) => {
                 const isOpen = openQuestion === question.id
                 return (
-                  <div key={question.id} className="rounded-[22px] border bg-white overflow-hidden" style={{ borderColor: '#E8ECEF', boxShadow: isOpen ? '0 14px 28px rgba(13,115,119,0.10)' : '0 4px 14px rgba(0,0,0,0.04)' }}>
+                  <div
+                    key={question.id}
+                    className="card-hover rounded-[24px] border bg-white overflow-hidden relative"
+                    style={{
+                      background: 'linear-gradient(160deg, rgba(255,255,255,0.99) 0%, rgba(242,249,248,0.96) 100%)',
+                      borderColor: isOpen ? 'rgba(13,115,119,0.18)' : '#E8ECEF',
+                      boxShadow: isOpen ? '0 16px 34px rgba(13,115,119,0.12)' : '0 10px 24px rgba(16,39,52,0.05)',
+                    }}
+                  >
+                    <div className="absolute inset-x-0 top-0 h-1" style={{ background: isOpen ? 'linear-gradient(90deg, #0D7377 0%, #14BDAC 100%)' : 'linear-gradient(90deg, rgba(13,115,119,0.18) 0%, rgba(20,189,172,0.16) 100%)' }} />
                     <button className="w-full flex items-start gap-4 px-5 py-5 text-left" onClick={() => setOpenQuestion(isOpen ? null : question.id)}>
                       <div className="min-w-[52px] h-[52px] rounded-xl flex items-center justify-center text-sm" style={{ background: 'linear-gradient(135deg, rgba(13,115,119,0.12) 0%, rgba(20,189,172,0.08) 100%)', color: '#0D7377', fontFamily: 'Space Mono, monospace', fontWeight: 700 }}>
                         Q{question.number}
@@ -1915,7 +1935,7 @@ function SurveySection() {
                     </button>
                     {isOpen ? (
                       <div className="px-5 pb-5">
-                        <div className="ml-[68px] rounded-[18px] border px-4 py-4" style={{ borderColor: '#E8ECEF', background: 'linear-gradient(135deg, rgba(248,250,251,1) 0%, rgba(240,248,247,1) 100%)' }}>
+                        <div className="ml-[68px] rounded-[18px] border px-4 py-4" style={{ borderColor: 'rgba(13,115,119,0.1)', background: 'linear-gradient(135deg, rgba(248,250,251,1) 0%, rgba(240,248,247,1) 100%)', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.6)' }}>
                           <p className="text-sm" style={{ color: '#4A5568', lineHeight: '1.75' }}>
                             {question.detail || 'This question was included to help validate assumptions around engagement, value delivery, and the transition toward a premium membership model.'}
                           </p>
@@ -1953,9 +1973,18 @@ function SurveySection() {
                 ['Premium Interest Exists', '13 of 23 respondents said they would consider joining an enhanced premium membership, while 8 were unsure and 2 said no.'],
                 ['Value Is Outcome-Driven', 'Members showed the strongest interest in curated partner introductions, exclusive events, investor access, mentorship, and fundraising-related support.'],
               ].map(([title, body]) => (
-                <div key={title as string} className="rounded-[24px] border p-6 bg-white h-full" style={{ borderColor: '#E8ECEF', boxShadow: '0 6px 18px rgba(0,0,0,0.045)' }}>
+                <div
+                  key={title as string}
+                  className="card-hover rounded-[26px] border p-6 bg-white h-full overflow-hidden relative"
+                  style={{
+                    background: 'linear-gradient(160deg, rgba(255,255,255,0.99) 0%, rgba(240,248,247,0.96) 100%)',
+                    borderColor: 'rgba(13,115,119,0.1)',
+                    boxShadow: '0 14px 30px rgba(16,39,52,0.06)',
+                  }}
+                >
+                  <div className="absolute inset-x-0 top-0 h-1.5" style={{ background: 'linear-gradient(90deg, #0D7377 0%, #14BDAC 45%, #2ECC71 100%)' }} />
                   <p className="font-bold mb-2" style={{ color: '#1A2332' }}>{title}</p>
-                  <p className="text-sm" style={{ color: '#718096', lineHeight: '1.75' }}>{body}</p>
+                  <p className="text-sm" style={{ color: '#5B6878', lineHeight: '1.75' }}>{body}</p>
                 </div>
               ))}
             </div>
