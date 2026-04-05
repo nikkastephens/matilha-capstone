@@ -2221,12 +2221,14 @@ function ConversionSection() {
                   <div className={`hidden xl:flex ${isLeft ? 'justify-end' : 'justify-start'}`}>
                     {isLeft ? (
                       <div
-                        className="card-hover w-full max-w-[520px] rounded-[24px] border p-5 bg-white h-full"
+                        className="card-hover w-full max-w-[520px] rounded-[26px] border p-5 h-full overflow-hidden relative"
                         style={{
-                          borderColor: '#E3EAED',
-                          boxShadow: '0 10px 24px rgba(16,39,52,0.05)',
+                          background: `linear-gradient(160deg, rgba(255,255,255,0.99) 0%, ${step.color}0D 100%)`,
+                          borderColor: `${step.color}24`,
+                          boxShadow: '0 14px 28px rgba(16,39,52,0.07)',
                         }}
                       >
+                        <div className="absolute inset-x-0 top-0 h-1.5" style={{ background: `linear-gradient(90deg, ${step.color} 0%, ${step.color}aa 100%)` }} />
                         <div className="flex items-center gap-3 mb-4">
                           <span
                             className="inline-flex h-9 min-w-[52px] items-center justify-center rounded-full px-3 text-xs font-bold"
@@ -2244,12 +2246,14 @@ function ConversionSection() {
                   </div>
 
                   <div
-                    className="card-hover rounded-[24px] border p-5 bg-white h-full xl:hidden"
+                    className="card-hover rounded-[26px] border p-5 h-full xl:hidden overflow-hidden relative"
                     style={{
-                      borderColor: '#E3EAED',
-                      boxShadow: '0 10px 24px rgba(16,39,52,0.05)',
+                      background: `linear-gradient(160deg, rgba(255,255,255,0.99) 0%, ${step.color}0D 100%)`,
+                      borderColor: `${step.color}24`,
+                      boxShadow: '0 14px 28px rgba(16,39,52,0.07)',
                     }}
                   >
+                    <div className="absolute inset-x-0 top-0 h-1.5" style={{ background: `linear-gradient(90deg, ${step.color} 0%, ${step.color}aa 100%)` }} />
                     <div className="flex items-center gap-3 mb-4">
                       <span
                         className="inline-flex h-9 min-w-[52px] items-center justify-center rounded-full px-3 text-xs font-bold"
@@ -2285,12 +2289,14 @@ function ConversionSection() {
                   <div className={`hidden xl:flex ${!isLeft ? 'justify-start' : 'justify-end'}`}>
                     {!isLeft ? (
                       <div
-                        className="card-hover w-full max-w-[520px] rounded-[24px] border p-5 bg-white h-full"
+                        className="card-hover w-full max-w-[520px] rounded-[26px] border p-5 h-full overflow-hidden relative"
                         style={{
-                          borderColor: '#E3EAED',
-                          boxShadow: '0 10px 24px rgba(16,39,52,0.05)',
+                          background: `linear-gradient(160deg, rgba(255,255,255,0.99) 0%, ${step.color}0D 100%)`,
+                          borderColor: `${step.color}24`,
+                          boxShadow: '0 14px 28px rgba(16,39,52,0.07)',
                         }}
                       >
+                        <div className="absolute inset-x-0 top-0 h-1.5" style={{ background: `linear-gradient(90deg, ${step.color} 0%, ${step.color}aa 100%)` }} />
                         <div className="flex items-center gap-3 mb-4">
                           <span
                             className="inline-flex h-9 min-w-[52px] items-center justify-center rounded-full px-3 text-xs font-bold"
@@ -2769,8 +2775,8 @@ function ConclusionSection() {
                     'It is no longer about getting people to join.',
                     'It is about giving them a reason to stay, engage, and eventually pay.',
                   ].map((item) => (
-                    <div key={item} className="flex items-start gap-3 rounded-2xl border border-white/20 bg-white/10 px-4 py-3 backdrop-blur-sm">
-                      <span className="mt-1 h-2.5 w-2.5 rounded-full" style={{ background: '#F4D03F' }} />
+                    <div key={item} className="grid grid-cols-[12px_minmax(0,1fr)] items-center gap-3 rounded-2xl border border-white/20 bg-white/10 px-4 py-3 backdrop-blur-sm">
+                      <span className="h-2.5 w-2.5 rounded-full justify-self-center" style={{ background: '#F4D03F' }} />
                       <p>{item}</p>
                     </div>
                   ))}
@@ -2903,7 +2909,7 @@ function ConclusionSection() {
           </div>
 
           <div className="grid gap-6 lg:grid-cols-[1fr_auto_1fr] lg:items-stretch">
-            <div className="rounded-[28px] border border-[#0D7377]/10 bg-gradient-to-br from-[#EAF8F7] via-white to-[#F7FDFC] p-6" style={{ boxShadow: '0 12px 26px rgba(16,39,52,0.06)' }}>
+            <div className="card-hover rounded-[28px] border border-[#0D7377]/10 bg-gradient-to-br from-[#EAF8F7] via-white to-[#F7FDFC] p-6" style={{ boxShadow: '0 12px 26px rgba(16,39,52,0.06)' }}>
               <div className="mb-5 flex items-center gap-3">
                 <div className="h-11 w-11 rounded-2xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #0D7377 0%, #14BDAC 100%)' }}>
                   <AlertTriangle size={18} color="#fff" />
@@ -2930,7 +2936,7 @@ function ConclusionSection() {
 
             <div className="hidden lg:block w-8" />
 
-            <div className="rounded-[28px] border border-[#F4D03F]/15 bg-gradient-to-br from-[#FFF9E8] via-white to-[#FFFEF7] p-6" style={{ boxShadow: '0 12px 26px rgba(16,39,52,0.06)' }}>
+            <div className="card-hover rounded-[28px] border border-[#F4D03F]/15 bg-gradient-to-br from-[#FFF9E8] via-white to-[#FFFEF7] p-6" style={{ boxShadow: '0 12px 26px rgba(16,39,52,0.06)' }}>
               <div className="mb-5 flex items-center gap-3">
                 <div className="h-11 w-11 rounded-2xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #F4D03F 0%, #2ECC71 100%)' }}>
                   <CheckCircle2 size={18} color="#fff" />
@@ -2996,7 +3002,7 @@ function ConclusionSection() {
               { step: '04', label: 'Low Conversion', tint: 'rgba(46,204,113,0.18)', accent: '#2ECC71' },
             ].map((item, index, items) => (
               <Fragment key={item.label}>
-                <div className="relative rounded-[24px] border border-white/70 px-5 py-5 text-left" style={{ boxShadow: '0 12px 26px rgba(16,39,52,0.06)', background: 'linear-gradient(180deg, rgba(255,255,255,0.97) 0%, rgba(246,252,249,0.96) 100%)' }}>
+                <div className="card-hover relative rounded-[24px] border border-white/70 px-5 py-5 text-left" style={{ boxShadow: '0 12px 26px rgba(16,39,52,0.06)', background: 'linear-gradient(180deg, rgba(255,255,255,0.97) 0%, rgba(246,252,249,0.96) 100%)' }}>
                   <div className="absolute left-5 top-0 h-1.5 w-16 rounded-b-full" style={{ background: item.accent }} />
                   <p className="rounded-2xl px-4 py-4 text-base font-bold" style={{ color: '#1A2332', lineHeight: '1.45', background: `linear-gradient(135deg, ${item.tint.replace('0.12', '0.22')} 0%, rgba(255,255,255,0.96) 100%)`, marginTop: '12px' }}>
                     {item.label}
@@ -3021,7 +3027,7 @@ function ConclusionSection() {
               { step: '04', label: 'Low Conversion', tint: 'rgba(46,204,113,0.18)', accent: '#2ECC71' },
             ].map((item, index, items) => (
               <Fragment key={item.label}>
-                <div className="relative w-full max-w-[330px] rounded-[22px] border border-white/70 px-5 py-4 text-center" style={{ boxShadow: '0 10px 22px rgba(16,39,52,0.05)', background: 'linear-gradient(180deg, rgba(255,255,255,0.97) 0%, rgba(246,252,249,0.96) 100%)' }}>
+                <div className="card-hover relative w-full max-w-[330px] rounded-[22px] border border-white/70 px-5 py-4 text-center" style={{ boxShadow: '0 10px 22px rgba(16,39,52,0.05)', background: 'linear-gradient(180deg, rgba(255,255,255,0.97) 0%, rgba(246,252,249,0.96) 100%)' }}>
                   <div className="absolute left-1/2 top-0 h-1.5 w-16 -translate-x-1/2 rounded-b-full" style={{ background: item.accent }} />
                   <p className="rounded-2xl px-4 py-4 text-base font-bold" style={{ color: '#1A2332', lineHeight: '1.45', background: `linear-gradient(135deg, ${item.tint.replace('0.12', '0.22')} 0%, rgba(255,255,255,0.96) 100%)`, marginTop: '12px' }}>
                     {item.label}
@@ -3082,7 +3088,7 @@ function ConclusionSection() {
                 label: 'Experience Problem',
               },
             ].map((card) => (
-              <div key={card.title} className="overflow-hidden rounded-[28px] border border-white/70 bg-white" style={{ boxShadow: '0 12px 28px rgba(16,39,52,0.07)' }}>
+              <div key={card.title} className="card-hover overflow-hidden rounded-[28px] border border-white/70 bg-white" style={{ boxShadow: '0 12px 28px rgba(16,39,52,0.07)' }}>
                 <div className="relative px-6 pt-6">
                   <div className="absolute right-4 top-4 h-16 w-16 rounded-full blur-2xl opacity-50" style={{ background: card.accent }} />
                   <p className="relative mb-3 text-xs font-semibold uppercase tracking-[0.2em]" style={{ color: card.accent }}>
