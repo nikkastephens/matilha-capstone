@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import {
+  Zap,
   Target,
   BarChart2,
   Users,
@@ -15,7 +16,7 @@ import {
   Award,
   BookOpen,
   MessageSquare,
-  Zap,
+  Leaf,
   Shield,
   Star,
   Menu,
@@ -25,6 +26,7 @@ import {
   Mail,
   Linkedin,
   Twitter,
+  Heart,
 } from 'lucide-react'
 
 export const Route = createFileRoute('/')({
@@ -53,15 +55,18 @@ function useScrollReveal() {
 
 // ─── Sticky Nav ────────────────────────────────────────────────────────
 function StickyNav() {
-  const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('home')
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40)
-    window.addEventListener('scroll', onScroll)
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+  const getNavGroup = (sectionId: string) => {
+    if (sectionId === 'home') return 'home'
+    if (sectionId === 'intro') return 'about'
+    if (sectionId === 'challenge' || sectionId === 'competitors') return 'analysis'
+    if (sectionId === 'survey' || sectionId === 'conversion') return 'insights'
+    if (sectionId === 'marketing' || sectionId === 'membership') return 'strategy'
+    if (sectionId === 'conclusion' || sectionId === 'recommendations') return 'final'
+    return 'home'
+  }
 
   useEffect(() => {
     const sections = [
@@ -72,7 +77,7 @@ function StickyNav() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) setActiveSection(entry.target.id)
+          if (entry.isIntersecting) setActiveSection(getNavGroup(entry.target.id))
         })
       },
       { threshold: 0.3 }
@@ -86,20 +91,20 @@ function StickyNav() {
 
   const navLinks = [
     { href: '#home', label: 'Home' },
-    { href: '#intro', label: 'Intro' },
-    { href: '#challenge', label: 'Challenge' },
-    { href: '#marketing', label: 'Marketing' },
-    { href: '#competitors', label: 'Competitor Research' },
-    { href: '#survey', label: 'Survey' },
-    { href: '#conversion', label: 'Conversion Study' },
-    { href: '#membership', label: 'Membership & Pricing' },
-    { href: '#conclusion', label: 'Conclusion' },
-    { href: '#recommendations', label: 'Recommendations' },
+    { href: '#intro', label: 'About' },
+    { href: '#challenge', label: 'Analysis' },
+    { href: '#survey', label: 'Insights' },
+    { href: '#membership', label: 'Strategy' },
+    { href: '#conclusion', label: 'Final' },
   ]
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 glass-nav transition-all duration-300 ${scrolled ? 'shadow-lg' : ''}`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        activeSection === 'home'
+          ? 'pointer-events-none opacity-0 -translate-y-3'
+          : 'pointer-events-auto opacity-100 translate-y-0 glass-nav-scrolled shadow-lg'
+      }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-center h-16">
@@ -108,12 +113,12 @@ function StickyNav() {
           {/* Desktop Nav */}
           <div className="hidden xl:flex items-center justify-center gap-2 w-full">
             {navLinks.map((link) => {
-              const id = link.href.replace('#', '')
+              const id = link.label.toLowerCase()
               return (
                 <a
                   key={link.href}
                   href={link.href}
-                  className={`px-2 py-1 rounded-lg text-xs font-medium transition-all duration-200 ${
+                  className={`px-1.5 py-0.5 rounded-lg text-xs font-medium transition-all duration-200 ${
                     activeSection === id
                       ? 'text-white'
                       : 'text-gray-600 hover:text-teal-700'
@@ -145,7 +150,7 @@ function StickyNav() {
               <a
                 key={link.href}
                 href={link.href}
-                className="px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                className="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors"
                 style={{ color: '#0D7377' }}
                 onClick={() => setMenuOpen(false)}
               >
@@ -162,7 +167,7 @@ function StickyNav() {
 // ─── Hero Section ──────────────────────────────────────────────────────
 function HeroSection() {
   return (
-    <section id="home" className="relative min-h-screen flex flex-col justify-center overflow-hidden">
+    <section id="home" className="relative min-h-screen flex flex-col justify-start overflow-hidden">
       {/* Background image */}
 <div
   className="absolute inset-0 bg-cover bg-center"
@@ -172,14 +177,14 @@ function HeroSection() {
 />
 
 {/* Dark overlay */}
-<div className="absolute inset-0 bg-black/50" />
+<div className="absolute inset-0 bg-black/72" />
       {/* Decorative circles */}
       <div className="absolute top-1/4 right-[8%] w-72 h-72 rounded-full opacity-10" style={{ background: 'rgba(255,255,255,0.3)', filter: 'blur(40px)' }} />
       <div className="absolute bottom-1/4 left-[6%] w-96 h-96 rounded-full opacity-10" style={{ background: 'rgba(255,255,255,0.2)', filter: 'blur(60px)' }} />
 
-      <div className="relative max-w-6xl mx-auto px-6 pt-24 pb-16 text-center">
+      <div className="relative max-w-6xl mx-auto px-6 pt-12 pb-8 text-center">
         {/* Logo mark */}
-        <div className="pulse-logo inline-flex items-center justify-center w-20 h-20 rounded-full mb-6 overflow-hidden">
+        <div className="pulse-logo inline-flex items-center justify-center w-16 h-16 rounded-full mb-3 overflow-hidden">
          <img
   src={`${import.meta.env.BASE_URL}greentech-logo.png`}
   alt="Greentech Alliance logo"
@@ -187,30 +192,44 @@ function HeroSection() {
 />
         </div>
 
-        <div className="tag tag-teal mb-4 inline-flex" style={{ background: 'rgba(255,255,255,0.2)', color: 'white', border: '1px solid rgba(255,255,255,0.3)' }}>
-          <Zap size={12} /> SAIT CAPSTONE 2026 · MATILHA GROUP
-        </div>
+        <a
+          href="#matilha-divider"
+          className="tag tag-teal mb-2 inline-flex mx-auto"
+          style={{ background: 'rgba(255,255,255,0.2)', color: 'white', border: '1px solid rgba(255,255,255,0.3)' }}
+        >
+          <Leaf size={12} /> MATILHA GROUP
+        </a>
 
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white mb-6 leading-tight">
-          Greentech Alliance<br />
-          <span style={{ color: '#F4D03F' }}>Building the Future of Climate-Tech Communities</span>
-        </h1>
+        <h1
+          className="font-extrabold text-white mb-6 leading-tight mt-6"
+          style={{ textShadow: '0 6px 24px rgba(0,0,0,0.38)' }}
+        >
+  <span className="block text-4xl sm:text-5xl md:text-6xl">
+    Greentech Alliance
+  </span>
+  <span
+    className="block text-base sm:text-lg md:text-xl font-medium mt-3"
+    style={{ color: '#FFD95A', fontFamily: "'Azeret Mono', 'Nunito', system-ui, sans-serif", letterSpacing: '-0.015em', textShadow: '0 4px 18px rgba(0,0,0,0.32)' }}
+  >
+    Building the Future of Climate-Tech Communities
+  </span>
+</h1>
 
-        <p className="text-lg sm:text-xl text-white/85 max-w-3xl mx-auto mb-10 leading-relaxed">
-         A strategic capstone exploring how Greentech Alliance can evolve from a fast-growing network into a structured, high-value global platform—driven by clear positioning, member insight, and scalable growth.
-        </p>
+<p
+  className="text-lg sm:text-xl max-w-3xl mx-auto mb-10 leading-relaxed"
+  style={{ color: 'rgba(255,255,255,0.92)', textShadow: '0 4px 18px rgba(0,0,0,0.28)' }}
+>
+  A strategic capstone exploring how Greentech Alliance can evolve from a fast-growing network into a structured, high-value global platform—driven by clear positioning, member insight, and scalable growth.
+</p>
 
-        <div className="flex flex-wrap gap-3 justify-center mb-16">
+        <div className="flex flex-wrap gap-3 justify-center mb-12">
           {[
             { href: '#intro', label: 'Explore the Project', primary: true },
-            { href: '#survey', label: 'Survey Findings', primary: false },
-            { href: '#competitors', label: 'View Research', primary: false },
-            { href: '#recommendations', label: 'Final Recommendations', primary: false },
           ].map((btn) => (
             <a
               key={btn.label}
               href={btn.href}
-              className="px-6 py-3 rounded-xl font-semibold text-sm transition-all duration-200 hover:scale-105"
+              className="px-6 py-2.5 rounded-xl font-bold text-sm transition-all duration-200 hover:scale-105"
               style={
                 btn.primary
                   ? { background: '#F4D03F', color: '#1A2332', boxShadow: '0 4px 20px rgba(244,208,63,0.4)' }
@@ -222,47 +241,96 @@ function HeroSection() {
           ))}
         </div>
 
-        {/* Preview cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+        {/* Preview sections */}
+        <div className="grid md:grid-cols-3 gap-5 max-w-5xl mx-auto items-stretch">
           {[
-            { icon: <Target size={20} />, label: 'Problem & Challenge', href: '#challenge' },
-            { icon: <BarChart2 size={20} />, label: 'Survey & Research', href: '#survey' },
-            { icon: <Users size={20} />, label: 'Member Strategy', href: '#membership' },
-            { icon: <Lightbulb size={20} />, label: 'Recommendations', href: '#recommendations' },
-          ].map((card) => (
+            {
+              icon: <Target size={18} />,
+              title: 'About & Challenge',
+              body: 'Greentech Alliance is a global climate-tech community navigating the shift from informal growth to structured scale.',
+              href: '#intro',
+              cta: 'Learn more',
+              color: 'white',
+              bodyColor: 'rgba(255,255,255,0.88)',
+            },
+            {
+              icon: <BarChart2 size={18} />,
+              title: 'Our Findings',
+              body: 'Our research revealed a clear gap:\nvalue exists, but it is not yet clearly defined or consistently communicated to members.',
+              href: '#challenge',
+              cta: 'View Analysis & Insights',
+              color: 'white',
+              bodyColor: 'rgba(255,255,255,0.88)',
+            },
+            {
+              icon: <Lightbulb size={18} />,
+              title: 'Our Strategy',
+              body: 'A value-driven approach focused on stronger positioning, deeper engagement, and a sustainable membership model.',
+              href: '#membership',
+              cta: 'View Strategy',
+              color: 'white',
+              bodyColor: 'rgba(255,255,255,0.88)',
+            },
+          ].map((item) => (
             <a
-              key={card.label}
-              href={card.href}
-              className="card-hover rounded-2xl p-4 text-center cursor-pointer"
-              style={{ background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.25)', backdropFilter: 'blur(8px)' }}
+              key={item.title}
+              href={item.href}
+              className="card-hover rounded-[24px] p-5 text-left flex flex-col h-full min-h-[205px]"
+              style={{ background: 'rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.3)', backdropFilter: 'blur(10px)' }}
             >
-              <div className="flex justify-center mb-2 text-white/90">{card.icon}</div>
-              <p className="text-xs font-semibold text-white/90">{card.label}</p>
+              <div className="flex items-center gap-2 mb-2.5" style={{ color: item.color }}>
+                <span>{item.icon}</span>
+                <h3 className="text-lg" style={{ color: item.color }}>
+                  {item.title}
+                </h3>
+              </div>
+              <p className="text-xs sm:text-sm mb-4 flex-1 whitespace-pre-line" style={{ color: item.bodyColor, lineHeight: '1.65' }}>
+                {item.body}
+              </p>
+              <span className="inline-flex items-center gap-2 text-sm mt-auto" style={{ color: item.color }}>
+                {item.cta}
+                <ArrowRight size={15} />
+              </span>
             </a>
           ))}
         </div>
       </div>
 
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/60 animate-bounce">
+      <a
+        href="#intro"
+        className="absolute bottom-5 left-1/2 -translate-x-1/2 text-white/60 animate-bounce text-center flex flex-col items-center"
+      >
+        <p className="mb-1 text-[10px] uppercase" style={{ letterSpacing: '0.18em', fontFamily: 'Space Mono, monospace' }}>
+          Scroll Down
+        </p>
         <ChevronDown size={24} />
-      </div>
+      </a>
     </section>
   )
 }
 
 // ─── Section Header Helper ─────────────────────────────────────────────
 function SectionHeader({ tag, title, subtitle }: { tag: string; title: string; subtitle?: string }) {
+  const isGreentechTitle = title === 'GREENTECH ALLIANCE'
+
   return (
-    <div className="text-center mb-12 reveal">
+    <div className={`text-center reveal ${isGreentechTitle ? 'mb-0 pt-0' : 'mb-12'}`}>
       <span className="tag tag-teal mb-3 inline-flex">{tag}</span>
-      <h2 className="text-3xl md:text-4xl font-extrabold mb-4" style={{ color: '#1A2332' }}>{title}</h2>
+      {title ? (
+        <h2
+          className={isGreentechTitle ? 'text-4xl sm:text-5xl md:text-6xl font-extrabold mb-0' : 'text-3xl md:text-4xl font-extrabold mb-4'}
+          style={{ color: isGreentechTitle ? '#0D7377' : '#1A2332' }}
+        >
+          {title}
+        </h2>
+      ) : null}
       {subtitle && <p className="text-lg max-w-2xl mx-auto" style={{ color: '#718096' }}>{subtitle}</p>}
     </div>
   )
 }
 
 // ─── Bridge Text ───────────────────────────────────────────────────────
-function BridgeText({ children }: { children: React.ReactNode }) {
+function BridgeText({ children }: { children: ReactNode }) {
   return (
     <div className="bridge-text reveal max-w-3xl mx-auto mt-12">
       <p>{children}</p>
@@ -274,34 +342,39 @@ function BridgeText({ children }: { children: React.ReactNode }) {
 function IntroSection() {
   const teamMembers = [
     {
-      name: 'Alex Chen',
-      role: 'Research Lead',
-      bio: 'Focused on market analysis and competitive benchmarking for sustainability-driven organizations.',
+      name: 'Aasiyah Rasheed',
+      role: 'MARKETING LEAD',
+      bio: 'Major in Marketing. Value proposition development, marketing strategy design, member engagement planning, and positioning Greentech Alliance to drive awareness and conversion.',
       color: '#0D7377',
+      image: 'aasiyah.jpeg',
     },
     {
-      name: 'Maria Santos',
-      role: 'Survey Designer',
-      bio: 'Led member survey design, data collection, and quantitative analysis across key stakeholder groups.',
-      color: '#2ECC71',
+      name: 'Lais Garcia',
+      role: 'PROJECT LEAD',
+      bio: 'Major in Supply Chain Management. Project coordination, client communication with Greentech Alliance, team alignment, and ensuring timely delivery of all strategic recommendations.',
+      color: '#0D7377',
+      image: 'lais.jpg',
     },
     {
-      name: 'Jordan Lee',
-      role: 'Strategy Analyst',
-      bio: 'Specializes in value proposition development and go-to-market strategy for emerging platforms.',
-      color: '#14BDAC',
+      name: 'Nikka Stephens',
+      role: 'DIGITAL STRATEGY LEAD',
+      bio: 'Major in Supply Chain Management. Website design and development, digital strategy alignment, platform experience design, and presenting project insights through an engaging user interface.',
+      color: '#0D7377',
+      image: 'nikka.jpg',
     },
     {
-      name: 'Priya Patel',
-      role: 'Marketing Strategist',
-      bio: 'Developed communication frameworks and positioning recommendations for platform launch readiness.',
-      color: '#F4D03F',
+      name: 'John Salinas',
+      role: 'FINANCIAL ANALYST',
+      bio: 'Major in Accounting. Conversion rate study, pricing strategy evaluation, revenue modeling, and financial analysis to support a sustainable paid membership model.',
+      color: '#0D7377',
+      image: 'john.jpg',
     },
     {
-      name: 'Sam Nguyen',
-      role: 'Membership Analyst',
-      bio: 'Investigated pricing models, membership tiers, and conversion dynamics for community platforms.',
-      color: '#1abc9c',
+      name: 'Yashpreet Kaur Sohi',
+      role: 'RESEARCH ANALYST',
+      bio: 'Major in Supply Chain Management. Market research, data collection, competitive analysis, and generating insights to support strategic decision-making and recommendations.',
+      color: '#0D7377',
+      image: 'yash.jpg',
     },
   ]
 
@@ -310,47 +383,56 @@ function IntroSection() {
       <div className="max-w-6xl mx-auto">
         <SectionHeader
           tag="About the Company"
-          title="Greentech Alliance"
+          title="GREENTECH ALLIANCE"
         />
 
-        <div className="grid md:grid-cols-2 gap-8 mb-14">
-          <div className="reveal reveal-left callout-teal">
-            <div className="flex items-center gap-3 mb-4">
-              <div
-                className="w-10 h-10 rounded-xl flex items-center justify-center"
-                style={{ background: '#0D7377' }}
-              >
-                <Globe size={20} color="white" />
-              </div>
-              <h3 className="font-bold text-xl" style={{ color: '#1A2332' }}>
-                Who is Greentech Alliance?
-              </h3>
-            </div>
-
-            <p style={{ color: '#4A5568', lineHeight: '1.75' }}>
+        <div className="flex flex-col gap-6 mb-14 mt-10">
+          <div className="reveal reveal-left">
+            <div
+              className="relative overflow-hidden w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] px-6 md:px-10 py-10 md:py-12"
+              style={{ background: 'linear-gradient(135deg, #0a5c60 0%, #0D7377 45%, #14BDAC 100%)' }}
+            >
+              <div className="absolute -top-14 -right-10 h-44 w-44 rounded-full" style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 72%)' }} />
+              <div className="absolute -bottom-24 -left-12 h-48 w-48 rounded-full" style={{ background: 'radial-gradient(circle, rgba(244,208,63,0.18) 0%, rgba(244,208,63,0) 72%)' }} />
+              <div className="relative max-w-4xl mx-auto">
+            <p style={{ color: 'rgba(255,255,255,0.96)', lineHeight: '1.8' }}>
               Greentech Alliance is a volunteer-run, global climate technology community. It builds ecosystems that connect technology, policy, and capital to support the development and deployment of solutions addressing climate change and sustainable development challenges worldwide.
             </p>
 
-            <p className="mt-3" style={{ color: '#4A5568', lineHeight: '1.75' }}>
+            <p className="mt-4" style={{ color: 'rgba(255,255,255,0.88)', lineHeight: '1.8' }}>
               At the time of this capstone engagement, Greentech Alliance was preparing for its formal platform launch — a pivotal moment requiring a clear strategy, a defined value proposition, and a strong understanding of what prospective members truly need and value.
             </p>
+              </div>
+            </div>
           </div>
 
-          <div className="reveal reveal-right callout-green">
+          <div
+            className="reveal reveal-right relative overflow-hidden rounded-[28px] border p-8 md:p-10 max-w-4xl mx-auto"
+            style={{
+              background: 'linear-gradient(160deg, rgba(255,255,255,0.98) 0%, rgba(240,253,244,0.97) 55%, rgba(232,245,238,0.95) 100%)',
+              borderColor: 'rgba(46,204,113,0.16)',
+              boxShadow: '0 30px 68px rgba(39,174,96,0.16), 0 10px 26px rgba(26,35,50,0.07)',
+            }}
+          >
+            <div className="absolute inset-x-0 top-0 h-1.5" style={{ background: 'linear-gradient(90deg, #27ae60 0%, #14BDAC 100%)' }} />
+            <div className="absolute top-6 right-6 h-24 w-24 rounded-full" style={{ background: 'radial-gradient(circle, rgba(244,208,63,0.2) 0%, rgba(244,208,63,0) 70%)' }} />
+            <div className="relative">
             <div className="flex items-center gap-3 mb-4">
-              <div
-                className="w-10 h-10 rounded-xl flex items-center justify-center"
-                style={{ background: '#27ae60' }}
-              >
-                <BookOpen size={20} color="white" />
-              </div>
+              <img
+                src={`${import.meta.env.BASE_URL}greentech-logo.png`}
+                alt="Greentech Alliance logo"
+                className="h-10 w-10 object-contain"
+              />
               <h3 className="font-bold text-xl" style={{ color: '#1A2332' }}>
-                Presented Project Summary
+                Project Summary
               </h3>
             </div>
-
             <p style={{ color: '#4A5568', lineHeight: '1.75' }}>
-              Greentech Alliance has over 5,000 members connected through informal channels like Slack and WhatsApp, free of charge. As it formally expands into Canada and helps launch Calgary’s first Climate Week, the organization is entering a critical growth phase. The project followed an applied research methodology, combining desk research, primary data collection, and strategic frameworks widely used in product development and community platform design.
+              Greentech Alliance has over 5,000 members connected through informal channels like Slack and WhatsApp, free of charge.
+            </p>
+
+            <p className="mt-3" style={{ color: '#4A5568', lineHeight: '1.75' }}>
+              As it formally expands into Canada and helps launch Calgary's first Climate Week, the organization is entering a critical growth phase.
             </p>
 
             <p className="mt-3" style={{ color: '#4A5568', lineHeight: '1.75' }}>
@@ -367,34 +449,80 @@ function IntroSection() {
             <p className="mt-3" style={{ color: '#4A5568', lineHeight: '1.75' }}>
               Overall, the project focuses on transforming a fast-growing informal network into a structured and scalable global community.
             </p>
+            </div>
+          </div>
+        </div>
+
+        <div id="matilha-divider" className="reveal max-w-4xl mx-auto mb-8 scroll-mt-20">
+          <div className="flex items-center justify-center gap-4">
+            <div className="h-px flex-1" style={{ background: 'linear-gradient(90deg, rgba(13,115,119,0) 0%, rgba(13,115,119,0.28) 100%)' }} />
+            <div
+              className="w-10 h-10 rounded-full flex items-center justify-center"
+              style={{
+                background: 'rgba(255,255,255,0.72)',
+                border: '1px solid rgba(13,115,119,0.14)',
+                color: '#0D7377',
+              }}
+            >
+              <Leaf size={16} />
+            </div>
+            <div className="h-px flex-1" style={{ background: 'linear-gradient(90deg, rgba(13,115,119,0.28) 0%, rgba(13,115,119,0) 100%)' }} />
           </div>
         </div>
 
         {/* Team */}
-        <h3 className="text-2xl font-bold text-center mb-8 reveal" style={{ color: '#1A2332' }}>Meet the Team</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 mb-12">
+        <div id="team" className="max-w-4xl mx-auto mb-6 scroll-mt-20">
+          <div className="reveal">
+          <h3 className="text-3xl md:text-4xl text-center mb-5" style={{ color: '#1A2332' }}>
+            Matilha Team Members
+          </h3>
+          <div
+            className="mx-auto rounded-[28px] border px-6 py-6 md:px-8 md:py-7"
+            style={{
+              maxWidth: '880px',
+              background: 'linear-gradient(145deg, rgba(255,255,255,0.98) 0%, rgba(240,253,250,0.94) 100%)',
+              borderColor: 'rgba(13,115,119,0.14)',
+              boxShadow: '0 24px 54px rgba(13,115,119,0.12), 0 8px 22px rgba(26,35,50,0.05)',
+            }}
+          >
+            <p
+              className="text-center mb-3"
+              style={{
+                color: '#0D7377',
+                fontSize: '0.95rem',
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                fontFamily: 'Space Mono, monospace',
+              }}
+            >
+              Matilha means "wolf pack" in Portuguese.
+            </p>
+            <p className="text-base md:text-lg text-center" style={{ color: '#4A5568', lineHeight: '1.9' }}>
+              Wolves are widely known for their ability to work collectively, communicate effectively, and protect one another, making the pack stronger than any individual member alone. A wolf pack is built on trust, coordination, and a shared purpose, where each member plays a role that contributes to the group&apos;s survival and success.
+            </p>
+          </div>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 mb-2">
           {teamMembers.map((member, i) => (
             <div
               key={member.name}
               className={`card-hover reveal reveal-delay-${i + 1} rounded-2xl p-6 text-center bg-white border`}
               style={{ borderColor: '#E8ECEF', boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}
             >
-              <div
-                className="w-14 h-14 rounded-full mx-auto mb-3 flex items-center justify-center text-white font-bold text-xl"
-                style={{ background: member.color }}
-              >
-                {member.name.charAt(0)}
-              </div>
+              <img
+                src={`${import.meta.env.BASE_URL}${member.image}`}
+                alt={member.name}
+                className="w-20 h-20 rounded-full mx-auto mb-4 object-cover"
+                style={{ border: `3px solid ${member.color}` }}
+              />
               <h4 className="font-bold text-sm mb-1" style={{ color: '#1A2332' }}>{member.name}</h4>
-              <p className="text-xs font-semibold mb-2" style={{ color: member.color }}>{member.role}</p>
+              <p className="text-[10px] font-semibold mb-2" style={{ color: member.color }}>{member.role}</p>
               <p className="text-xs" style={{ color: '#718096', lineHeight: '1.6' }}>{member.bio}</p>
             </div>
           ))}
         </div>
 
-        <BridgeText>
-          This capstone began with a central question: how can Greentech Alliance build a platform and membership strategy that truly reflects member needs while supporting long-term growth? Answering that question required moving methodically through market understanding, communication planning, competitive analysis, and direct member research.
-        </BridgeText>
       </div>
     </section>
   )
@@ -405,73 +533,138 @@ function ChallengeSection() {
   const problems = [
     {
       icon: <Target size={22} />,
-      title: 'Undefined Value Proposition',
-      desc: 'Greentech Alliance had not yet established a clear, differentiated value proposition. Without this foundation, it becomes difficult to attract, convert, and retain members at scale.',
+      title: 'Project Focus',
+      desc: 'Design a sustainable growth and governance model for a rapidly expanding global climate-tech community as it formalizes operations in Canada and introduces a paid membership model.',
       color: '#0D7377',
     },
     {
       icon: <Users size={22} />,
-      title: 'Member Needs Uncertainty',
-      desc: 'The founding team lacked concrete data on what prospective members actually want, what would motivate them to join, and what they would be willing to pay for.',
+      title: 'Business Challenge',
+      desc: 'This organization must transition from an informal, volunteer-run network of 5,000+ global members to a structured, financially sustainable organization without losing accessibility, trust, or cohesion.',
       color: '#2ECC71',
-    },
-    {
-      icon: <BarChart2 size={22} />,
-      title: 'No Structured Launch Strategy',
-      desc: 'A formal marketing and communication plan had not been developed. Without clear messaging, positioning, and audience targeting, a platform launch risked generating low engagement.',
-      color: '#F4D03F',
-    },
-    {
-      icon: <TrendingUp size={22} />,
-      title: 'Premature Scaling Risk',
-      desc: 'Launching before validating member needs creates a significant risk of misaligned positioning — potentially expensive to correct after significant investment has been made.',
-      color: '#14BDAC',
     },
   ]
 
   return (
-    <section id="challenge" className="section-pad bg-white">
+    <section id="challenge" className="section-pad bg-[#E4F0F0]">
       <div className="max-w-6xl mx-auto">
         <SectionHeader
           tag="The Challenge"
-          title="Problem Statement"
-          subtitle="Greentech Alliance faced a set of interconnected strategic challenges common to emerging community platforms."
+          title=""
         />
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <div
+          className="reveal px-8 pt-0 pb-2 md:px-14 md:pt-0 md:pb-4 max-w-6xl mx-auto -mt-8 mb-12 text-center"
+        >
+          <p
+            className="mb-6"
+            style={{
+              color: '#0D7377',
+              fontSize: '0.82rem',
+              letterSpacing: '0.18em',
+              textTransform: 'uppercase',
+              fontFamily: 'Space Mono, monospace',
+            }}
+          >
+            Capstone Core Problem
+          </p>
+          <h3
+            className="text-4xl sm:text-5xl md:text-6xl leading-[1.15]"
+            style={{ color: '#1A2332', fontFamily: "'Outfit', 'Nunito', system-ui, sans-serif", fontWeight: 800 }}
+          >
+            How might we build{' '}
+            <span style={{ color: '#F4D03F' }}>engagement and trust</span>{' '}
+            among a community of individuals who care about{' '}
+            <span style={{ color: '#2ECC71' }}>sustainability</span>{' '}
+            so that they are willing to pay?
+          </h3>
+        </div>
+
+        <div
+          className="reveal relative overflow-hidden w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] px-6 md:px-10 py-10 md:py-12 -mt-4 mb-12"
+          style={{
+            background: 'linear-gradient(135deg, #05383b 0%, #0a5c60 48%, #0D7377 100%)',
+            boxShadow: '0 30px 70px rgba(13,115,119,0.22), 0 10px 26px rgba(26,35,50,0.08)',
+          }}
+        >
+          <div className="absolute -top-14 -right-10 h-44 w-44 rounded-full" style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0) 72%)' }} />
+          <div className="absolute -bottom-24 -left-12 h-48 w-48 rounded-full" style={{ background: 'radial-gradient(circle, rgba(244,208,63,0.16) 0%, rgba(244,208,63,0) 72%)' }} />
+          <div className="relative max-w-5xl mx-auto space-y-4 text-base md:text-lg" style={{ color: 'rgba(255,255,255,0.92)', lineHeight: '1.85' }}>
+            <h3 className="text-2xl md:text-3xl mb-3" style={{ color: '#ffffff' }}>
+              How the Challenge Became Clear
+            </h3>
+            <p>
+              After reading the problem and challenge stated by our Industry Partner, our group had the first introduction meeting with Charles Newton Price, one of the founders and our main contact.
+            </p>
+            <p>
+              Charles is an accomplished, results-oriented leader, technology professional, and entrepreneur with over seventeen years of combined experience in software development, wireless technologies, manufacturing, e-learning, mobile payments, international business development, go-to-market process, strategic marketing, investor relations, and capital raising. He is also passionate about technology and philanthropy, and has co-founded and served as a board member of three non-profits. He earned an MBA from Ivey and both an MS and BS in Electrical and Computer Engineering from the University of Calgary.
+            </p>
+            <p>
+              The following week, Charles introduced us to Luiz Pion, the Head of Marketing for Greentech Alliance. From it, we understood that this was more than a growth challenge.
+            </p>
+            <div className="grid md:grid-cols-2 gap-4 pt-2">
+              <div
+                className="rounded-[24px] border px-5 py-5 md:px-6"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 100%)',
+                  borderColor: 'rgba(255,255,255,0.2)',
+                  boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.12)',
+                }}
+              >
+                <p
+                  className="text-sm md:text-base"
+                  style={{
+                    color: '#ffffff',
+                    lineHeight: '1.8',
+                  }}
+                >
+                  <strong style={{ color: '#F4D03F' }}>As a team, we quickly aligned on the core issue:</strong> Greentech Alliance is transitioning from an informal, volunteer-driven network into a structured organization.
+                </p>
+              </div>
+
+              <div
+                className="rounded-[24px] border px-5 py-5 md:px-6"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 100%)',
+                  borderColor: 'rgba(255,255,255,0.2)',
+                  boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.12)',
+                }}
+              >
+                <p
+                  className="text-sm md:text-base"
+                  style={{
+                    color: '#ffffff',
+                    lineHeight: '1.8',
+                  }}
+                >
+                  <strong style={{ color: '#F4D03F' }}>From a business perspective, this raised a critical question:</strong> How do you introduce structure, monetization, and scale a business model without breaking engagement and trust?
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-6 mb-12 max-w-5xl mx-auto">
           {problems.map((p, i) => (
             <div
               key={p.title}
-              className={`card-hover reveal reveal-delay-${i + 1} rounded-2xl p-6 bg-white border`}
-              style={{ borderColor: '#E8ECEF', boxShadow: '0 2px 16px rgba(0,0,0,0.06)' }}
+              className={`card-hover reveal reveal-delay-${i + 1} rounded-[24px] p-7 md:p-8 bg-white border h-full`}
+              style={{ borderColor: '#E8ECEF', boxShadow: '0 4px 18px rgba(0,0,0,0.06)' }}
             >
-              <div
-                className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 text-white"
-                style={{ background: p.color }}
-              >
-                {p.icon}
+              <div className="flex items-center gap-3 mb-4">
+                <div
+                  className="w-12 h-12 rounded-xl flex items-center justify-center text-white"
+                  style={{ background: p.color }}
+                >
+                  {p.icon}
+                </div>
+                <h3 className="font-bold text-lg" style={{ color: '#1A2332' }}>{p.title}</h3>
               </div>
-              <h3 className="font-bold mb-2" style={{ color: '#1A2332' }}>{p.title}</h3>
-              <p className="text-sm" style={{ color: '#718096', lineHeight: '1.7' }}>{p.desc}</p>
+              <p className="text-sm md:text-base" style={{ color: '#718096', lineHeight: '1.75' }}>{p.desc}</p>
             </div>
           ))}
         </div>
 
-        <div className="reveal callout-yellow rounded-2xl p-8 max-w-4xl mx-auto text-center">
-          <div className="flex justify-center mb-4">
-            <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: '#F4D03F' }}>
-              <AlertTriangle size={22} color="#92680a" />
-            </div>
-          </div>
-          <h3 className="text-xl font-bold mb-3" style={{ color: '#92680a' }}>The Core Tension</h3>
-          <p className="text-base" style={{ color: '#4A5568', lineHeight: '1.8' }}>
-            Greentech Alliance is building a member-based community platform at a time when the organization's own understanding of its members remains limited. The gap between organizational ambition and member-validated insight represents both the greatest challenge — and the greatest opportunity — identified in this capstone project.
-          </p>
-        </div>
-
-        <BridgeText>
-          To respond to this challenge, the project moved into market understanding, communication planning, and competitive analysis. Each phase of research was designed to build a more complete picture of both the external landscape and the internal strategy gaps that need to be addressed.
-        </BridgeText>
       </div>
     </section>
   )
@@ -479,87 +672,417 @@ function ChallengeSection() {
 
 // ─── Marketing Section ─────────────────────────────────────────────────
 function MarketingSection() {
-  const steps = [
-    { step: 1, label: 'Audience Identification', desc: 'Clearly define primary and secondary audience segments — climate-tech entrepreneurs, sustainability professionals, investors, and policy advocates.' },
-    { step: 2, label: 'Messaging Development', desc: 'Develop core messaging that speaks to the specific needs, aspirations, and pain points of each identified audience segment.' },
-    { step: 3, label: 'Channel Strategy', desc: 'Identify the most effective channels (LinkedIn, newsletters, events, partnerships) to reach and activate each audience.' },
-    { step: 4, label: 'Launch Sequencing', desc: 'Structure a phased communication plan — from teaser and awareness through activation, conversion, and member onboarding.' },
-    { step: 5, label: 'Feedback Integration', desc: 'Build in mechanisms to capture early member feedback and iterate on messaging, positioning, and platform features accordingly.' },
-  ]
-
   return (
-    <section id="marketing" className="section-pad section-gradient-green">
+    <section id="marketing" className="section-pad bg-white">
       <div className="max-w-6xl mx-auto">
         <SectionHeader
-          tag="Marketing Strategy"
-          title="Value Proposition & Communication Plan"
-          subtitle="Before a platform launch can succeed, the foundational marketing elements must be clearly defined."
+          tag="Marketing Analysis"
         />
 
-        <div className="grid md:grid-cols-2 gap-10 mb-14 items-start">
-          <div className="reveal reveal-left">
-            <div className="callout-teal mb-6">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: '#0D7377' }}>
-                  <Target size={20} color="white" />
-                </div>
-                <h3 className="font-bold text-lg" style={{ color: '#1A2332' }}>Understanding the Missing Value Proposition</h3>
-              </div>
-              <p style={{ color: '#4A5568', lineHeight: '1.75' }}>
-                A value proposition is the primary reason a member would join and remain active in a community platform. At the outset of this engagement, Greentech Alliance had not yet articulated a clear, differentiated value proposition — one that concisely communicates what members gain, why this platform is unique, and why now is the right time to join.
-              </p>
-              <p className="mt-3" style={{ color: '#4A5568', lineHeight: '1.75' }}>
-                Without this, all downstream marketing activities — from copywriting to channel selection — lack a coherent north star. The research team identified value proposition development as a foundational prerequisite to effective launch communication.
-              </p>
-            </div>
-
-            <div className="callout-green">
-              <div className="flex items-center gap-3 mb-3">
-                <MessageSquare size={18} style={{ color: '#27ae60' }} />
-                <h4 className="font-bold" style={{ color: '#1A2332' }}>Positioning Placeholder</h4>
-              </div>
-              <div className="p-4 rounded-xl bg-white border text-center italic" style={{ color: '#9CA3AF', borderColor: '#E8ECEF' }}>
-                "Insert finalized value proposition statement here once member research is complete."
-              </div>
-              <div className="mt-3 p-4 rounded-xl bg-white border text-center italic" style={{ color: '#9CA3AF', borderColor: '#E8ECEF' }}>
-                "Insert primary audience statement here: [Target Audience] who [key need], Greentech Alliance offers [unique benefit]."
-              </div>
-            </div>
+        <div
+          className="reveal relative overflow-hidden rounded-[30px] px-8 py-10 md:px-12 md:py-12 mb-14 -mt-6"
+          style={{
+            background: 'linear-gradient(135deg, #072f32 0%, #0a5559 38%, #0D7377 66%, #1f9d68 100%)',
+            boxShadow: '0 24px 54px rgba(13,115,119,0.24)',
+          }}
+        >
+          <div className="absolute inset-0 opacity-60" style={{ background: 'radial-gradient(circle at 18% 22%, rgba(46,204,113,0.18) 0%, rgba(46,204,113,0) 30%), radial-gradient(circle at 82% 26%, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0) 24%), radial-gradient(circle at 72% 78%, rgba(244,208,63,0.16) 0%, rgba(244,208,63,0) 24%)' }} />
+          <div className="absolute -top-16 right-10 h-40 w-40 rounded-full" style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0) 72%)' }} />
+          <div className="absolute -bottom-16 left-8 h-36 w-36 rounded-full" style={{ background: 'radial-gradient(circle, rgba(244,208,63,0.18) 0%, rgba(244,208,63,0) 72%)' }} />
+          <div className="relative grid gap-10 lg:grid-cols-[minmax(0,1.1fr)_320px] lg:items-center">
+            <div className="max-w-4xl">
+            <h3 className="text-3xl md:text-5xl mb-5" style={{ color: '#ffffff', fontFamily: "'Outfit', 'Nunito', system-ui, sans-serif", fontWeight: 800 }}>
+              Unlocking the True Value of Greentech Alliance
+            </h3>
+            <p className="text-lg md:text-xl italic mb-4" style={{ color: 'rgba(255,255,255,0.92)', lineHeight: '1.8' }}>
+              "We realized early that the biggest marketing challenge wasn’t awareness, it was clarity. Members needed to see the value before we could tell the story."
+            </p>
+            <p className="text-base md:text-lg" style={{ color: 'rgba(255,255,255,0.86)', lineHeight: '1.8' }}>
+              This is why we decided to create a strong value proposition in attempts to portray the value the founders saw with the value members were seeing.
+            </p>
+            <a
+              href="#marketing-analysis-start"
+              className="inline-flex items-center gap-2 mt-6 text-sm"
+              style={{ color: '#F4D03F' }}
+            >
+              Scroll down to see our analysis
+              <ChevronDown size={16} />
+            </a>
           </div>
+            <div className="relative hidden lg:flex items-center justify-center min-h-[260px]">
+              <div
+                className="absolute left-[48%] top-[45%] h-px w-[30%] -translate-y-1/2 rotate-[-32deg]"
+                style={{ background: 'linear-gradient(90deg, rgba(255,255,255,0.05), rgba(255,255,255,0.38), rgba(255,255,255,0.08))' }}
+              />
+              <div
+                className="absolute left-[22%] top-[46%] h-px w-[27%] -translate-y-1/2 rotate-[30deg]"
+                style={{ background: 'linear-gradient(90deg, rgba(255,255,255,0.08), rgba(255,255,255,0.36), rgba(255,255,255,0.05))' }}
+              />
+              <div
+                className="absolute left-[22%] top-[56%] h-px w-[28%] -translate-y-1/2 rotate-[-22deg]"
+                style={{ background: 'linear-gradient(90deg, rgba(46,204,113,0.08), rgba(46,204,113,0.42), rgba(46,204,113,0.08))' }}
+              />
+              <div
+                className="absolute left-[49%] top-[56%] h-px w-[27%] -translate-y-1/2 rotate-[24deg]"
+                style={{ background: 'linear-gradient(90deg, rgba(244,208,63,0.08), rgba(244,208,63,0.44), rgba(244,208,63,0.08))' }}
+              />
 
-          <div className="reveal reveal-right">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: '#27ae60' }}>
-                <Zap size={20} color="white" />
+              <div
+                className="absolute left-[10%] top-[18%] flex h-14 w-14 items-center justify-center rounded-full border"
+                style={{ background: 'rgba(255,255,255,0.08)', borderColor: 'rgba(255,255,255,0.16)' }}
+              >
+                <Leaf size={22} color="#2ECC71" />
               </div>
-              <h3 className="font-bold text-lg" style={{ color: '#1A2332' }}>Communication Plan for Platform Launch</h3>
-            </div>
+              <div
+                className="absolute right-[9%] top-[18%] flex h-14 w-14 items-center justify-center rounded-full border"
+                style={{ background: 'rgba(255,255,255,0.08)', borderColor: 'rgba(255,255,255,0.16)' }}
+              >
+                <TrendingUp size={22} color="#F4D03F" />
+              </div>
+              <div
+                className="absolute left-[14%] bottom-[12%] flex h-14 w-14 items-center justify-center rounded-full border"
+                style={{ background: 'rgba(255,255,255,0.08)', borderColor: 'rgba(255,255,255,0.16)' }}
+              >
+                <Lightbulb size={22} color="#F4D03F" />
+              </div>
+              <div
+                className="absolute right-[12%] bottom-[12%] flex h-14 w-14 items-center justify-center rounded-full border"
+                style={{ background: 'rgba(255,255,255,0.08)', borderColor: 'rgba(255,255,255,0.16)' }}
+              >
+                <Globe size={22} color="#2ECC71" />
+              </div>
 
-            <div className="relative">
-              <div className="absolute left-5 top-0 bottom-0 w-0.5" style={{ background: 'linear-gradient(180deg, #0D7377, #2ECC71)' }} />
-              <div className="space-y-5">
-                {steps.map((s) => (
-                  <div key={s.step} className="flex gap-5 pl-14 relative">
-                    <div
-                      className="absolute left-0 w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm"
-                      style={{ background: 'linear-gradient(135deg, #0D7377, #14BDAC)' }}
-                    >
-                      {s.step}
-                    </div>
-                    <div className="bg-white rounded-xl p-4 border flex-1" style={{ borderColor: '#E8ECEF', boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-                      <p className="font-semibold text-sm mb-1" style={{ color: '#1A2332' }}>{s.label}</p>
-                      <p className="text-xs" style={{ color: '#718096', lineHeight: '1.6' }}>{s.desc}</p>
-                    </div>
-                  </div>
-                ))}
+              <div
+                className="relative flex h-24 w-24 items-center justify-center rounded-full border"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.08) 100%)',
+                  borderColor: 'rgba(255,255,255,0.22)',
+                  boxShadow: '0 10px 40px rgba(7,47,50,0.25)',
+                }}
+              >
+                <Users size={34} color="#ffffff" />
+                <div className="absolute -inset-4 rounded-full border" style={{ borderColor: 'rgba(255,255,255,0.08)' }} />
+                <div className="absolute -inset-8 rounded-full border" style={{ borderColor: 'rgba(255,255,255,0.05)' }} />
               </div>
             </div>
           </div>
         </div>
 
-        <BridgeText>
-          With the early gaps identified, competitor research helped provide external benchmarks and reveal how similar organizations communicate value and structure their offerings. Understanding what comparable platforms do well — and where gaps remain — offered critical context for Greentech Alliance's own positioning work.
-        </BridgeText>
+        <div id="marketing-analysis-start" className="grid md:grid-cols-2 gap-10 mb-14 items-stretch">
+          <div className="reveal reveal-left h-full">
+            <div className="callout-teal mb-6">
+              <p
+                className="mb-3"
+                style={{
+                  color: '#0D7377',
+                  fontSize: '0.8rem',
+                  letterSpacing: '0.16em',
+                  textTransform: 'uppercase',
+                  fontFamily: 'Space Mono, monospace',
+                }}
+              >
+                The Marketing Challenge
+              </p>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: '#0D7377' }}>
+                  <Lightbulb size={20} color="white" />
+                </div>
+                <h3 className="font-bold text-lg" style={{ color: '#1A2332' }}>Identifying the Real Problem</h3>
+              </div>
+              <p style={{ color: '#4A5568', lineHeight: '1.75' }}>
+                We realized very early in our project that Greentech Alliance was facing a marketing issue. Initially, we believed the main marketing goal revolved around informing members about the new platform.
+              </p>
+              <p className="mt-3" style={{ color: '#4A5568', lineHeight: '1.75' }}>
+                However, we soon figured out something much more important: Greentech Alliance needed a solid value proposition to do any marketing at all.
+              </p>
+              <p className="mt-3" style={{ color: '#4A5568', lineHeight: '1.75' }}>
+                So, we started to draw a strategy to communicate it.
+              </p>
+              <div
+                className="mt-5 rounded-[20px] border px-5 py-4"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(13,115,119,0.08) 0%, rgba(46,204,113,0.08) 100%)',
+                  borderColor: 'rgba(13,115,119,0.14)',
+                }}
+              >
+                <p style={{ color: '#1A2332', lineHeight: '1.7' }}>
+                  <strong style={{ color: '#0D7377' }}>The bigger issue:</strong> Greentech Alliance needed a strong value proposition before any marketing could work.
+                </p>
+              </div>
+            </div>
+
+            <div className="callout-green">
+              <div className="flex items-center gap-3 mb-4">
+                <MessageSquare size={18} style={{ color: '#27ae60' }} />
+                <h4 className="font-bold" style={{ color: '#1A2332' }}>How to Communicate Value</h4>
+              </div>
+
+              <div className="relative">
+                <div className="absolute left-[38px] top-6 bottom-6 w-0.5" style={{ background: 'linear-gradient(180deg, #2ECC71, #0D7377)' }} />
+                <div className="space-y-4">
+                  {[
+                    'Identify Core Message',
+                    'Create Message Framework',
+                    'Competitive Advantage',
+                  ].map((label, index) => (
+                    <div key={label} className="grid grid-cols-[76px_minmax(0,1fr)] items-center gap-6 relative">
+                      <div className="flex justify-center">
+                        <div
+                          className="min-w-[76px] h-12 rounded-xl px-3 flex items-center justify-center text-[11px]"
+                          style={{
+                            background: '#DDF3EA',
+                            border: '1px solid rgba(13,115,119,0.18)',
+                            color: '#0D7377',
+                            fontFamily: 'Space Mono, monospace',
+                          }}
+                        >
+                          Step {index + 1}
+                        </div>
+                      </div>
+                      <div className="rounded-xl border bg-white px-4 py-4 min-h-[56px] flex items-center" style={{ borderColor: '#E8ECEF' }}>
+                        <p className="font-semibold text-sm" style={{ color: '#1A2332' }}>{label}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="reveal reveal-right h-full">
+            <div
+              className="rounded-[24px] border p-7 md:p-8 h-full flex flex-col justify-center"
+              style={{
+                background: 'linear-gradient(135deg, rgba(13,115,119,0.06) 0%, rgba(46,204,113,0.08) 100%)',
+                borderColor: '#D9E8E7',
+                boxShadow: '0 8px 26px rgba(13,115,119,0.08)',
+              }}
+            >
+              <h3 className="font-bold text-2xl mb-2 text-center" style={{ color: '#1A2332' }}>What Members Really Gain</h3>
+              <p className="font-semibold mb-6 text-center" style={{ color: '#0D7377' }}>Our Core Value Proposition</p>
+
+              <div className="space-y-4 mb-6">
+                <div className="rounded-[20px] border p-4 bg-white flex min-h-[104px] items-center gap-4" style={{ borderColor: '#E8ECEF' }}>
+                  <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style={{ background: '#0D7377' }}>
+                    <Users size={20} color="white" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-semibold mb-1" style={{ color: '#1A2332' }}>Partnership & Networking</p>
+                    <p className="text-sm" style={{ color: '#718096', lineHeight: '1.65' }}>
+                      Connecting members through relationships, collaboration, and community-building opportunities.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="rounded-[20px] border p-4 bg-white flex min-h-[104px] items-center gap-4" style={{ borderColor: '#E8ECEF' }}>
+                  <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style={{ background: '#2ECC71' }}>
+                    <Lightbulb size={20} color="white" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-semibold mb-1" style={{ color: '#1A2332' }}>Project Development</p>
+                    <p className="text-sm" style={{ color: '#718096', lineHeight: '1.65' }}>
+                      Helping ideas grow through shared expertise, collaboration, and practical support.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="rounded-[20px] border p-4 bg-white flex min-h-[104px] items-center gap-4" style={{ borderColor: '#E8ECEF' }}>
+                  <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style={{ background: '#F4D03F' }}>
+                    <TrendingUp size={20} color="#1A2332" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-semibold mb-1" style={{ color: '#1A2332' }}>Funding</p>
+                    <p className="text-sm" style={{ color: '#718096', lineHeight: '1.65' }}>
+                      Unlocking access to funding pathways, visibility, and growth opportunities.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                className="rounded-[22px] px-5 py-5 md:px-6"
+                style={{
+                  background: 'linear-gradient(135deg, #0b3f42 0%, #0D7377 55%, #1f9d68 100%)',
+                  boxShadow: '0 14px 36px rgba(13,115,119,0.16)',
+                }}
+              >
+                <p
+                  className="mb-2"
+                  style={{
+                    color: 'rgba(255,255,255,0.76)',
+                    fontSize: '0.78rem',
+                    letterSpacing: '0.16em',
+                    textTransform: 'uppercase',
+                    fontFamily: 'Space Mono, monospace',
+                  }}
+                >
+                  Value Statement
+                </p>
+                <p className="text-base md:text-lg" style={{ color: '#ffffff', lineHeight: '1.8' }}>
+                  "Greentech Alliance is a sustainability network that connects you with partners, expertise, and funding to turn ideas into impactful, scalable solutions to make the world a better place."
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="reveal mb-14">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: '#27ae60' }}>
+              <CheckCircle2 size={20} color="white" />
+            </div>
+            <div>
+              <p
+                style={{
+                  color: '#0D7377',
+                  fontSize: '0.78rem',
+                  letterSpacing: '0.16em',
+                  textTransform: 'uppercase',
+                  fontFamily: 'Space Mono, monospace',
+                }}
+              >
+                Tactics / Action Plan
+              </p>
+              <h3 className="font-bold text-lg" style={{ color: '#1A2332' }}>Turning Strategy into Action</h3>
+            </div>
+          </div>
+
+          <div className="relative w-full">
+            <div className="absolute left-5 top-0 bottom-0 w-0.5" style={{ background: 'linear-gradient(180deg, #0D7377, #2ECC71)' }} />
+            <div className="space-y-5">
+              {[
+                {
+                  title: 'Email Campaign',
+                  iconBg: '#0D7377',
+                  icon: <Mail size={18} color="white" />,
+                  content: (
+                    <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+                      {[
+                        'Identifies The Problem.',
+                        'Positions Greentech Alliance As The Answer.',
+                        'Provides Proof/Testimonial.',
+                        'Invites The Recipient To An Information Session Or Webinar.',
+                      ].map((item, index) => (
+                        <div
+                          key={item}
+                          className="rounded-[16px] border px-4 py-4 flex min-h-[164px] flex-col"
+                          style={{
+                            background: 'linear-gradient(135deg, rgba(13,115,119,0.04) 0%, rgba(46,204,113,0.05) 100%)',
+                            borderColor: '#E8ECEF',
+                          }}
+                        >
+                          <div
+                            className="mb-3 inline-flex min-w-[62px] h-9 rounded-xl px-3 items-center justify-center text-[11px]"
+                            style={{
+                              background: '#DDF3EA',
+                              border: '1px solid rgba(13,115,119,0.18)',
+                              color: '#0D7377',
+                              fontFamily: 'Space Mono, monospace',
+                            }}
+                          >
+                            Email #{index + 1}
+                          </div>
+                          <p className="text-sm flex-1" style={{ color: '#4A5568', lineHeight: '1.65' }}>{item}</p>
+                        </div>
+                      ))}
+                    </div>
+                  ),
+                },
+                {
+                  title: 'One Pager for Decision Makers',
+                  iconBg: '#F4D03F',
+                  icon: <BookOpen size={18} color="#1A2332" />,
+                  desc: 'A clear, visual one-pager that summarizes the value proposition, audience fit, and why Greentech Alliance matters now.',
+                },
+                {
+                  title: 'Direct Outreach',
+                  iconBg: '#0D7377',
+                  icon: <Users size={18} color="white" />,
+                  desc: 'Personalized outreach that builds trust through direct conversation, warm connections, and relationship-led engagement.',
+                },
+                {
+                  title: 'Emotional Aspect',
+                  iconBg: '#2ECC71',
+                  icon: <Heart size={18} color="white" />,
+                  desc: 'Messaging that connects to purpose, urgency, and the emotional motivation behind sustainability-driven action.',
+                },
+                {
+                  title: 'PR Strategy',
+                  iconBg: '#14BDAC',
+                  icon: <MessageSquare size={18} color="white" />,
+                  desc: 'Public-facing storytelling that strengthens visibility, reinforces credibility, and expands community awareness.',
+                },
+                {
+                  title: 'Social Media Creation',
+                  iconBg: '#0a5c60',
+                  icon: <Leaf size={18} color="white" />,
+                  desc: 'Branded social content that translates the value proposition into accessible, repeatable messaging across channels.',
+                },
+              ].map((item) => (
+                <div key={item.title} className="flex gap-5 pl-14 relative">
+                  <div
+                    className="absolute left-0 w-10 h-10 rounded-full flex items-center justify-center"
+                    style={{ background: item.iconBg }}
+                  >
+                    {item.icon}
+                  </div>
+                  <div className="bg-white rounded-xl p-4 border flex-1" style={{ borderColor: '#E8ECEF', boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+                    <p className="font-semibold text-sm mb-2" style={{ color: '#1A2332' }}>{item.title}</p>
+                    {'content' in item ? item.content : (
+                      <p className="text-sm" style={{ color: '#718096', lineHeight: '1.7' }}>{item.desc}</p>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div
+          className="reveal rounded-[28px] px-8 py-8 md:px-10 md:py-10"
+          style={{
+            background: 'linear-gradient(135deg, rgba(244,208,63,0.12) 0%, rgba(255,255,255,0.92) 52%, rgba(13,115,119,0.08) 100%)',
+            border: '1px solid rgba(244,208,63,0.18)',
+          }}
+        >
+          <p
+            className="mb-3"
+            style={{
+              color: '#0D7377',
+              fontSize: '0.8rem',
+              letterSpacing: '0.16em',
+              textTransform: 'uppercase',
+              fontFamily: 'Space Mono, monospace',
+            }}
+          >
+            The Unanswered Question
+          </p>
+          <h3 className="text-2xl md:text-3xl mb-4" style={{ color: '#1A2332', fontFamily: "'Outfit', 'Nunito', system-ui, sans-serif", fontWeight: 800 }}>
+            What is the Next Step?
+          </h3>
+          <p className="text-sm md:text-base mb-5" style={{ color: '#4A5568', lineHeight: '1.8' }}>
+            To better understand and to base ourselves on facts, the team started to research how other alliances operate and communicate value.
+          </p>
+          <div
+            className="rounded-[22px] px-5 py-5 md:px-6"
+            style={{
+              background: 'rgba(255,255,255,0.72)',
+              border: '1px solid rgba(13,115,119,0.12)',
+            }}
+          >
+            <p style={{ color: '#1A2332', lineHeight: '1.8' }}>
+              Our team analyzed both local and global competitors. We identified the three most structured ecosystems and extracted their strongest practices. Through this process, a clear pattern emerged: <strong style={{ color: '#0D7377' }}>Successful communities do not just connect people, they deliver measurable outcomes.</strong>
+            </p>
+          </div>
+          <a
+            href="#competitors"
+            className="inline-flex items-center gap-2 mt-5 text-sm"
+            style={{ color: '#0D7377' }}
+          >
+            See the Research Results
+            <ArrowRight size={16} />
+          </a>
+        </div>
       </div>
     </section>
   )
@@ -567,175 +1090,176 @@ function MarketingSection() {
 
 // ─── Competitor Research Section ──────────────────────────────────────
 function CompetitorSection() {
-  const [openCard, setOpenCard] = useState<string | null>(null)
-
-  const toggle = (id: string) => setOpenCard(openCard === id ? null : id)
-
-  const localCompetitors = [
-    {
-      id: 'foresight',
-      name: 'Foresight Canada',
-      tag: 'Local',
-      tagColor: '#0D7377',
-      overview: 'Foresight Canada is a leading clean technology accelerator that supports cleantech companies in scaling their solutions domestically and internationally.',
-      offering: 'Accelerator programs, mentorship networks, investor connections, and market access support for Canadian cleantech startups.',
-      model: 'Program-based membership with cohort selection. Organizations must apply to participate in structured acceleration programs.',
-      strengths: 'Strong government and institutional backing, proven track record with over 300 cleantech companies, robust network of industry mentors.',
-      takeaway: 'Foresight demonstrates that credibility and institutional partnerships are critical value drivers in the cleantech space.',
-    },
-    {
-      id: 'greeneconomy',
-      name: 'Green Economy Canada',
-      tag: 'Local',
-      tagColor: '#0D7377',
-      overview: 'Green Economy Canada supports local businesses in measuring, reducing, and offsetting their environmental impact through peer learning networks.',
-      offering: 'Sustainability benchmarking, peer learning cohorts, carbon measurement tools, and a certification framework for sustainable businesses.',
-      model: 'Membership-based with tiered pricing depending on organization size. Structured around cohort-based programs.',
-      strengths: 'Strong focus on community and peer exchange. Clear ROI narrative around cost savings and sustainability benchmarking.',
-      takeaway: 'Peer learning and tangible measurement tools create strong perceived value among members seeking practical sustainability integration.',
-    },
-    {
-      id: 'smartprosperity',
-      name: 'Smart Prosperity Institute',
-      tag: 'Local',
-      tagColor: '#0D7377',
-      overview: 'Smart Prosperity is a leading clean economy think tank that bridges research, policy, and business to accelerate the transition to a prosperous clean economy.',
-      offering: 'Research publications, policy briefs, events, and a business leadership roundtable focused on clean economy transition.',
-      model: 'Free public resources combined with a premium corporate membership for roundtable access and direct policy engagement.',
-      strengths: 'Research credibility, strong policy influence, and the prestige of connecting business leaders with policymakers.',
-      takeaway: 'Thought leadership and policy access are high-value differentiators. Members pay for influence, not just information.',
-    },
-    {
-      id: 'diversitysust',
-      name: 'Diversity & Sustainability',
-      tag: 'Local',
-      tagColor: '#0D7377',
-      overview: 'A community-focused organization working at the intersection of environmental sustainability and social equity, emphasizing inclusive clean economy transitions.',
-      offering: 'Networking events, educational programming, mentorship, and advocacy resources for underrepresented groups in the sustainability sector.',
-      model: 'Open community membership with event-based engagement. Revenue generated through sponsorships and partnerships.',
-      strengths: 'Distinct positioning in an underserved niche. Strong community loyalty driven by shared values and identity.',
-      takeaway: 'Value alignment around identity and shared mission can be as powerful a retention driver as tangible functional benefits.',
-    },
-  ]
-
-  const intlCompetitors = [
-    {
-      id: 'climatetechcities',
-      name: 'Climate Tech Cities',
-      tag: 'International',
-      tagColor: '#2ECC71',
-      overview: 'A global network connecting climate technology innovators, city governments, and investors to accelerate urban climate solutions.',
-      offering: 'City-focused climate tech matching, collaboration tools, and cross-sector partnership facilitation.',
-      model: 'City and organization membership with tiered access to collaboration tools and matchmaking services.',
-      strengths: 'Geographic diversity, strong urban focus, and a clearly defined niche (city-scale climate tech).',
-      takeaway: 'Geographic and thematic specialization creates a focused, easily communicable value proposition.',
-    },
-    {
-      id: 'climatetechcoalition',
-      name: 'Climate Tech Coalition',
-      tag: 'International',
-      tagColor: '#2ECC71',
-      overview: 'A U.S.-based advocacy and network organization for the climate technology industry, focused on policy and commercialization.',
-      offering: 'Policy advocacy, industry reports, member directory, and event programming for climate tech stakeholders.',
-      model: 'Corporate membership model with advocacy and policy access as the primary value exchange.',
-      strengths: 'Strong Washington D.C. policy influence, credible voice on climate legislation, high-profile member roster.',
-      takeaway: 'Policy access and industry representation offer a compelling membership rationale for corporate and startup members alike.',
-    },
-    {
-      id: 'climatecapital',
-      name: 'Climate & Capital Connect',
-      tag: 'International',
-      tagColor: '#2ECC71',
-      overview: 'A platform connecting climate-focused startups and investors through structured deal flow, events, and curated matchmaking.',
-      offering: 'Investor-startup matching, curated deal flow, climate finance events, and impact measurement resources.',
-      model: 'Dual-sided platform with startup and investor memberships. Revenue from membership fees and event sponsorships.',
-      strengths: 'Clear, high-stakes value exchange (capital access), elegant matchmaking platform, and strong event programming.',
-      takeaway: 'Platforms with high-value, tangible outcomes (like access to capital) can command premium pricing and strong conversion rates.',
-    },
-  ]
-
-  function CompetitorCard({ comp }: { comp: typeof localCompetitors[0] }) {
-    const isOpen = openCard === comp.id
-    return (
-      <div
-        className={`card-hover rounded-2xl border overflow-hidden transition-all duration-300 bg-white`}
-        style={{ borderColor: isOpen ? comp.tagColor : '#E8ECEF', boxShadow: isOpen ? `0 8px 30px ${comp.tagColor}25` : '0 2px 10px rgba(0,0,0,0.05)' }}
-      >
-        <button
-          className="w-full p-5 text-left flex items-center justify-between gap-3"
-          onClick={() => toggle(comp.id)}
-        >
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold text-sm" style={{ background: comp.tagColor }}>
-              {comp.name.charAt(0)}
-            </div>
-            <div>
-              <h4 className="font-bold text-sm" style={{ color: '#1A2332' }}>{comp.name}</h4>
-              <span className="tag text-xs" style={{ background: `${comp.tagColor}18`, color: comp.tagColor }}>{comp.tag}</span>
-            </div>
-          </div>
-          {isOpen ? <ChevronUp size={18} style={{ color: '#9CA3AF' }} /> : <ChevronDown size={18} style={{ color: '#9CA3AF' }} />}
-        </button>
-
-        <div className={`accordion-content ${isOpen ? 'open' : ''} px-5 pb-5`}>
-          <div className="border-t pt-4 space-y-3" style={{ borderColor: '#F0F4F8' }}>
-            {[
-              { label: 'Overview', value: comp.overview },
-              { label: 'What They Offer', value: comp.offering },
-              { label: 'Membership Model', value: comp.model },
-              { label: 'Key Strengths', value: comp.strengths },
-            ].map((item) => (
-              <div key={item.label}>
-                <p className="text-xs font-bold uppercase tracking-wider mb-1" style={{ color: comp.tagColor }}>{item.label}</p>
-                <p className="text-sm" style={{ color: '#4A5568', lineHeight: '1.7' }}>{item.value}</p>
-              </div>
-            ))}
-            <div className="callout-teal mt-3 p-3 rounded-xl">
-              <p className="text-xs font-bold uppercase tracking-wider mb-1" style={{ color: '#0D7377' }}>Key Takeaway</p>
-              <p className="text-sm italic" style={{ color: '#4A5568' }}>{comp.takeaway}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   return (
-    <section id="competitors" className="section-pad bg-white">
+    <section id="competitors" className="section-pad bg-[#E1F0EA]">
       <div className="max-w-6xl mx-auto">
         <SectionHeader
           tag="Competitor Research"
-          title="Competitive Landscape Analysis"
-          subtitle="Click any card to explore a detailed profile of each competitor organization."
+          subtitle=""
         />
 
-        <div className="mb-10 reveal">
-          <div className="flex items-center gap-3 mb-5">
-            <MapPin size={18} style={{ color: '#0D7377' }} />
-            <h3 className="text-lg font-bold" style={{ color: '#1A2332' }}>Local Competitors</h3>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {localCompetitors.map((comp) => (
-              <CompetitorCard key={comp.id} comp={comp} />
-            ))}
-          </div>
+        <div className="reveal px-8 pt-0 pb-2 md:px-14 md:pt-0 md:pb-4 max-w-6xl mx-auto -mt-8 mb-10 text-center">
+          <h3
+            className="text-4xl sm:text-5xl md:text-6xl leading-[1.15]"
+            style={{ color: '#1A2332', fontFamily: "'Outfit', 'Nunito', system-ui, sans-serif", fontWeight: 800 }}
+          >
+            A network connects people.{' '}
+            <span style={{ color: '#0D7377' }}>An ecosystem creates results.</span>
+          </h3>
         </div>
 
-        <div className="reveal">
-          <div className="flex items-center gap-3 mb-5">
-            <Globe size={18} style={{ color: '#2ECC71' }} />
-            <h3 className="text-lg font-bold" style={{ color: '#1A2332' }}>International Competitors</h3>
+        <div className="reveal rounded-[28px] border p-7 md:p-8 mb-10 bg-white -mt-2" style={{ borderColor: '#DDE8E7', boxShadow: '0 10px 26px rgba(13,115,119,0.06)' }}>
+          <p
+            className="mb-3"
+            style={{
+              color: '#0D7377',
+              fontSize: '0.8rem',
+              letterSpacing: '0.16em',
+              textTransform: 'uppercase',
+              fontFamily: 'Space Mono, monospace',
+            }}
+          >
+            Looking at Others
+          </p>
+          <h3 className="text-2xl md:text-3xl mb-6" style={{ color: '#1A2332', fontFamily: "'Outfit', 'Nunito', system-ui, sans-serif", fontWeight: 800 }}>
+            What Successful Ecosystems Do Differently
+          </h3>
+
+          <div className="grid gap-6 mb-8">
+            <div className="rounded-[22px] p-5" style={{ background: 'linear-gradient(135deg, rgba(13,115,119,0.08) 0%, rgba(20,189,172,0.06) 100%)' }}>
+              <div className="flex items-center gap-3 mb-4">
+                <MapPin size={18} style={{ color: '#0D7377' }} />
+                <h4 className="text-lg font-bold" style={{ color: '#1A2332' }}>Local Players</h4>
+              </div>
+              <div className="space-y-4">
+                {[
+                  ['Foresight Canada', 'Turns connections into real outcomes like funding and growth.', 'People engage because they know what they will gain.'],
+                  ['Green Economy Canada', 'Focuses on measurable impact and real progress.', 'People stay because they see results.'],
+                  ['Smart Prosperity Institute', 'Delivers value through insights and research.', 'Value does not always need constant interaction.'],
+                  ['Diversity & Sustainability', 'Builds community through identity, inclusion, and sustainability-centred belonging.', 'Shared values can strengthen retention and long-term engagement.'],
+                ].map(([name, body, note]) => (
+                  <div key={name} className="rounded-[18px] border bg-white px-4 py-4 flex items-start gap-4" style={{ borderColor: '#E8ECEF' }}>
+                    <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style={{ background: '#0D7377' }}>
+                      <MapPin size={18} color="white" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-semibold mb-1" style={{ color: '#1A2332' }}>{name}</p>
+                      <p className="text-sm mb-2" style={{ color: '#4A5568', lineHeight: '1.65' }}>{body}</p>
+                      <p className="text-sm" style={{ color: '#0D7377', lineHeight: '1.65' }}>• {note}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-[22px] p-5" style={{ background: 'linear-gradient(135deg, rgba(46,204,113,0.08) 0%, rgba(255,255,255,0.7) 100%)' }}>
+              <div className="flex items-center gap-3 mb-4">
+                <Globe size={18} style={{ color: '#2ECC71' }} />
+                <h4 className="text-lg font-bold" style={{ color: '#1A2332' }}>Global Players</h4>
+              </div>
+              <div className="space-y-4">
+                {[
+                  ['Climate Tech Cities', 'Connects climate ecosystems across cities.', 'Expands opportunities globally.'],
+                  ['Climate & Capital Connect', 'Offers curated 1:1 networking and paid membership.', 'People pay for direct, meaningful connections.'],
+                  ['Climate Tech Coalition', 'Creates exclusive networks with investor matchmaking.', 'Exclusivity increases perceived value.'],
+                ].map(([name, body, note]) => (
+                  <div key={name} className="rounded-[18px] border bg-white px-4 py-4 flex items-start gap-4" style={{ borderColor: '#E8ECEF' }}>
+                    <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style={{ background: '#2ECC71' }}>
+                      <Globe size={18} color="white" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-semibold mb-1" style={{ color: '#1A2332' }}>{name}</p>
+                      <p className="text-sm mb-2" style={{ color: '#4A5568', lineHeight: '1.65' }}>{body}</p>
+                      <p className="text-sm" style={{ color: '#27ae60', lineHeight: '1.65' }}>• {note}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {intlCompetitors.map((comp) => (
-              <CompetitorCard key={comp.id} comp={comp} />
-            ))}
-          </div>
+
         </div>
 
-        <BridgeText>
-          While competitor analysis revealed how others position themselves and structure their offerings, understanding Greentech Alliance's own members became the most important next step. External benchmarks are valuable — but they are no substitute for primary member insight.
-        </BridgeText>
+        <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] mt-10 mb-10">
+          <div className="reveal rounded-[26px] border p-7 md:p-8 bg-white" style={{ borderColor: '#DDE8E7', boxShadow: '0 10px 24px rgba(13,115,119,0.06)' }}>
+            <h3 className="text-2xl md:text-3xl mb-5" style={{ color: '#1A2332', fontFamily: "'Outfit', 'Nunito', system-ui, sans-serif", fontWeight: 800 }}>
+              It&apos;s Not a Member Problem: It&apos;s a Value Problem
+            </h3>
+            <p className="text-sm md:text-base mb-5" style={{ color: '#4A5568', lineHeight: '1.8' }}>
+              When we compare Greentech Alliance to others, one thing becomes clear:
+            </p>
+            <div className="space-y-2 mb-6">
+              <p style={{ color: '#1A2332' }}>• Others design systems that deliver value</p>
+              <p style={{ color: '#1A2332' }}>• Greentech Alliance provides access, but not always outcomes</p>
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-2 mb-6">
+              <div className="rounded-[20px] border p-5" style={{ borderColor: '#E8ECEF', background: 'linear-gradient(135deg, rgba(46,204,113,0.08) 0%, rgba(255,255,255,0.9) 100%)' }}>
+                <div className="flex items-center gap-2 mb-3">
+                  <CheckCircle2 size={18} style={{ color: '#2ECC71' }} />
+                  <p className="font-semibold" style={{ color: '#1A2332' }}>Others</p>
+                </div>
+                <div className="space-y-2 text-sm" style={{ color: '#4A5568' }}>
+                  <p>• Structured experiences</p>
+                  <p>• Clear outcomes</p>
+                  <p>• Targeted value</p>
+                </div>
+              </div>
+
+              <div className="rounded-[20px] border p-5" style={{ borderColor: '#E8ECEF', background: 'linear-gradient(135deg, rgba(244,208,63,0.09) 0%, rgba(255,255,255,0.92) 100%)' }}>
+                <div className="flex items-center gap-2 mb-3">
+                  <Users size={18} style={{ color: '#0D7377' }} />
+                  <p className="font-semibold" style={{ color: '#1A2332' }}>Greentech Alliance</p>
+                </div>
+                <div className="space-y-2 text-sm" style={{ color: '#4A5568' }}>
+                  <p>• Open network</p>
+                  <p>• Informal interaction</p>
+                  <p>• Undefined pathways</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            className="reveal rounded-[26px] px-7 py-7 md:px-8 md:py-8"
+            style={{
+              background: 'linear-gradient(135deg, #0b3f42 0%, #0D7377 56%, #1f9d68 100%)',
+              boxShadow: '0 18px 40px rgba(13,115,119,0.18)',
+            }}
+          >
+            <p className="text-sm md:text-base mb-4" style={{ color: 'rgba(255,255,255,0.92)', lineHeight: '1.8' }}>
+              From a strategic perspective, we concluded that Greentech Alliance is planning to provide strong access through their new platform (Mighty Network) but lacks structured pathways to results such as funding, partnerships, and growth.
+            </p>
+            <p className="text-sm md:text-base mb-4" style={{ color: 'rgba(255,255,255,0.92)', lineHeight: '1.8' }}>
+              This insight shifted our direction: The gap was not in the network itself; it was in how value is and was being delivered.
+            </p>
+            <div
+              className="rounded-[20px] border px-5 py-5 mt-5"
+              style={{
+                background: 'linear-gradient(135deg, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0.08) 100%)',
+                borderColor: 'rgba(255,255,255,0.16)',
+              }}
+            >
+              <p className="mb-3" style={{ color: '#F4D03F', fontWeight: 700 }}>
+                So, one question remained:
+              </p>
+              <p className="text-lg md:text-xl" style={{ color: '#ffffff', lineHeight: '1.7', fontWeight: 700 }}>
+                Do members really want what Greentech Alliance is offering?
+              </p>
+            </div>
+            <p className="text-sm md:text-base mt-5" style={{ color: 'rgba(255,255,255,0.92)', lineHeight: '1.8' }}>
+              This insight led us to create a survey and conduct a conversion study.
+            </p>
+            <a
+              href="#survey"
+              className="inline-flex items-center gap-2 mt-5 text-sm"
+              style={{ color: '#F4D03F' }}
+            >
+              Continue to the Survey
+              <ArrowRight size={16} />
+            </a>
+          </div>
+        </div>
       </div>
     </section>
   )
@@ -827,7 +1351,7 @@ function SurveySection() {
   ]
 
   return (
-    <section id="survey" className="section-pad section-gradient-teal">
+    <section id="survey" className="section-pad bg-white">
       <div className="max-w-6xl mx-auto">
         <SectionHeader
           tag="Member Survey"
@@ -835,6 +1359,127 @@ function SurveySection() {
           subtitle="Primary research designed to understand what prospective members truly value — and what they need before committing."
         />
 
+        <div
+          className="reveal relative overflow-hidden w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] px-6 md:px-10 py-10 md:py-12 mb-12"
+          style={{
+            background: 'linear-gradient(135deg, #05383b 0%, #0a5c60 48%, #0D7377 100%)',
+            boxShadow: '0 30px 70px rgba(13,115,119,0.22), 0 10px 26px rgba(26,35,50,0.08)',
+          }}
+        >
+          <div className="absolute -top-14 -right-10 h-44 w-44 rounded-full" style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0) 72%)' }} />
+          <div className="absolute -bottom-24 -left-12 h-48 w-48 rounded-full" style={{ background: 'radial-gradient(circle, rgba(244,208,63,0.16) 0%, rgba(244,208,63,0) 72%)' }} />
+          <div className="relative max-w-5xl mx-auto">
+            <h3
+              className="text-2xl md:text-3xl mb-5"
+              style={{ color: '#ffffff', fontFamily: "'Outfit', 'Nunito', system-ui, sans-serif", fontWeight: 800 }}
+            >
+              Survey with Greentech Alliance Members
+            </h3>
+            <p className="text-sm md:text-base" style={{ color: 'rgba(255,255,255,0.92)', lineHeight: '1.85' }}>
+              To validate our assumptions, our team designed a survey for members to provide direct insights.
+            </p>
+            <p className="text-sm md:text-base mt-3" style={{ color: 'rgba(255,255,255,0.92)', lineHeight: '1.85' }}>
+              Given the limited timeline, we focused on clear and objective questions, addressing:
+            </p>
+            <div className="grid gap-3 md:grid-cols-3 mt-5 mb-6">
+              {[
+                {
+                  title: 'Value Perception',
+                  body: 'How members currently understand and interpret the value of being part of the community.',
+                },
+                {
+                  title: 'Community Expectations',
+                  body: 'What members would like to see, experience, and gain from the Alliance moving forward.',
+                },
+                {
+                  title: 'Willingness to Pay',
+                  body: 'Whether members would consider paying to belong to the Alliance and under what conditions.',
+                },
+              ].map((item) => (
+                <div
+                  key={item.title}
+                  className="rounded-[18px] border px-4 py-4"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 100%)',
+                    borderColor: 'rgba(255,255,255,0.18)',
+                  }}
+                >
+                  <p className="text-sm font-semibold mb-1" style={{ color: '#F4D03F', lineHeight: '1.5' }}>{item.title}</p>
+                  <p className="text-sm" style={{ color: '#ffffff', lineHeight: '1.7' }}>{item.body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div
+          className="reveal relative overflow-hidden w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] px-6 md:px-10 pb-10 md:pb-12 -mt-4 mb-12"
+          style={{
+            background: 'linear-gradient(135deg, #05383b 0%, #0a5c60 48%, #0D7377 100%)',
+            boxShadow: '0 30px 70px rgba(13,115,119,0.22), 0 10px 26px rgba(26,35,50,0.08)',
+          }}
+        >
+          <div className="relative max-w-5xl mx-auto">
+            <div className="grid gap-4 md:grid-cols-2 mt-6">
+              <div
+                className="rounded-[20px] border px-5 py-5"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 100%)',
+                  borderColor: 'rgba(255,255,255,0.18)',
+                }}
+              >
+                <p className="text-xs mb-2" style={{ color: '#F4D03F', letterSpacing: '0.14em', textTransform: 'uppercase', fontFamily: 'Space Mono, monospace' }}>
+                  Survey Distribution
+                </p>
+                <p className="text-sm md:text-base" style={{ color: '#ffffff', lineHeight: '1.85' }}>
+                  Our industry partner, Charles Newton Price, shared the survey in a WhatsApp group of approximately 285 members, considered one of the most active groups.
+                </p>
+              </div>
+
+              <div
+                className="rounded-[20px] border px-5 py-5"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 100%)',
+                  borderColor: 'rgba(255,255,255,0.18)',
+                }}
+              >
+                <p className="text-xs mb-2" style={{ color: '#F4D03F', letterSpacing: '0.14em', textTransform: 'uppercase', fontFamily: 'Space Mono, monospace' }}>
+                  Response Reality
+                </p>
+                <p className="text-sm md:text-base" style={{ color: '#ffffff', lineHeight: '1.85' }}>
+                  We received only 23 responses, some of which were from founders or internal members. Participation was optional and respondents were not required to identify themselves.
+                </p>
+              </div>
+            </div>
+
+            <div
+              className="mt-5 rounded-[22px] border px-5 py-5 md:px-6"
+              style={{
+                background: 'linear-gradient(135deg, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0.08) 100%)',
+                borderColor: 'rgba(255,255,255,0.18)',
+              }}
+            >
+              <p className="text-sm md:text-base" style={{ color: '#ffffff', lineHeight: '1.85' }}>
+                <strong style={{ color: '#F4D03F' }}>Critical insight:</strong> engagement is currently limited, even among the most active members.
+              </p>
+              <p className="text-sm md:text-base mt-4" style={{ color: '#ffffff', lineHeight: '1.85' }}>
+                <strong style={{ color: '#F4D03F' }}>What this revealed:</strong> the main challenge is not only value perception, but also member engagement, which directly impacts the transition from a free to a paid model.
+              </p>
+            </div>
+
+            <div
+              className="mt-5 rounded-[22px] px-5 py-5 md:px-6"
+              style={{
+                background: 'linear-gradient(135deg, rgba(244,208,63,0.16) 0%, rgba(255,255,255,0.08) 100%)',
+                boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.08)',
+              }}
+            >
+              <p className="text-sm md:text-base" style={{ color: '#ffffff', lineHeight: '1.85' }}>
+                As a result, we shifted our focus to better understand conversion rates and behaviors, ensuring our recommendations were grounded in real user dynamics rather than assumptions.
+              </p>
+            </div>
+          </div>
+        </div>
         {/* Three sub-section tabs */}
         <div className="grid md:grid-cols-3 gap-6 mb-14">
           {[
@@ -976,7 +1621,7 @@ function ConversionSection() {
   ]
 
   return (
-    <section id="conversion" className="section-pad bg-white">
+    <section id="conversion" className="section-pad bg-[#E4F0F0]">
       <div className="max-w-6xl mx-auto">
         <SectionHeader
           tag="Conversion Study"
@@ -1110,7 +1755,7 @@ function MembershipSection() {
   ]
 
   return (
-    <section id="membership" className="section-pad section-gradient-green">
+    <section id="membership" className="section-pad bg-white">
       <div className="max-w-6xl mx-auto">
         <SectionHeader
           tag="Membership & Pricing"
@@ -1212,7 +1857,7 @@ function MembershipSection() {
 // ─── Conclusion Section ────────────────────────────────────────────────
 function ConclusionSection() {
   return (
-    <section id="conclusion" className="section-pad bg-white">
+    <section id="conclusion" className="section-pad bg-[#E1F0EA]">
       <div className="max-w-5xl mx-auto">
         <SectionHeader
           tag="Conclusion"
@@ -1327,7 +1972,7 @@ function RecommendationsSection() {
   ]
 
   return (
-    <section id="recommendations" className="section-pad section-gradient-teal">
+    <section id="recommendations" className="section-pad bg-white">
       <div className="max-w-5xl mx-auto">
         <SectionHeader
           tag="Final Recommendations"
@@ -1413,15 +2058,11 @@ function RecommendationsSection() {
 function Footer() {
   const footerLinks = [
     { label: 'Home', href: '#home' },
-    { label: 'Introduction', href: '#intro' },
-    { label: 'Challenge', href: '#challenge' },
-    { label: 'Marketing', href: '#marketing' },
-    { label: 'Competitors', href: '#competitors' },
-    { label: 'Survey', href: '#survey' },
-    { label: 'Conversion', href: '#conversion' },
-    { label: 'Membership', href: '#membership' },
-    { label: 'Conclusion', href: '#conclusion' },
-    { label: 'Recommendations', href: '#recommendations' },
+    { label: 'About', href: '#intro' },
+    { label: 'Analysis', href: '#challenge' },
+    { label: 'Insights', href: '#survey' },
+    { label: 'Strategy', href: '#marketing' },
+    { label: 'Final', href: '#conclusion' },
   ]
 
   return (
