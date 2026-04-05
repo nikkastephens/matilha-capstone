@@ -32,6 +32,13 @@ import {
   Rocket,
   Route as RouteIcon,
   Funnel,
+  Search,
+  RefreshCw,
+  Network,
+  CalendarDays,
+  UsersRound,
+  Handshake,
+  BadgeDollarSign,
 } from 'lucide-react'
 
 export const Route = createFileRoute('/')({
@@ -2337,72 +2344,55 @@ function ConversionSection() {
 
 // ─── Membership & Pricing Section ─────────────────────────────────────
 function MembershipSection() {
-  const tiers = [
+  const cards = [
     {
-      name: 'Community',
-      price: 'Free',
-      sub: 'Forever',
+      name: 'Programs & Experiences',
+      sub: 'Optional Value Expansion',
       color: '#14BDAC',
       featured: false,
-      desc: 'Perfect for individuals exploring the Greentech Alliance ecosystem and getting a feel for the community.',
+      desc: 'Beyond membership, Greentech Alliance offers optional programs that deepen value and create meaningful outcomes.',
       features: [
-        'Access to public events and newsletters',
-        'Limited platform access (read-only)',
-        'Community forum participation',
-        'Monthly digest of industry news',
-        'Basic member directory search',
+        'Workshops, training sessions, and masterclasses',
+        'Curated events and industry experiences',
+        'Mix of free and paid opportunities',
+        'Reinvests into the platform without raising membership cost',
       ],
-      cta: 'Get Started',
+      valueLabel: 'WHY THIS MATTERS',
+      valueTag: 'Drives deeper engagement and perceived value',
+      icon: <UsersRound size={22} />,
     },
     {
-      name: 'Professional',
-      price: '$XX',
-      sub: 'per year',
+      name: 'One Core Membership Model',
+      sub: 'Accessible • Commitment-Based',
       color: '#0D7377',
       featured: true,
-      desc: 'For climate-tech professionals who want to actively engage, connect, and grow within the alliance.',
+      desc: 'A single membership providing equal access to the Greentech Alliance network — built on trust, engagement, and shared value.',
       features: [
-        'Everything in Community tier',
-        'Full platform access and networking tools',
-        'Access to exclusive member events',
-        'Premium research reports and resources',
-        'Mentorship matching program',
-        'Direct messaging and collaboration tools',
-        'Verified member badge',
+        'Full access to the core network',
+        'Access to events and collaboration',
+        'Clear and accessible entry point',
+        'Signals commitment without barriers',
       ],
-      cta: 'Join as Professional',
+      valueLabel: 'CORE BENEFIT',
+      valueTag: 'Ensures fairness, clarity, and accessibility',
+      icon: <BadgeDollarSign size={22} />,
     },
     {
-      name: 'Partner / Organization',
-      price: '$XXX',
-      sub: 'per year',
+      name: 'Ecosystem Partnerships',
+      sub: 'Strategic Support',
       color: '#2ECC71',
       featured: false,
-      desc: 'For organizations, companies, and institutions committed to advancing the clean economy together.',
+      desc: 'Strategic partnerships help strengthen the platform and expand opportunities across the ecosystem.',
       features: [
-        'Everything in Professional tier',
-        'Up to [N] team member seats',
-        'Organization profile and showcase',
-        'Sponsored event placement',
-        'Co-branding opportunities',
-        'Dedicated account support',
-        'Priority access to investor and partner connections',
-        'Custom onboarding and integration support',
+        'Collaboration with ecosystem partners and institutions',
+        'Support for programs, research, and initiatives',
+        'Strengthens long-term platform sustainability',
+        'Keeps membership focused on participation, not monetization',
       ],
-      cta: 'Become a Partner',
+      valueLabel: 'STRATEGIC IMPACT',
+      valueTag: 'Enables growth through collaboration and support',
+      icon: <Handshake size={22} />,
     },
-  ]
-
-  const tableRows = [
-    { feature: 'Community Forum', community: true, professional: true, partner: true },
-    { feature: 'Public Events Access', community: true, professional: true, partner: true },
-    { feature: 'Full Platform Access', community: false, professional: true, partner: true },
-    { feature: 'Exclusive Events', community: false, professional: true, partner: true },
-    { feature: 'Premium Research', community: false, professional: true, partner: true },
-    { feature: 'Mentorship Access', community: false, professional: true, partner: true },
-    { feature: 'Multiple Seats', community: false, professional: false, partner: true },
-    { feature: 'Organization Profile', community: false, professional: false, partner: true },
-    { feature: 'Co-branding', community: false, professional: false, partner: true },
   ]
 
   return (
@@ -2410,96 +2400,198 @@ function MembershipSection() {
       <div className="max-w-6xl mx-auto">
         <SectionHeader
           tag="Membership & Pricing"
-          title="Membership Structure & Strategic Pricing"
-          subtitle="A proposed three-tier model designed to serve diverse member needs and support Greentech Alliance's long-term sustainability."
+          subtitle=""
         />
 
-        <div className="grid md:grid-cols-3 gap-6 mb-14">
-          {tiers.map((tier, i) => (
+        <div className="reveal px-8 pt-0 pb-2 md:px-14 md:pt-0 md:pb-4 max-w-6xl mx-auto -mt-8 mb-6 text-center">
+          <h3
+            className="text-4xl sm:text-5xl md:text-6xl leading-[1.15]"
+            style={{ color: '#1A2332', fontFamily: "'Outfit', 'Nunito', system-ui, sans-serif", fontWeight: 800 }}
+          >
+            Membership Structure{' '}
+            <span style={{ color: '#0D7377' }}>& Strategic Pricing.</span>
+          </h3>
+        </div>
+
+        <div
+          className="reveal rounded-[30px] px-8 py-10 md:px-12 md:py-12 mb-12"
+          style={{
+            background: 'linear-gradient(180deg, rgba(234,246,245,0.92) 0%, rgba(240,249,246,0.98) 100%)',
+            border: '1px solid rgba(13,115,119,0.08)',
+            boxShadow: '0 16px 34px rgba(16,39,52,0.05)',
+          }}
+        >
+          <div className="mb-5 h-1.5 w-24 rounded-full" style={{ background: 'linear-gradient(90deg, #0D7377 0%, #14BDAC 100%)' }} />
+          <h3
+            className="text-2xl md:text-3xl mb-8"
+            style={{ color: '#1A2332', fontFamily: "'Outfit', 'Nunito', system-ui, sans-serif", fontWeight: 800 }}
+          >
+            Designed for Sustainable Growth
+          </h3>
+
+          <div className="max-w-5xl mx-auto space-y-6">
+            <div className="grid gap-5 md:grid-cols-3">
+              {[
+                [
+                  'What we explored',
+                  'A tiered membership model was initially explored based on common competitor practices and value segmentation strategies.',
+                  '#14BDAC',
+                  <Search size={18} />,
+                ],
+                [
+                  'What changed',
+                  'After aligning with the industry partner, the preferred direction became a single base membership that ensures equal access to the core network.',
+                  '#0D7377',
+                  <RefreshCw size={18} />,
+                ],
+                [
+                  'What this means',
+                  'Additional value is delivered through optional programs, events, and partnerships rather than multiple pricing tiers.',
+                  '#2ECC71',
+                  <Network size={18} />,
+                ],
+              ].map(([label, body, accent, icon]) => (
+                <div
+                  key={label as string}
+                  className="card-hover rounded-[22px] px-5 py-5 bg-white"
+                  style={{
+                    borderTop: `3px solid ${accent as string}`,
+                    boxShadow: '0 8px 24px rgba(0,0,0,0.06)',
+                  }}
+                >
+                  <div className="flex items-center gap-3 mb-4">
+                    <div
+                      className="flex h-10 w-10 items-center justify-center rounded-xl shrink-0"
+                      style={{ background: `${accent as string}14`, color: accent as string }}
+                    >
+                      {icon as ReactNode}
+                    </div>
+                    <p
+                      className="text-sm md:text-[15px] font-semibold uppercase tracking-[0.12em] whitespace-nowrap"
+                      style={{ color: '#0D7377', lineHeight: '1.35', fontFamily: 'Space Mono, monospace' }}
+                    >
+                      {label as string}
+                    </p>
+                  </div>
+                  <p className="text-sm md:text-[15px]" style={{ color: '#355061', lineHeight: '1.85' }}>
+                    {body as string}
+                  </p>
+                </div>
+              ))}
+            </div>
+
             <div
-              key={tier.name}
-              className={`pricing-card reveal reveal-delay-${i + 1} bg-white border ${tier.featured ? 'featured' : ''}`}
+              className="rounded-[24px] px-6 py-7 text-center"
               style={{
-                borderColor: tier.featured ? tier.color : '#E8ECEF',
-                boxShadow: tier.featured ? `0 8px 32px ${tier.color}30` : '0 2px 16px rgba(0,0,0,0.06)',
+                background: 'linear-gradient(135deg, #0D7377 0%, #14BDAC 45%, #2ECC71 100%)',
+                boxShadow: '0 18px 36px rgba(13,115,119,0.16)',
               }}
             >
-              {tier.featured && (
-                <div className="absolute top-4 right-4">
-                  <span className="tag" style={{ background: '#0D737718', color: '#0D7377' }}>Most Popular</span>
-                </div>
-              )}
-              <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 text-white" style={{ background: tier.color }}>
-                <Award size={22} />
+              <p className="text-lg md:text-[20px] font-semibold" style={{ color: '#ffffff', lineHeight: '1.8' }}>
+                Pricing should protect the value of the network while enabling sustainable growth.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-6 mb-14">
+          {cards.map((card, i) => (
+            <div
+              key={card.name}
+              className={`pricing-card card-hover reveal reveal-delay-${i + 1} bg-white border ${card.featured ? 'featured' : ''}`}
+              style={{
+                borderColor: card.featured ? card.color : '#E8ECEF',
+                boxShadow: card.featured ? `0 10px 34px ${card.color}24` : i === 2 ? '0 2px 16px rgba(46,204,113,0.05)' : '0 2px 16px rgba(0,0,0,0.06)',
+              }}
+            >
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 text-white" style={{ background: card.color }}>
+                {card.icon}
               </div>
-              <h3 className="text-xl font-bold mb-1" style={{ color: '#1A2332' }}>{tier.name}</h3>
-              <div className="flex items-baseline gap-1 mb-3">
-                <span className="text-3xl font-extrabold" style={{ color: tier.color }}>{tier.price}</span>
-                <span className="text-sm" style={{ color: '#9CA3AF' }}>{tier.sub}</span>
-              </div>
-              <p className="text-sm mb-5" style={{ color: '#718096', lineHeight: '1.7' }}>{tier.desc}</p>
-              <ul className="space-y-2 mb-6">
-                {tier.features.map((f) => (
+              {card.featured ? (
+                <p
+                  className="text-[11px] uppercase tracking-[0.18em] mb-3"
+                  style={{ color: '#0D7377', fontFamily: 'Space Mono, monospace' }}
+                >
+                  Core Model
+                </p>
+              ) : null}
+              <h3 className="text-xl font-bold mb-1" style={{ color: '#1A2332' }}>{card.name}</h3>
+              <p className="text-sm font-semibold mb-3" style={{ color: card.color }}>{card.sub}</p>
+              {card.featured ? (
+                <p
+                  className="text-sm font-semibold mb-4"
+                  style={{
+                    color: '#0D7377',
+                    background: 'linear-gradient(135deg, rgba(13,115,119,0.08) 0%, rgba(20,189,172,0.06) 100%)',
+                    border: '1px solid rgba(13,115,119,0.10)',
+                    borderRadius: '999px',
+                    padding: '10px 14px',
+                  }}
+                >
+                  Equal access. Clear value. No barriers.
+                </p>
+              ) : null}
+              <p className="text-sm mb-6" style={{ color: '#718096', lineHeight: '1.75' }}>{card.desc}</p>
+              <ul className="space-y-3 mb-7">
+                {card.features.map((f) => (
                   <li key={f} className="flex gap-2 text-sm" style={{ color: '#4A5568' }}>
-                    <CheckCircle2 size={16} style={{ color: tier.color, flexShrink: 0, marginTop: '2px' }} />
+                    <CheckCircle2 size={16} style={{ color: card.color, flexShrink: 0, marginTop: '2px' }} />
                     {f}
                   </li>
                 ))}
               </ul>
-              <button
-                className="w-full py-3 rounded-xl font-semibold text-sm transition-all duration-200 hover:opacity-90"
-                style={tier.featured ? { background: tier.color, color: 'white' } : { border: `2px solid ${tier.color}`, color: tier.color, background: 'transparent' }}
+              <div
+                className="mt-auto pt-5"
+                style={{ borderTop: '1px solid rgba(148,163,184,0.18)' }}
               >
-                {tier.cta}
-              </button>
+                <div
+                  className="rounded-[16px] px-4 py-4"
+                  style={{
+                    background: card.featured
+                      ? 'linear-gradient(135deg, rgba(13,115,119,0.08) 0%, rgba(20,189,172,0.06) 100%)'
+                      : 'linear-gradient(135deg, rgba(248,250,251,0.98) 0%, rgba(242,247,247,0.96) 100%)',
+                    border: '1px solid rgba(148,163,184,0.14)',
+                  }}
+                >
+                  <p
+                    className="text-[11px] uppercase tracking-[0.18em] mb-2"
+                    style={{ color: card.color, fontFamily: 'Space Mono, monospace' }}
+                  >
+                    {card.valueLabel}
+                  </p>
+                  <p
+                    className="text-sm md:text-[15px]"
+                    style={{ color: '#4F6272', lineHeight: '1.7' }}
+                  >
+                    {card.valueTag}
+                  </p>
+                </div>
+              </div>
             </div>
           ))}
         </div>
 
-        {/* Comparison table */}
-        <div className="reveal bg-white rounded-2xl border overflow-hidden mb-10" style={{ borderColor: '#E8ECEF' }}>
-          <div className="p-5 border-b" style={{ borderColor: '#E8ECEF' }}>
-            <h3 className="font-bold text-lg" style={{ color: '#1A2332' }}>Feature Comparison</h3>
-          </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr style={{ background: '#F8FAFB' }}>
-                  <th className="text-left p-4 font-semibold" style={{ color: '#4A5568' }}>Feature</th>
-                  {tiers.map((t) => (
-                    <th key={t.name} className="text-center p-4 font-semibold" style={{ color: t.color }}>{t.name}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {tableRows.map((row, i) => (
-                  <tr key={row.feature} style={{ borderTop: '1px solid #F0F4F8', background: i % 2 === 0 ? 'white' : '#FAFBFC' }}>
-                    <td className="p-4" style={{ color: '#4A5568' }}>{row.feature}</td>
-                    {[row.community, row.professional, row.partner].map((val, j) => (
-                      <td key={j} className="text-center p-4">
-                        {val
-                          ? <CheckCircle2 size={18} style={{ color: '#2ECC71', display: 'inline' }} />
-                          : <span style={{ color: '#D1D5DB' }}>—</span>
-                        }
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+        <div className="grid gap-5 md:grid-cols-3">
+          {[
+            ['Trust', 'Members pay because they see value — not because they have to.', '#0D7377', <Shield size={16} />],
+            ['Sustainability', 'Multiple revenue streams support long-term investment in the community.', '#2ECC71', <TrendingUp size={16} />],
+            ['Fair & Accessible', 'Support behind the scenes keeps membership simple and accessible.', '#14BDAC', <Heart size={16} />],
+          ].map(([title, body, color, icon], index) => (
+            <div
+              key={title as string}
+              className={`reveal reveal-delay-${index + 1} rounded-[22px] border p-5 bg-white h-full text-center`}
+              style={{ borderColor: '#E8ECEF', boxShadow: '0 8px 20px rgba(16,39,52,0.045)' }}
+            >
+              <div className="flex items-center justify-center gap-2 mb-3" style={{ color: color as string }}>
+                {icon as ReactNode}
+                <p className="text-sm font-semibold uppercase tracking-[0.16em]" style={{ color: color as string }}>
+                  {title as string}
+                </p>
+              </div>
+              <p className="text-sm md:text-[15px]" style={{ color: '#5C6B78', lineHeight: '1.8' }}>{body as string}</p>
+            </div>
+          ))}
         </div>
-
-        <div className="reveal callout-yellow rounded-2xl p-6 max-w-3xl mx-auto text-center">
-          <p className="text-sm font-semibold mb-2" style={{ color: '#92680a' }}>Important Disclaimer</p>
-          <p className="text-sm italic" style={{ color: '#4A5568' }}>
-            All pricing figures shown are strategic placeholders and are subject to validation through further member research. Pricing should be finalized only after willingness-to-pay data has been validated with a representative sample of the target membership base.
-          </p>
-        </div>
-
-        <BridgeText>
-          Across every stage of the research, one theme remained consistent: strategic clarity must come from a better understanding of member needs. The membership structure proposed here represents a framework — but the specifics require validation before being brought to market.
-        </BridgeText>
       </div>
     </section>
   )
