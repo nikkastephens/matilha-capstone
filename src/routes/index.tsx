@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useEffect, useState, type ReactNode } from 'react'
+import { useEffect, useState, type CSSProperties, type ReactNode } from 'react'
 import {
   Zap,
   Target,
@@ -1341,26 +1341,339 @@ function HBarChartPlaceholder({ title, rows }: { title: string; rows: { label: s
 
 // ─── Survey Section ────────────────────────────────────────────────────
 function SurveySection() {
-  const questions = [
-    { q: 'What is your primary motivation for joining a sustainability-focused professional community?', type: 'Multiple Choice' },
-    { q: 'How important is access to climate-tech industry research and reports to your professional work?', type: 'Likert Scale' },
-    { q: 'Which types of events or programming would you most value as part of a membership?', type: 'Multi-Select' },
-    { q: 'What is your organization\'s current level of engagement with the clean economy sector?', type: 'Multiple Choice' },
-    { q: 'How much would you be willing to pay annually for access to a professional climate-tech community platform?', type: 'Range Select' },
-    { q: 'What barriers, if any, would prevent you from joining or actively engaging with such a platform?', type: 'Open-Ended' },
+  const [openQuestion, setOpenQuestion] = useState<string | null>('q1')
+
+  const surveyQuestions = [
+    {
+      id: 'q1',
+      number: '01',
+      text: 'How strongly do you align with the Greentech Alliance network’s sustainability mission?',
+      detail: '“To connect people, knowledge, and technology to accelerate a just transition to a regenerative and sustainable world.”',
+    },
+    {
+      id: 'q2',
+      number: '02',
+      text: 'How often do you currently utilize any form of communication platform and/or channels to connect with people in the alliance?',
+      detail: '(Teams, Slack, WhatsApp, etc.)',
+    },
+    {
+      id: 'q3',
+      number: '03',
+      text: 'Would you consider joining an enhanced Premium Greentech Alliance membership that includes exclusive industry events, networking with other decision-makers, and access to specialized resources?',
+    },
+    {
+      id: 'q4',
+      number: '04',
+      text: 'When the Alliance migrates to a closed and well-structured platform (Mighty Networks) and becomes paid, what would you most likely do?',
+    },
+    {
+      id: 'q5',
+      number: '05',
+      text: 'How much would you be willing to contribute annually to move the community into an exclusive HUB (Mighty Networks) that makes global communication with Greentech Alliance members more efficient and easier for you?',
+    },
+    {
+      id: 'q6',
+      number: '06',
+      text: 'Approximately what is your company’s annual revenue?',
+    },
+    {
+      id: 'q7',
+      number: '07',
+      text: 'Which of the following features would make a full Greentech Alliance membership more attractive than a basic listing?',
+    },
+    {
+      id: 'q8',
+      number: '08',
+      text: 'How valuable would the following be for your business growth?',
+    },
+    {
+      id: 'q9',
+      number: '09',
+      text: 'Which of the following services or opportunities would provide the most value for you and/or your organization within the Greentech Alliance network?',
+    },
   ]
+
+  const missionAlignment = [
+    ['Very strongly', 18],
+    ['Strongly', 4],
+    ['Moderately', 0],
+    ['Slightly', 0],
+    ['Not strongly', 1],
+  ]
+
+  const platformUsage = [
+    ['Daily', 5],
+    ['Weekly', 4],
+    ['2–3 times a month', 2],
+    ['Monthly', 5],
+    ['Rarely', 6],
+    ['Never', 1],
+  ]
+
+  const premiumInterest = [
+    ['Yes', 13],
+    ['No', 2],
+    ['Not sure', 8],
+  ]
+
+  const paidBehavior = [
+    ['Join immediately', 2],
+    ['Consider joining', 14],
+    ['Wait and see', 4],
+    ['Only attend free events', 2],
+    ['Disengage', 1],
+  ]
+
+  const willingnessToPay = [
+    ['Less than 100 USD annually', 12],
+    ['100–325 USD', 6],
+    ['326–550 USD', 2],
+    ['551–775 USD', 1],
+    ['1001+ USD', 1],
+  ]
+
+  const featurePreferences = [
+    ['Curated partner introductions', 14],
+    ['Exclusive events and workshops', 10],
+    ['Access to proprietary data/resources', 10],
+    ['1:1 advisory session', 7],
+    ['Priority placement in promotional campaigns', 3],
+  ]
+
+  const servicePreferences = [
+    ['Mentorship from trusted experts', 15],
+    ['Fundraising support', 13],
+    ['Policy & advocacy support', 9],
+    ['Brainstorming / idea support', 6],
+    ['Premium visibility opportunities', 6],
+    ['Technical guidance', 5],
+  ]
+
+  function SurveyResultCard({
+    title,
+    badge,
+    badgeStyle,
+    children,
+    className = '',
+  }: {
+    title: string
+    badge: string
+    badgeStyle: CSSProperties
+    children: ReactNode
+    className?: string
+  }) {
+    return (
+      <div className={`survey-dashboard-card ${className}`.trim()}>
+        <div className="survey-card-head">
+          <h5 className="survey-card-title">{title}</h5>
+          <span className="survey-insight-badge" style={badgeStyle}>{badge}</span>
+        </div>
+        {children}
+      </div>
+    )
+  }
+
+  function ResultBars({
+    title,
+    badge,
+    rows,
+    accent,
+    badgeStyle,
+    trackColor = '#E7EEF0',
+    rowColors,
+    highlightLabel,
+  }: {
+    title: string
+    badge: string
+    rows: Array<[string, number]>
+    accent: string
+    badgeStyle: CSSProperties
+    trackColor?: string
+    rowColors?: string[]
+    highlightLabel?: string
+  }) {
+    const max = Math.max(...rows.map(([, value]) => value))
+    return (
+      <SurveyResultCard title={title} badge={badge} badgeStyle={badgeStyle}>
+        <div className="survey-bar-list">
+          {rows.map(([label, value], index) => {
+            const fillColor = rowColors?.[index] || accent
+            const isHighlighted = highlightLabel ? label === highlightLabel : index === 0
+            return (
+              <div key={label} className={`survey-bar-row ${isHighlighted ? 'is-highlighted' : ''}`}>
+                <div className="survey-bar-meta">
+                  <span className="survey-bar-label">{label}</span>
+                  <span className="survey-bar-value">{value}</span>
+                </div>
+                <div className="survey-bar-track" style={{ background: trackColor }}>
+                  <div
+                    className="survey-bar-fill"
+                    style={{
+                      width: `${(value / max) * 100}%`,
+                      background: `linear-gradient(90deg, ${fillColor} 0%, ${fillColor}dd 100%)`,
+                      boxShadow: isHighlighted ? `0 10px 22px ${fillColor}2e` : `0 8px 18px ${fillColor}18`,
+                    }}
+                  />
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </SurveyResultCard>
+    )
+  }
+
+  function StatColumns({
+    title,
+    badge,
+    rows,
+    colors,
+  }: {
+    title: string
+    badge: string
+    rows: Array<[string, number]>
+    colors: string[]
+  }) {
+    const max = 15
+    return (
+      <SurveyResultCard
+        title={title}
+        badge={badge}
+        badgeStyle={{ background: 'rgba(244,208,63,0.16)', color: '#8B6B00' }}
+        className="h-full flex flex-col w-full"
+      >
+        <div className="survey-chart-shell survey-chart-shell--columns">
+          <div className="flex items-end justify-between gap-3 h-full min-h-[176px] mb-0">
+            {rows.map(([label, value], index) => (
+              <div key={label} className="flex-1 min-w-0 h-full grid grid-rows-[130px_68px] items-end">
+                <div className="w-full h-[130px] pt-4 flex items-end justify-center">
+                  <div className="w-full max-w-[58px] flex flex-col justify-end items-center">
+                    <p className="text-xs font-bold text-center mb-2" style={{ color: '#1A2332' }}>{value}</p>
+                    <div
+                      className="w-full rounded-t-[18px] min-h-[12px] transition-all duration-700"
+                      style={{
+                        height: `${Math.max(12, Math.round((value / max) * 116))}px`,
+                        background: `linear-gradient(180deg, ${colors[index % colors.length]} 0%, ${colors[index % colors.length]}cc 100%)`,
+                        boxShadow: `0 10px 24px ${colors[index % colors.length]}24`,
+                      }}
+                    />
+                  </div>
+                </div>
+                <p
+                  className="text-[11px] text-center flex items-start justify-center pt-4 px-1"
+                  style={{ color: '#4A5568', lineHeight: '1.3', textWrap: 'balance' }}
+                >
+                  {label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </SurveyResultCard>
+    )
+  }
+
+  function StatDonut({
+    title,
+    badge,
+    rows,
+    colors,
+    centerLabel,
+  }: {
+    title: string
+    badge: string
+    rows: Array<[string, number]>
+    colors: string[]
+    centerLabel: string
+  }) {
+    const total = rows.reduce((sum, [, value]) => sum + value, 0)
+    let start = 0
+    const stops = rows.map(([, value], index) => {
+      const end = start + (value / total) * 100
+      const stop = `${colors[index % colors.length]} ${start}% ${end}%`
+      start = end
+      return stop
+    })
+
+    const yesCount = rows[0]?.[1] ?? 0
+    return (
+      <SurveyResultCard
+        title={title}
+        badge={badge}
+        badgeStyle={{ background: 'rgba(46,204,113,0.14)', color: '#1B8F52' }}
+      >
+        <div className="survey-donut-layout survey-donut-layout--balanced">
+          <div
+            className="survey-donut survey-donut--large"
+            style={{ background: `conic-gradient(${stops.join(', ')})` }}
+          >
+            <div className="survey-donut-inner">
+              <div className="text-center">
+                <p className="text-xs" style={{ color: '#718096' }}>{centerLabel}</p>
+                <p className="text-2xl font-bold" style={{ color: '#1A2332' }}>{Math.round((yesCount / total) * 100)}%</p>
+                <p className="text-xs font-semibold" style={{ color: '#1B8F52' }}>Yes</p>
+              </div>
+            </div>
+          </div>
+          <div className="flex-1 space-y-3 w-full max-w-[220px]">
+            {rows.map(([label, value], index) => (
+              <div key={label} className="survey-donut-legend">
+                <div className="w-3.5 h-3.5 rounded-full" style={{ background: colors[index % colors.length] }} />
+                <span className="text-sm" style={{ color: '#4A5568' }}>{label}</span>
+                <span className="text-sm font-bold ml-auto" style={{ color: '#1A2332' }}>{value}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </SurveyResultCard>
+    )
+  }
+
+  function StatGridCard({
+    title,
+    badge,
+    description,
+    stats,
+    rangeText,
+  }: {
+    title: string
+    badge: string
+    description: string
+    stats: Array<[string, string]>
+    rangeText: string
+  }) {
+    return (
+      <SurveyResultCard
+        title={title}
+        badge={badge}
+        badgeStyle={{ background: 'rgba(13,115,119,0.10)', color: '#0A5C60' }}
+      >
+        <p className="text-sm mb-5" style={{ color: '#718096', lineHeight: '1.8' }}>
+          {description}
+        </p>
+        <div className="survey-stat-grid">
+          {stats.map(([label, value]) => (
+            <div key={label} className="survey-stat-box">
+              <p className="survey-stat-label">{label}</p>
+              <p className="survey-stat-value">{value}</p>
+            </div>
+          ))}
+        </div>
+        <div className="survey-range-box">
+          <p className="survey-range-label">Range</p>
+          <p className="survey-range-text">{rangeText}</p>
+        </div>
+      </SurveyResultCard>
+    )
+  }
 
   return (
     <section id="survey" className="section-pad bg-white">
       <div className="max-w-6xl mx-auto">
-        <SectionHeader
-          tag="Member Survey"
-          title="Survey with Members"
-          subtitle="Primary research designed to understand what prospective members truly value — and what they need before committing."
-        />
+        <SectionHeader tag="Member Survey" />
 
         <div
-          className="reveal relative overflow-hidden w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] px-6 md:px-10 py-10 md:py-12 mb-12"
+          className="reveal relative overflow-hidden w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] px-6 md:px-10 py-10 md:py-12 mb-12 -mt-6"
           style={{
             background: 'linear-gradient(135deg, #05383b 0%, #0a5c60 48%, #0D7377 100%)',
             boxShadow: '0 30px 70px rgba(13,115,119,0.22), 0 10px 26px rgba(26,35,50,0.08)',
@@ -1368,228 +1681,314 @@ function SurveySection() {
         >
           <div className="absolute -top-14 -right-10 h-44 w-44 rounded-full" style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0) 72%)' }} />
           <div className="absolute -bottom-24 -left-12 h-48 w-48 rounded-full" style={{ background: 'radial-gradient(circle, rgba(244,208,63,0.16) 0%, rgba(244,208,63,0) 72%)' }} />
-          <div className="relative max-w-5xl mx-auto">
-            <h3
-              className="text-2xl md:text-3xl mb-5"
-              style={{ color: '#ffffff', fontFamily: "'Outfit', 'Nunito', system-ui, sans-serif", fontWeight: 800 }}
-            >
-              Survey with Greentech Alliance Members
-            </h3>
-            <p className="text-sm md:text-base" style={{ color: 'rgba(255,255,255,0.92)', lineHeight: '1.85' }}>
-              To validate our assumptions, our team designed a survey for members to provide direct insights.
-            </p>
-            <p className="text-sm md:text-base mt-3" style={{ color: 'rgba(255,255,255,0.92)', lineHeight: '1.85' }}>
-              Given the limited timeline, we focused on clear and objective questions, addressing:
-            </p>
-            <div className="grid gap-3 md:grid-cols-3 mt-5 mb-6">
-              {[
-                {
-                  title: 'Value Perception',
-                  body: 'How members currently understand and interpret the value of being part of the community.',
-                },
-                {
-                  title: 'Community Expectations',
-                  body: 'What members would like to see, experience, and gain from the Alliance moving forward.',
-                },
-                {
-                  title: 'Willingness to Pay',
-                  body: 'Whether members would consider paying to belong to the Alliance and under what conditions.',
-                },
-              ].map((item) => (
-                <div
-                  key={item.title}
-                  className="rounded-[18px] border px-4 py-4"
-                  style={{
-                    background: 'linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 100%)',
-                    borderColor: 'rgba(255,255,255,0.18)',
-                  }}
-                >
-                  <p className="text-sm font-semibold mb-1" style={{ color: '#F4D03F', lineHeight: '1.5' }}>{item.title}</p>
-                  <p className="text-sm" style={{ color: '#ffffff', lineHeight: '1.7' }}>{item.body}</p>
+          <div className="relative max-w-5xl mx-auto lg:grid lg:grid-cols-[minmax(0,1fr)_280px] lg:gap-10 lg:items-start">
+            <div>
+              <h3 className="text-2xl md:text-3xl mb-5" style={{ color: '#ffffff', fontFamily: "'Outfit', 'Nunito', system-ui, sans-serif", fontWeight: 800 }}>
+                Survey with Greentech Alliance Members
+              </h3>
+              <p className="text-sm md:text-base" style={{ color: 'rgba(255,255,255,0.92)', lineHeight: '1.85' }}>
+                To validate our assumptions, our team designed a survey for members to provide direct insights.
+              </p>
+              <p className="text-sm md:text-base mt-3" style={{ color: 'rgba(255,255,255,0.92)', lineHeight: '1.85' }}>
+                Given the limited timeline, we focused on clear and objective questions, addressing:
+              </p>
+              <div className="grid gap-3 md:grid-cols-3 mt-5 mb-6">
+                {[
+                  ['Value Perception', 'How members currently understand and interpret the value of being part of the community.'],
+                  ['Community Expectations', 'What members would like to see, experience, and gain from the Alliance moving forward.'],
+                  ['Willingness to Pay', 'Whether members would consider paying to belong to the Alliance and under what conditions.'],
+                ].map(([title, body]) => (
+                  <div
+                    key={title}
+                    className="rounded-[18px] border px-4 py-4"
+                    style={{
+                      background: 'linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 100%)',
+                      borderColor: 'rgba(255,255,255,0.18)',
+                    }}
+                  >
+                    <p className="text-sm font-semibold mb-1" style={{ color: '#F4D03F', lineHeight: '1.5' }}>{title}</p>
+                    <p className="text-sm" style={{ color: '#ffffff', lineHeight: '1.7' }}>{body}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="relative hidden lg:flex min-h-[240px] items-start justify-center pt-2">
+              <div className="absolute right-6 top-2 h-36 w-36 rounded-full" style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0) 72%)' }} />
+              <div
+                className="absolute left-6 top-8 w-[210px] rounded-[24px] border p-4"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 100%)',
+                  borderColor: 'rgba(255,255,255,0.18)',
+                  boxShadow: '0 14px 32px rgba(7,47,50,0.22)',
+                }}
+              >
+                <div className="mb-4 h-3 w-24 rounded-full" style={{ background: 'rgba(255,255,255,0.22)' }} />
+                <div className="space-y-3">
+                  {[true, true, false].map((checked, index) => (
+                    <div key={index} className="flex items-center gap-3">
+                      <div className="h-5 w-5 rounded-md border flex items-center justify-center" style={{ borderColor: 'rgba(255,255,255,0.3)', background: checked ? (index === 0 ? '#F4D03F' : '#14BDAC') : 'transparent' }}>
+                        {checked ? <div className="h-2 w-2 rounded-full" style={{ background: '#05383b' }} /> : null}
+                      </div>
+                      <div className="h-2.5 flex-1 rounded-full" style={{ background: 'rgba(255,255,255,0.22)' }} />
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
+              <div
+                className="absolute right-2 top-28 w-[140px] rounded-[22px] border p-4"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(244,208,63,0.2) 0%, rgba(255,255,255,0.1) 100%)',
+                  borderColor: 'rgba(255,255,255,0.16)',
+                  boxShadow: '0 12px 28px rgba(7,47,50,0.22)',
+                }}
+              >
+                <div className="mb-3 h-3 w-16 rounded-full" style={{ background: 'rgba(255,255,255,0.26)' }} />
+                <div className="flex items-end gap-2 h-20">
+                  <div className="w-5 rounded-t-md" style={{ height: '42%', background: '#14BDAC' }} />
+                  <div className="w-5 rounded-t-md" style={{ height: '68%', background: '#F4D03F' }} />
+                  <div className="w-5 rounded-t-md" style={{ height: '54%', background: '#2ECC71' }} />
+                  <div className="w-5 rounded-t-md" style={{ height: '82%', background: '#ffffff' }} />
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        <div
-          className="reveal relative overflow-hidden w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] px-6 md:px-10 pb-10 md:pb-12 -mt-4 mb-12"
-          style={{
-            background: 'linear-gradient(135deg, #05383b 0%, #0a5c60 48%, #0D7377 100%)',
-            boxShadow: '0 30px 70px rgba(13,115,119,0.22), 0 10px 26px rgba(26,35,50,0.08)',
-          }}
-        >
-          <div className="relative max-w-5xl mx-auto">
-            <div className="grid gap-4 md:grid-cols-2 mt-6">
-              <div
-                className="rounded-[20px] border px-5 py-5"
-                style={{
-                  background: 'linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 100%)',
-                  borderColor: 'rgba(255,255,255,0.18)',
-                }}
-              >
-                <p className="text-xs mb-2" style={{ color: '#F4D03F', letterSpacing: '0.14em', textTransform: 'uppercase', fontFamily: 'Space Mono, monospace' }}>
-                  Survey Distribution
-                </p>
-                <p className="text-sm md:text-base" style={{ color: '#ffffff', lineHeight: '1.85' }}>
-                  Our industry partner, Charles Newton Price, shared the survey in a WhatsApp group of approximately 285 members, considered one of the most active groups.
-                </p>
-              </div>
-
-              <div
-                className="rounded-[20px] border px-5 py-5"
-                style={{
-                  background: 'linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 100%)',
-                  borderColor: 'rgba(255,255,255,0.18)',
-                }}
-              >
-                <p className="text-xs mb-2" style={{ color: '#F4D03F', letterSpacing: '0.14em', textTransform: 'uppercase', fontFamily: 'Space Mono, monospace' }}>
-                  Response Reality
-                </p>
-                <p className="text-sm md:text-base" style={{ color: '#ffffff', lineHeight: '1.85' }}>
-                  We received only 23 responses, some of which were from founders or internal members. Participation was optional and respondents were not required to identify themselves.
-                </p>
-              </div>
-            </div>
-
-            <div
-              className="mt-5 rounded-[22px] border px-5 py-5 md:px-6"
-              style={{
-                background: 'linear-gradient(135deg, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0.08) 100%)',
-                borderColor: 'rgba(255,255,255,0.18)',
-              }}
-            >
-              <p className="text-sm md:text-base" style={{ color: '#ffffff', lineHeight: '1.85' }}>
-                <strong style={{ color: '#F4D03F' }}>Critical insight:</strong> engagement is currently limited, even among the most active members.
-              </p>
-              <p className="text-sm md:text-base mt-4" style={{ color: '#ffffff', lineHeight: '1.85' }}>
-                <strong style={{ color: '#F4D03F' }}>What this revealed:</strong> the main challenge is not only value perception, but also member engagement, which directly impacts the transition from a free to a paid model.
-              </p>
-            </div>
-
-            <div
-              className="mt-5 rounded-[22px] px-5 py-5 md:px-6"
-              style={{
-                background: 'linear-gradient(135deg, rgba(244,208,63,0.16) 0%, rgba(255,255,255,0.08) 100%)',
-                boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.08)',
-              }}
-            >
-              <p className="text-sm md:text-base" style={{ color: '#ffffff', lineHeight: '1.85' }}>
-                As a result, we shifted our focus to better understand conversion rates and behaviors, ensuring our recommendations were grounded in real user dynamics rather than assumptions.
-              </p>
-            </div>
+        <div className="max-w-6xl mx-auto mb-16">
+          <div className="mb-6">
+            <h4 className="text-xl font-bold mb-2" style={{ color: '#1A2332' }}>Administration</h4>
+            <p className="text-sm md:text-base max-w-3xl" style={{ color: '#718096', lineHeight: '1.8' }}>
+              The survey was distributed to a targeted group of active Greentech Alliance members to gather early insight into engagement, perceived value, and premium membership potential.
+            </p>
           </div>
-        </div>
-        {/* Three sub-section tabs */}
-        <div className="grid md:grid-cols-3 gap-6 mb-14">
-          {[
-            {
-              icon: <BookOpen size={22} />,
-              title: 'Survey Questions',
-              color: '#0D7377',
-              desc: 'The survey included questions across five thematic areas: motivations, value perception, programming preferences, willingness to pay, and adoption barriers.',
-            },
-            {
-              icon: <Users size={22} />,
-              title: 'Administration',
-              color: '#2ECC71',
-              desc: 'The survey was distributed digitally to a sample of [N=XX] prospective members and ecosystem contacts. Data was collected over [X] weeks using a structured online instrument.',
-            },
-            {
-              icon: <BarChart2 size={22} />,
-              title: 'Results Overview',
-              color: '#F4D03F',
-              desc: 'Results highlighted a diverse range of motivations, a consistent interest in networking and knowledge access, and meaningful variation in willingness to pay across segments.',
-            },
-          ].map((card, i) => (
-            <div key={card.title} className={`card-hover reveal reveal-delay-${i + 1} rounded-2xl p-6 bg-white border`} style={{ borderColor: '#E8ECEF', boxShadow: '0 2px 14px rgba(0,0,0,0.06)' }}>
-              <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 text-white" style={{ background: card.color }}>
-                {card.icon}
-              </div>
-              <h3 className="font-bold mb-2" style={{ color: '#1A2332' }}>{card.title}</h3>
-              <p className="text-sm" style={{ color: '#718096', lineHeight: '1.7' }}>{card.desc}</p>
-            </div>
-          ))}
-        </div>
 
-        {/* Survey Questions */}
-        <div className="mb-14">
-          <h3 className="text-xl font-bold mb-6 reveal" style={{ color: '#1A2332' }}>Survey Question Cards</h3>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {questions.map((q, i) => (
-              <div key={i} className={`reveal reveal-delay-${(i % 4) + 1} rounded-2xl bg-white border p-5`} style={{ borderColor: '#E8ECEF', boxShadow: '0 2px 10px rgba(0,0,0,0.04)' }}>
-                <span className="tag tag-teal mb-3 inline-flex">Q{i + 1} · {q.type}</span>
-                <p className="text-sm font-medium" style={{ color: '#1A2332', lineHeight: '1.65' }}>{q.q}</p>
+          <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+            {[
+              ['Target Group', 'The survey was directed to approximately 285 active Greentech Alliance members within one of the community’s most engaged WhatsApp groups.', <Users size={20} color="white" />, '#0D7377'],
+              ['Survey Lead', 'Charles Newton Price shared the survey through the Alliance’s own member channel, helping maintain trust and a more natural distribution path.', <MessageSquare size={20} color="white" />, '#14BDAC'],
+              ['Responses', '23 responses were collected, though some respondents were founders or internal members rather than external community participants alone.', <BarChart2 size={20} color="white" />, '#2ECC71'],
+              ['Participation', 'Participation was voluntary, allowing the team to gather early directional insight into engagement, value perception, and paid membership potential.', <Target size={20} color="#1A2332" />, '#F4D03F'],
+            ].map(([title, body, icon, color]) => (
+              <div key={title as string} className="rounded-[22px] border p-5 bg-white" style={{ borderColor: '#E8ECEF', boxShadow: '0 4px 14px rgba(0,0,0,0.05)' }}>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style={{ background: color as string }}>
+                    {icon as ReactNode}
+                  </div>
+                  <p className="font-bold" style={{ color: '#1A2332' }}>{title}</p>
+                </div>
+                <p className="text-sm" style={{ color: '#718096', lineHeight: '1.75' }}>{body}</p>
               </div>
             ))}
           </div>
+
         </div>
 
-        {/* Charts */}
-        <h3 className="text-xl font-bold mb-6 reveal" style={{ color: '#1A2332' }}>Survey Results & Data Visualizations</h3>
-        <div className="grid md:grid-cols-2 gap-6 mb-10">
-          <div className="reveal reveal-left">
-            <BarChartPlaceholder
-              title="Primary Motivations for Joining (% of respondents)"
-              labels={['Networking', 'Research', 'Events', 'Mentorship', 'Funding', 'Policy', 'Other']}
-            />
-          </div>
-          <div className="reveal reveal-right">
-            <PieChartPlaceholder title="'I would pay for access to this platform' (Agreement Level)" />
-          </div>
-          <div className="reveal reveal-left">
-            <HBarChartPlaceholder
-              title="Value of Platform Features (% rating 'Very Important')"
-              rows={[
-                { label: 'Networking & Connections', pct: 84 },
-                { label: 'Industry Research Access', pct: 71, type: 'green' },
-                { label: 'Events & Programming', pct: 65 },
-                { label: 'Job Board / Talent', pct: 52, type: 'yellow' },
-                { label: 'Mentorship Access', pct: 48, type: 'green' },
-                { label: 'Policy Engagement', pct: 39, type: 'yellow' },
-              ]}
-            />
-          </div>
-          <div className="reveal reveal-right">
-            <BarChartPlaceholder
-              title="Willingness to Pay by Tier (% of respondents)"
-              labels={['Free', '<$50', '$50–$99', '$100–$199', '$200–$499', '$500+', 'N/A']}
-            />
-          </div>
-        </div>
-
-        {/* Key Insights */}
-        <h3 className="text-xl font-bold mb-6 reveal" style={{ color: '#1A2332' }}>Key Insights</h3>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
-          {[
-            { icon: <Star size={18} />, color: '#0D7377', title: 'Add Key Finding Here', body: 'Insert a primary survey finding, e.g. "XX% of respondents indicated that peer networking was their primary reason for joining a professional community platform."' },
-            { icon: <TrendingUp size={18} />, color: '#2ECC71', title: 'Add Key Finding Here', body: 'Insert a secondary survey finding, e.g. "A significant portion of respondents expressed uncertainty about what a Greentech Alliance membership would specifically offer them."' },
-            { icon: <AlertTriangle size={18} />, color: '#F4D03F', title: 'Add Key Finding Here', body: 'Insert a barrier-related finding, e.g. "The most frequently cited barrier to joining was the perceived lack of clarity around platform benefits and return on membership investment."' },
-          ].map((ins, i) => (
-            <div key={i} className={`reveal reveal-delay-${i + 1} callout-teal rounded-2xl p-5`}>
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white" style={{ background: ins.color }}>
-                  {ins.icon}
-                </div>
-                <h4 className="font-bold text-sm" style={{ color: '#0D7377' }}>{ins.title}</h4>
-              </div>
-              <p className="text-sm italic" style={{ color: '#4A5568', lineHeight: '1.7' }}>{ins.body}</p>
+        <div className="reveal mb-10">
+          <div className="mx-auto flex max-w-5xl items-center gap-4">
+            <div className="h-px flex-1" style={{ background: 'linear-gradient(90deg, rgba(13,115,119,0.04), rgba(13,115,119,0.28), rgba(13,115,119,0.04))' }} />
+            <div className="flex h-10 w-10 items-center justify-center rounded-full border" style={{ background: 'rgba(255,255,255,0.7)', borderColor: 'rgba(13,115,119,0.16)', boxShadow: '0 6px 14px rgba(13,115,119,0.08)' }}>
+              <Leaf size={18} style={{ color: '#0D7377' }} />
             </div>
-          ))}
+            <div className="h-px flex-1" style={{ background: 'linear-gradient(90deg, rgba(13,115,119,0.04), rgba(13,115,119,0.28), rgba(13,115,119,0.04))' }} />
+          </div>
         </div>
 
-        {/* Member Quote */}
-        <div className="reveal callout-yellow rounded-2xl p-8 max-w-3xl mx-auto text-center">
-          <MessageSquare size={28} style={{ color: '#F4D03F', marginBottom: '12px', display: 'block', marginLeft: 'auto', marginRight: 'auto' }} />
-          <blockquote className="text-lg font-medium italic mb-3" style={{ color: '#4A5568' }}>
-            "Add member quote or response summary here — e.g., a representative response that encapsulates a key theme from the survey."
-          </blockquote>
-          <p className="text-sm font-semibold" style={{ color: '#92680a' }}>— Survey Respondent, [Segment / Role Placeholder]</p>
-        </div>
+        <div className="max-w-6xl mx-auto">
+          <div className="mb-16">
+            <div className="mb-6">
+              <h4 className="text-xl font-bold mb-2" style={{ color: '#1A2332' }}>Survey Questions</h4>
+              <p className="text-sm md:text-base max-w-3xl" style={{ color: '#718096', lineHeight: '1.8' }}>
+                The survey focused on mission alignment, current engagement, willingness to pay, and the types of value members would find most meaningful.
+              </p>
+            </div>
 
-        <BridgeText>
-          The survey findings highlighted an important gap: before scaling a launch, Greentech Alliance needs stronger evidence about what members truly value and what would motivate them to engage or pay. The data collected provides a starting point — but deeper, more targeted member research is recommended before committing to a full launch.
-        </BridgeText>
+            <div className="space-y-4">
+              {surveyQuestions.map((question) => {
+                const isOpen = openQuestion === question.id
+                return (
+                  <div key={question.id} className="rounded-[22px] border bg-white overflow-hidden" style={{ borderColor: '#E8ECEF', boxShadow: isOpen ? '0 14px 28px rgba(13,115,119,0.10)' : '0 4px 14px rgba(0,0,0,0.04)' }}>
+                    <button className="w-full flex items-start gap-4 px-5 py-5 text-left" onClick={() => setOpenQuestion(isOpen ? null : question.id)}>
+                      <div className="min-w-[52px] h-[52px] rounded-xl flex items-center justify-center text-sm" style={{ background: 'linear-gradient(135deg, rgba(13,115,119,0.12) 0%, rgba(20,189,172,0.08) 100%)', color: '#0D7377', fontFamily: 'Space Mono, monospace', fontWeight: 700 }}>
+                        Q{question.number}
+                      </div>
+                      <div className="flex-1 pt-1">
+                        <p className="font-semibold" style={{ color: '#1A2332', lineHeight: '1.65' }}>{question.text}</p>
+                      </div>
+                      <div className="pt-2" style={{ color: '#9CA3AF' }}>
+                        {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+                      </div>
+                    </button>
+                    {isOpen ? (
+                      <div className="px-5 pb-5">
+                        <div className="ml-[68px] rounded-[18px] border px-4 py-4" style={{ borderColor: '#E8ECEF', background: 'linear-gradient(135deg, rgba(248,250,251,1) 0%, rgba(240,248,247,1) 100%)' }}>
+                          <p className="text-sm" style={{ color: '#4A5568', lineHeight: '1.75' }}>
+                            {question.detail || 'This question was included to help validate assumptions around engagement, value delivery, and the transition toward a premium membership model.'}
+                          </p>
+                        </div>
+                      </div>
+                    ) : null}
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+
+          <div className="reveal mb-10">
+            <div className="mx-auto flex max-w-5xl items-center gap-4">
+              <div className="h-px flex-1" style={{ background: 'linear-gradient(90deg, rgba(13,115,119,0.04), rgba(13,115,119,0.28), rgba(13,115,119,0.04))' }} />
+              <div className="flex h-10 w-10 items-center justify-center rounded-full border" style={{ background: 'rgba(255,255,255,0.7)', borderColor: 'rgba(13,115,119,0.16)', boxShadow: '0 6px 14px rgba(13,115,119,0.08)' }}>
+                <Leaf size={18} style={{ color: '#0D7377' }} />
+              </div>
+              <div className="h-px flex-1" style={{ background: 'linear-gradient(90deg, rgba(13,115,119,0.04), rgba(13,115,119,0.28), rgba(13,115,119,0.04))' }} />
+            </div>
+          </div>
+
+          <div>
+            <div className="mb-6">
+              <h4 className="text-xl font-bold mb-2" style={{ color: '#1A2332' }}>Results Overview</h4>
+              <p className="text-sm md:text-base max-w-4xl" style={{ color: '#718096', lineHeight: '1.8' }}>
+                The findings revealed strong mission alignment, low ongoing engagement, and interest in premium value, but also hesitation around immediate paid conversion.
+              </p>
+            </div>
+
+            <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4 mb-10 items-stretch">
+              {[
+                ['Strong Mission Alignment', '18 of 23 respondents said they align “very strongly” with Greentech Alliance’s sustainability mission, while 4 said “strongly.”'],
+                ['Limited Ongoing Engagement', 'Most respondents do not engage frequently in alliance communication channels. The largest group selected “rarely” (6), while only 5 selected “daily.”'],
+                ['Premium Interest Exists', '13 of 23 respondents said they would consider joining an enhanced premium membership, while 8 were unsure and 2 said no.'],
+                ['Value Is Outcome-Driven', 'Members showed the strongest interest in curated partner introductions, exclusive events, investor access, mentorship, and fundraising-related support.'],
+              ].map(([title, body]) => (
+                <div key={title as string} className="rounded-[24px] border p-6 bg-white h-full" style={{ borderColor: '#E8ECEF', boxShadow: '0 6px 18px rgba(0,0,0,0.045)' }}>
+                  <p className="font-bold mb-2" style={{ color: '#1A2332' }}>{title}</p>
+                  <p className="text-sm" style={{ color: '#718096', lineHeight: '1.75' }}>{body}</p>
+                </div>
+              ))}
+            </div>
+
+            <div
+              className="survey-feature-banner rounded-[32px] p-7 md:p-8 mb-10"
+              style={{
+                background: 'linear-gradient(135deg, #0c4d50 0%, #0d6d72 54%, #167d62 100%)',
+                boxShadow: '0 20px 44px rgba(13,115,119,0.16)',
+              }}
+            >
+              <div className="grid gap-6 xl:grid-cols-[0.88fr_1.12fr] xl:items-start min-h-[500px]">
+                <div>
+                  <div className="mb-6">
+                    <h5 className="text-[1.35rem] font-bold mb-2" style={{ color: '#ffffff' }}>Most Valued Features</h5>
+                    <p className="text-sm md:text-[15px]" style={{ color: 'rgba(255,255,255,0.84)', lineHeight: '1.85' }}>
+                      The strongest signals point toward high-value, outcome-oriented benefits rather than generic community access.
+                    </p>
+                  </div>
+                  <p className="font-semibold mb-4 text-sm md:text-[15px]" style={{ color: '#F4D03F' }}>
+                    For business growth, the <span style={{ color: '#FFF4C3' }}>highest-ranked items</span> were:
+                  </p>
+                  <div className="space-y-3 text-sm md:text-[15px]" style={{ color: 'rgba(255,255,255,0.92)', lineHeight: '1.8' }}>
+                    <p><span style={{ color: '#F4D03F', fontWeight: 700 }}>01</span> Exclusive industry events & networking opportunities</p>
+                    <p><span style={{ color: '#F4D03F', fontWeight: 700 }}>02</span> Feature opportunities on Alliance channels (spotlights, articles)</p>
+                    <p><span style={{ color: '#F4D03F', fontWeight: 700 }}>03</span> Access to investor introductions / capital partners</p>
+                    <p><span style={{ color: '#F4D03F', fontWeight: 700 }}>04</span> Workshops, masterclasses, or mentorship programs</p>
+                    <p><span style={{ color: '#F4D03F', fontWeight: 700 }}>05</span> Access to specialized resources for impact reporting or climate science validation</p>
+                  </div>
+                </div>
+
+                <div className="survey-feature-card h-full flex self-stretch">
+                  <StatColumns
+                    title="Most Valuable Services & Opportunities"
+                    badge="Mentorship leads the demand"
+                    rows={servicePreferences}
+                    colors={['#F4D03F', '#2ECC71', '#14BDAC', '#8ED8B4', '#BDEADD', '#DDE8E7']}
+                  />
+                </div>
+
+                <div className="survey-feature-card xl:col-span-2">
+                  <ResultBars
+                    title="Membership Feature Preferences"
+                    badge="Top feature: Partner introductions"
+                    rows={featurePreferences}
+                    accent="#F4D03F"
+                    badgeStyle={{ background: 'rgba(244,208,63,0.16)', color: '#8B6B00' }}
+                    trackColor="#F4F7F7"
+                    rowColors={['#F4D03F', '#E8C53A', '#D6B335', '#CBA82F', '#B89728']}
+                    highlightLabel="Curated partner introductions"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-6 mb-10">
+              <div className="grid gap-5 lg:grid-cols-2 items-stretch">
+                <ResultBars
+                  title="Mission Alignment"
+                  badge="78% strongly align"
+                  rows={missionAlignment}
+                  accent="#0D7377"
+                  badgeStyle={{ background: 'rgba(13,115,119,0.10)', color: '#0A5C60' }}
+                  trackColor="#EAF0F1"
+                  rowColors={['#0D7377', '#14BDAC', '#BFD8D8', '#D9E8E8', '#E8ECEF']}
+                  highlightLabel="Very strongly"
+                />
+                <ResultBars
+                  title="Communication Platform Usage"
+                  badge="Engagement is mostly occasional"
+                  rows={platformUsage}
+                  accent="#14BDAC"
+                  badgeStyle={{ background: 'rgba(20,189,172,0.12)', color: '#0D7377' }}
+                  trackColor="#EAF0F1"
+                  rowColors={['#8ED8D1', '#7DD0C8', '#BFE7E2', '#6DC8C0', '#14BDAC', '#DCE8EA']}
+                  highlightLabel="Rarely"
+                />
+              </div>
+
+              <div className="grid gap-5 lg:grid-cols-2 items-stretch">
+                <StatDonut
+                  title="Interest in Premium Membership"
+                  badge="57% would join"
+                  rows={premiumInterest}
+                  colors={['#2ECC71', '#E8ECEF', '#A7DFAE']}
+                  centerLabel="Share saying"
+                />
+                <ResultBars
+                  title="Likely Behavior if Platform Becomes Paid"
+                  badge="Most would consider joining"
+                  rows={paidBehavior}
+                  accent="#0D7377"
+                  badgeStyle={{ background: 'rgba(13,115,119,0.10)', color: '#0A5C60' }}
+                  trackColor="#EDF2F3"
+                  rowColors={['#70D2C7', '#0D7377', '#A7D8D8', '#DCE6E8', '#E8ECEF']}
+                  highlightLabel="Consider joining"
+                />
+              </div>
+
+              <div className="grid gap-5 lg:grid-cols-2 items-stretch">
+                <ResultBars
+                  title="Willingness to Pay"
+                  badge="Price sensitivity is high"
+                  rows={willingnessToPay}
+                  accent="#F4D03F"
+                  badgeStyle={{ background: 'rgba(244,208,63,0.18)', color: '#8B6B00' }}
+                  trackColor="#F7F1D8"
+                  rowColors={['#F4D03F', '#E9BE2D', '#DDAF22', '#D09F19', '#C78F12']}
+                  highlightLabel="Less than 100 USD annually"
+                />
+
+                <StatGridCard
+                  title="Company Revenue Snapshot"
+                  badge="Directional context only"
+                  description="Only 10 respondents answered this question, so this serves as directional context rather than a complete financial profile."
+                  stats={[
+                    ['Mean', '2,434,000'],
+                    ['Median', '450,000'],
+                    ['Min', '0'],
+                    ['Max', '20,000,000'],
+                  ]}
+                  rangeText="Min-Max: 0 to 20,000,000"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   )
