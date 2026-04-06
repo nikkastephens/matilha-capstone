@@ -278,7 +278,7 @@ function HeroSection() {
               icon: <BarChart2 size={18} />,
               title: 'Our Findings',
               body: 'Our research revealed a clear gap:\nvalue exists, but it is not yet clearly defined or consistently communicated to members.',
-              href: '#challenge-top',
+              href: '#marketing',
               cta: 'View Analysis & Insights',
               color: 'white',
               bodyColor: 'rgba(255,255,255,0.88)',
