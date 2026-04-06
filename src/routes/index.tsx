@@ -3866,3 +3866,11 @@ function GreentechPage() {
       <MarketingSection />
       <CompetitorSection />
       <SurveySection />
+      <ConversionSection />
+      <MembershipSection />
+      <ConclusionSection />
+      <RecommendationsSection />
+      <Footer />
+    </div>
+  )
+}
