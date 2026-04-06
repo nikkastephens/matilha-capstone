@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Fragment, useEffect, useState, type CSSProperties, type ReactNode } from 'react'
+import { Fragment, useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import {
   Zap,
   Target,
@@ -70,14 +70,14 @@ function useScrollReveal() {
 function StickyNav() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('home')
+  const navLockUntilRef = useRef(0)
 
   const getNavGroup = (sectionId: string) => {
     if (sectionId === 'home') return 'home'
     if (sectionId === 'intro') return 'about'
     if (sectionId === 'challenge' || sectionId === 'competitors') return 'analysis'
     if (sectionId === 'survey' || sectionId === 'conversion') return 'insights'
-    if (sectionId === 'marketing' || sectionId === 'membership') return 'strategy'
-    if (sectionId === 'conclusion' || sectionId === 'recommendations') return 'final'
+    if (sectionId === 'marketing' || sectionId === 'membership' || sectionId === 'conclusion' || sectionId === 'recommendations') return 'strategy'
     return 'home'
   }
 
@@ -90,6 +90,7 @@ function StickyNav() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
+          if (Date.now() < navLockUntilRef.current) return
           if (entry.isIntersecting) setActiveSection(getNavGroup(entry.target.id))
         })
       },
@@ -105,10 +106,9 @@ function StickyNav() {
   const navLinks = [
     { href: '#home', label: 'Home' },
     { href: '#intro', label: 'About' },
-    { href: '#challenge', label: 'Analysis' },
+    { href: '#marketing', label: 'Analysis' },
     { href: '#survey', label: 'Insights' },
-    { href: '#membership', label: 'Strategy' },
-    { href: '#conclusion', label: 'Final' },
+    { href: '#recommendations', label: 'Strategy' },
   ]
 
   return (
@@ -131,6 +131,10 @@ function StickyNav() {
                 <a
                   key={link.href}
                   href={link.href}
+                  onClick={() => {
+                    navLockUntilRef.current = Date.now() + 1200
+                    setActiveSection(id)
+                  }}
                   className={`px-1.5 py-0.5 rounded-lg text-xs font-medium transition-all duration-200 ${
                     activeSection === id
                       ? 'text-white'
@@ -165,7 +169,11 @@ function StickyNav() {
                 href={link.href}
                 className="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors"
                 style={{ color: '#0D7377' }}
-                onClick={() => setMenuOpen(false)}
+                onClick={() => {
+                  navLockUntilRef.current = Date.now() + 1200
+                  setActiveSection(link.label.toLowerCase())
+                  setMenuOpen(false)
+                }}
               >
                 {link.label}
               </a>
@@ -270,7 +278,7 @@ function HeroSection() {
               icon: <BarChart2 size={18} />,
               title: 'Our Findings',
               body: 'Our research revealed a clear gap:\nvalue exists, but it is not yet clearly defined or consistently communicated to members.',
-              href: '#challenge',
+              href: '#challenge-top',
               cta: 'View Analysis & Insights',
               color: 'white',
               bodyColor: 'rgba(255,255,255,0.88)',
@@ -584,8 +592,9 @@ function ChallengeSection() {
   ]
 
   return (
-    <section id="challenge" className="section-pad bg-[#E4F0F0]">
+    <section id="challenge" className="section-pad bg-[#E4F0F0]" style={{ scrollMarginTop: '88px' }}>
       <div className="max-w-6xl mx-auto">
+        <div id="challenge-top" style={{ scrollMarginTop: '88px' }} />
         <SectionHeader
           tag="The Challenge"
           title=""
@@ -1638,12 +1647,12 @@ function SurveySection() {
         className="h-full flex flex-col w-full"
       >
         <div className="survey-chart-shell survey-chart-shell--columns">
-          <div className="flex items-end justify-between gap-3 h-full min-h-[176px] mb-0">
+          <div className="flex items-end justify-between gap-1.5 h-full min-h-[154px] mb-0">
             {rows.map(([label, value], index) => (
-              <div key={label} className="flex-1 min-w-0 h-full grid grid-rows-[130px_68px] items-end">
-                <div className="w-full h-[130px] pt-4 flex items-end justify-center">
-                  <div className="w-full max-w-[58px] flex flex-col justify-end items-center">
-                    <p className="text-xs font-bold text-center mb-2" style={{ color: '#1A2332' }}>{value}</p>
+              <div key={label} className="flex-1 basis-0 min-w-0 h-full grid grid-rows-[126px_24px] items-end">
+                <div className="w-full h-[126px] pt-5 flex items-end justify-center">
+                  <div className="w-full max-w-[76px] flex flex-col justify-end items-center">
+                    <p className="text-xs font-bold text-center mb-1.5" style={{ color: '#1A2332' }}>{value}</p>
                     <div
                       className="w-full rounded-t-[18px] min-h-[12px] transition-all duration-700"
                       style={{
@@ -1655,8 +1664,8 @@ function SurveySection() {
                   </div>
                 </div>
                 <p
-                  className="text-[11px] text-center flex items-start justify-center pt-4 px-1"
-                  style={{ color: '#4A5568', lineHeight: '1.3', textWrap: 'balance' }}
+                  className="text-[11px] text-center flex items-start justify-center pt-0 px-1"
+                  style={{ color: '#4A5568', lineHeight: '1.24', textWrap: 'balance' }}
                 >
                   {label}
                 </p>
@@ -1990,55 +1999,54 @@ function SurveySection() {
               ))}
             </div>
 
-            <div
-              className="survey-feature-banner rounded-[32px] p-7 md:p-8 mb-10"
-              style={{
-                background: 'linear-gradient(135deg, #0c4d50 0%, #0d6d72 54%, #167d62 100%)',
-                boxShadow: '0 20px 44px rgba(13,115,119,0.16)',
-              }}
-            >
-              <div className="grid gap-6 xl:grid-cols-[0.88fr_1.12fr] xl:items-start min-h-[500px]">
-                <div>
+            <div className="grid gap-5 xl:grid-cols-[0.96fr_1.04fr] mb-10 items-stretch">
+              <div
+                className="survey-feature-banner rounded-[32px] p-7 md:p-8"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(244,208,63,0.14) 0%, rgba(255,255,255,0.96) 46%, rgba(13,115,119,0.08) 100%)',
+                  border: '1px solid rgba(13,115,119,0.18)',
+                  boxShadow: '0 18px 40px rgba(16,39,52,0.08), inset 0 0 0 1px rgba(255,255,255,0.5)',
+                }}
+              >
+                <div className="max-w-2xl">
                   <div className="mb-6">
-                    <h5 className="text-[1.35rem] font-bold mb-2" style={{ color: '#ffffff' }}>Most Valued Features</h5>
-                    <p className="text-sm md:text-[15px]" style={{ color: 'rgba(255,255,255,0.84)', lineHeight: '1.85' }}>
+                    <h5 className="text-[1.35rem] font-bold mb-2" style={{ color: '#1A2332' }}>Most Valued Features</h5>
+                    <p className="text-sm md:text-[15px]" style={{ color: '#5B6878', lineHeight: '1.85' }}>
                       The strongest signals point toward high-value, outcome-oriented benefits rather than generic community access.
                     </p>
                   </div>
-                  <p className="font-semibold mb-4 text-sm md:text-[15px]" style={{ color: '#F4D03F' }}>
-                    For business growth, the <span style={{ color: '#FFF4C3' }}>highest-ranked items</span> were:
+                  <p className="font-semibold mb-4 text-sm md:text-[15px]" style={{ color: '#8B6B00' }}>
+                    For business growth, the <span style={{ color: '#0D7377' }}>highest-ranked items</span> were:
                   </p>
-                  <div className="space-y-3 text-sm md:text-[15px]" style={{ color: 'rgba(255,255,255,0.92)', lineHeight: '1.8' }}>
-                    <p><span style={{ color: '#F4D03F', fontWeight: 700 }}>01</span> Exclusive industry events & networking opportunities</p>
-                    <p><span style={{ color: '#F4D03F', fontWeight: 700 }}>02</span> Feature opportunities on Alliance channels (spotlights, articles)</p>
-                    <p><span style={{ color: '#F4D03F', fontWeight: 700 }}>03</span> Access to investor introductions / capital partners</p>
-                    <p><span style={{ color: '#F4D03F', fontWeight: 700 }}>04</span> Workshops, masterclasses, or mentorship programs</p>
-                    <p><span style={{ color: '#F4D03F', fontWeight: 700 }}>05</span> Access to specialized resources for impact reporting or climate science validation</p>
+                  <div className="space-y-3 text-sm md:text-[15px]" style={{ color: '#355061', lineHeight: '1.8' }}>
+                    <p><span style={{ color: '#D4A514', fontWeight: 700 }}>01</span> Exclusive industry events & networking opportunities</p>
+                    <p><span style={{ color: '#D4A514', fontWeight: 700 }}>02</span> Feature opportunities on Alliance channels (spotlights, articles)</p>
+                    <p><span style={{ color: '#D4A514', fontWeight: 700 }}>03</span> Access to investor introductions / capital partners</p>
+                    <p><span style={{ color: '#D4A514', fontWeight: 700 }}>04</span> Workshops, masterclasses, or mentorship programs</p>
+                    <p><span style={{ color: '#D4A514', fontWeight: 700 }}>05</span> Access to specialized resources for impact reporting or climate science validation</p>
                   </div>
                 </div>
-
-                <div className="survey-feature-card h-full flex self-stretch">
-                  <StatColumns
-                    title="Most Valuable Services & Opportunities"
-                    badge="Mentorship leads the demand"
-                    rows={servicePreferences}
-                    colors={['#F4D03F', '#2ECC71', '#14BDAC', '#8ED8B4', '#BDEADD', '#DDE8E7']}
-                  />
-                </div>
-
-                <div className="survey-feature-card xl:col-span-2">
-                  <ResultBars
-                    title="Membership Feature Preferences"
-                    badge="Top feature: Partner introductions"
-                    rows={featurePreferences}
-                    accent="#F4D03F"
-                    badgeStyle={{ background: 'rgba(244,208,63,0.16)', color: '#8B6B00' }}
-                    trackColor="#F4F7F7"
-                    rowColors={['#F4D03F', '#E8C53A', '#D6B335', '#CBA82F', '#B89728']}
-                    highlightLabel="Curated partner introductions"
-                  />
-                </div>
               </div>
+
+              <ResultBars
+                title="Membership Feature Preferences"
+                badge="Top feature: Partner introductions"
+                rows={featurePreferences}
+                accent="#F4D03F"
+                badgeStyle={{ background: 'rgba(244,208,63,0.16)', color: '#8B6B00' }}
+                trackColor="#F4F7F7"
+                rowColors={['#F4D03F', '#E8C53A', '#D6B335', '#CBA82F', '#B89728']}
+                highlightLabel="Curated partner introductions"
+              />
+            </div>
+
+            <div className="mb-10">
+              <StatColumns
+                title="Most Valuable Services & Opportunities"
+                badge="Mentorship leads the demand"
+                rows={servicePreferences}
+                colors={['#F4D03F', '#2ECC71', '#14BDAC', '#8ED8B4', '#BDEADD', '#DDE8E7']}
+              />
             </div>
 
             <div className="space-y-6 mb-10">
@@ -3858,11 +3866,3 @@ function GreentechPage() {
       <MarketingSection />
       <CompetitorSection />
       <SurveySection />
-      <ConversionSection />
-      <MembershipSection />
-      <ConclusionSection />
-      <RecommendationsSection />
-      <Footer />
-    </div>
-  )
-}
