@@ -12,9 +12,13 @@ export default defineConfig({
     }),
     tailwindcss(),
     tanstackStart({
-      prerender: {
-        enabled: false,
-        autoSubfolderIndex: true,
+      spa: {
+        enabled: true,
+        prerender: {
+          outputPath: '/index.html',
+          crawlLinks: false,
+          retryCount: 0,
+        },
       },
     }),
     viteReact(),
