@@ -637,7 +637,7 @@ function ChallengeSection() {
               After reading the problem and challenge stated by our Industry Partner, our group had the first introduction meeting with Charles Newton Price, one of the founders and our main contact.
             </p>
             <p>
-              Charles is an accomplished, results-oriented leader, technology professional, and entrepreneur with over seventeen years of combined experience in software development, wireless technologies, manufacturing, e-learning, mobile payments, international business development, go-to-market process, strategic marketing, investor relations, and capital raising. He is also passionate about technology and philanthropy, and has co-founded and served as a board member of three non-profits. He earned an MBA from Ivey and both an MS and BS in Electrical and Computer Engineering from the University of Calgary.
+              Charles is a purpose-driven leader and entrepreneur with over 17 years of experience in technology and business. He holds an MBA from Ivey and both a Master&apos;s and Bachelor&apos;s in Electrical and Computer Engineering from the University of Calgary. Charles is deeply passionate about philanthropy, having co-founded and supported three non-profits, and is committed to using innovation to create meaningful impact.
             </p>
             <p>
               The following week, Charles introduced us to Luiz Pion, the Head of Marketing for Greentech Alliance. From it, we understood that this was more than a growth challenge.
@@ -1120,12 +1120,13 @@ function MarketingSection() {
           <div
             className="rounded-[22px] px-5 py-5 md:px-6"
             style={{
-              background: 'rgba(255,255,255,0.72)',
-              border: '1px solid rgba(13,115,119,0.12)',
+              background: 'linear-gradient(135deg, #0D7377 0%, #14919B 48%, #2ECC71 100%)',
+              border: '1px solid rgba(255,255,255,0.16)',
+              boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.18), 0 14px 28px rgba(13,115,119,0.18)',
             }}
           >
-            <p style={{ color: '#1A2332', lineHeight: '1.8' }}>
-              Our team analyzed both local and global competitors. We identified the three most structured ecosystems and extracted their strongest practices. Through this process, a clear pattern emerged: <strong style={{ color: '#0D7377' }}>Successful communities do not just connect people, they deliver measurable outcomes.</strong>
+            <p style={{ color: 'rgba(255,255,255,0.96)', lineHeight: '1.8' }}>
+              Our team analysed both local and global competitors. We identified the three most structured ecosystems and extracted their strongest practices. Through this process, a clear pattern emerged: <strong style={{ color: '#F4D03F' }}>Successful communities do not just connect people, they deliver measurable outcomes.</strong>
             </p>
           </div>
           <a
@@ -1261,7 +1262,7 @@ function CompetitorSection() {
           >
             <div className="absolute inset-x-0 top-0 h-1.5" style={{ background: 'linear-gradient(90deg, #0D7377 0%, #2ECC71 100%)' }} />
             <h3 className="text-2xl md:text-3xl mb-5" style={{ color: '#1A2332', fontFamily: "'Outfit', 'Nunito', system-ui, sans-serif", fontWeight: 800 }}>
-              It&apos;s Not a Member Problem: It&apos;s a Value Problem
+              The Real Problem Is How Value Is Perceived
             </h3>
             <p className="text-sm md:text-base mb-5" style={{ color: '#4A5568', lineHeight: '1.8' }}>
               When we compare Greentech Alliance to others, one thing becomes clear:
@@ -2181,23 +2182,42 @@ function ConversionSection() {
           </h3>
         </div>
 
-        <p className="reveal max-w-4xl mx-auto mb-10 text-center text-sm md:text-base" style={{ color: '#718096', lineHeight: '1.85' }}>
-          This section examines what may happen if Greentech Alliance launches the platform as it is today, and the key conditions needed to support stronger conversion and long-term success.
-        </p>
-
         <div
-          className="reveal max-w-4xl rounded-[24px] border-l-4 px-6 py-6 md:px-8 md:py-7 mb-12"
+          className="reveal mb-12 overflow-hidden rounded-[30px] border p-5 md:p-6"
           style={{
-            borderColor: '#0D7377',
-            background: 'linear-gradient(90deg, rgba(13,115,119,0.12) 0%, rgba(20,189,172,0.08) 48%, rgba(228,240,240,0.85) 82%, rgba(228,240,240,0) 100%)',
+            background:
+              'radial-gradient(circle at 14% 18%, rgba(20,189,172,0.08) 0, transparent 22%), radial-gradient(circle at 84% 18%, rgba(46,204,113,0.08) 0, transparent 20%), linear-gradient(180deg, rgba(255,255,255,0.92) 0%, rgba(244,251,248,0.96) 100%)',
+            borderColor: 'rgba(13,115,119,0.12)',
+            boxShadow: '0 18px 36px rgba(16,39,52,0.06)',
           }}
         >
-          <p className="text-[15px] md:text-[17px]" style={{ color: '#1A2332', lineHeight: '1.9' }}>
-            After identifying low engagement as a critical barrier, our team conducted a conversion study to understand how Greentech Alliance can successfully transition from a free to a paid model.
-          </p>
-          <p className="text-[15px] md:text-[17px] mt-3" style={{ color: '#355061', lineHeight: '1.9' }}>
-            Our objective was not only to understand conversion rates, but to use these insights to guide our final recommendations on pricing and the launch strategy of the new platform - <strong>Mighty Networks</strong>.
-          </p>
+          <div className="grid gap-4 md:grid-cols-2">
+            <div
+              className="rounded-[24px] border px-5 py-5 md:px-6 md:py-6"
+              style={{
+                background: 'linear-gradient(135deg, rgba(13,115,119,0.10) 0%, rgba(255,255,255,0.96) 100%)',
+                borderColor: 'rgba(13,115,119,0.12)',
+                boxShadow: '0 12px 24px rgba(16,39,52,0.04)',
+              }}
+            >
+              <p className="text-[15px] md:text-[16px]" style={{ color: '#1A2332', lineHeight: '1.85' }}>
+                After identifying low engagement as a critical barrier, our team conducted a conversion study to understand how Greentech Alliance can successfully transition from a free to a paid model.
+              </p>
+            </div>
+
+            <div
+              className="rounded-[24px] border px-5 py-5 md:px-6 md:py-6"
+              style={{
+                background: 'linear-gradient(135deg, rgba(244,208,63,0.12) 0%, rgba(255,255,255,0.96) 100%)',
+                borderColor: 'rgba(244,208,63,0.16)',
+                boxShadow: '0 12px 24px rgba(16,39,52,0.04)',
+              }}
+            >
+              <p className="text-[15px] md:text-[16px]" style={{ color: '#355061', lineHeight: '1.85' }}>
+                Our objective was not only to understand conversion rates, but to use these insights to guide our final recommendations on pricing and the launch strategy of the new platform - <strong style={{ color: '#1A2332' }}>Mighty Networks</strong>.
+              </p>
+            </div>
+          </div>
         </div>
 
         <div className="mb-7">
@@ -2321,17 +2341,18 @@ function ConversionSection() {
         <div
           className="reveal rounded-[28px] px-6 py-8 md:px-10 md:py-10 mb-12 text-center"
           style={{
-            background: 'linear-gradient(135deg, #0A5C60 0%, #0D7377 58%, #157B63 100%)',
-            boxShadow: '0 18px 38px rgba(13,115,119,0.16)',
+            background: 'linear-gradient(135deg, rgba(244,208,63,0.12) 0%, rgba(255,255,255,0.92) 52%, rgba(13,115,119,0.08) 100%)',
+            border: '1px solid rgba(244,208,63,0.18)',
+            boxShadow: '0 18px 38px rgba(16,39,52,0.06)',
           }}
         >
-          <p className="text-sm uppercase tracking-[0.18em] mb-3" style={{ color: 'rgba(255,255,255,0.74)' }}>
+          <p className="text-sm uppercase tracking-[0.18em] mb-3" style={{ color: '#0D7377' }}>
             One key insight emerged from our research
           </p>
-          <p className="text-xl md:text-2xl font-bold mb-3" style={{ color: '#ffffff', lineHeight: '1.5' }}>
+          <p className="text-xl md:text-2xl font-bold mb-3" style={{ color: '#1A2332', lineHeight: '1.5' }}>
             <strong>Conversion is not driven by access — it is driven by perceived value and outcomes.</strong>
           </p>
-          <p className="text-[15px] md:text-base max-w-3xl mx-auto" style={{ color: 'rgba(255,255,255,0.86)', lineHeight: '1.9' }}>
+          <p className="text-[15px] md:text-base max-w-3xl mx-auto" style={{ color: '#4A5568', lineHeight: '1.9' }}>
             Through our research, we identified what drives paid membership adoption and used those insights to align pricing and platform migration with member behaviour and expectations.
           </p>
         </div>
@@ -2988,10 +3009,6 @@ function ConclusionSection() {
             <p className="mt-2 text-sm md:text-[15px]" style={{ color: '#5C6B78', lineHeight: '1.75' }}>
               One weak experience compounds into the next until conversion becomes increasingly unlikely.
             </p>
-          </div>
-
-          <div className="relative mb-6 hidden lg:block">
-            <div className="absolute left-[12%] right-[12%] top-1/2 h-[2px] -translate-y-1/2 rounded-full bg-gradient-to-r from-[#0D7377]/25 via-[#F4D03F]/30 to-[#2ECC71]/25" />
           </div>
 
           <div className="hidden lg:grid lg:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] lg:items-center lg:gap-4">
@@ -3719,7 +3736,7 @@ function RecommendationsSection() {
                   fontFamily: "'Outfit', 'Nunito', system-ui, sans-serif",
                 }}
               >
-                Sustainable growth does not come from adding more members.
+                Sustainable growth is not driven by adding more people.
               </p>
               <p
                 className="mx-auto mt-5 max-w-4xl leading-[1.18] text-xl sm:text-2xl md:text-3xl font-extrabold"
@@ -3729,7 +3746,7 @@ function RecommendationsSection() {
                   fontFamily: "'Outfit', 'Nunito', system-ui, sans-serif",
                 }}
               >
-                It comes from delivering clear, experienced, and meaningful value to the right ones.
+                It is driven by delivering clear, experienced, and undeniable value, becoming essential to the right ones.
               </p>
             </div>
 
