@@ -3874,3 +3874,6 @@ function GreentechPage() {
       <ConclusionSection />
       <RecommendationsSection />
       <Footer />
+    </div>
+  )
+}
