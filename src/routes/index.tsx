@@ -3823,6 +3823,9 @@ function Footer() {
               <p>
                 Business Diploma Integrative Experience Capston (ACWE-300-E1)
               </p>
+              <p>
+                Jill Andres, MBA, CEC
+              </p>
             </div>
             <a
               href="#home"
@@ -3871,6 +3874,3 @@ function GreentechPage() {
       <ConclusionSection />
       <RecommendationsSection />
       <Footer />
-    </div>
-  )
-}
