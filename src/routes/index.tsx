@@ -1184,6 +1184,10 @@ function ExpandablePlayerCard({
   body,
   note,
   icon,
+  logoSrc,
+  logoAlt,
+  companyUrl,
+  companyLinkLabel = 'Click here to view company',
   accentColor,
   borderColor,
   iconBorderColor,
@@ -1193,6 +1197,10 @@ function ExpandablePlayerCard({
   body: string
   note: string
   icon: ReactNode
+  logoSrc?: string
+  logoAlt?: string
+  companyUrl?: string
+  companyLinkLabel?: string
   accentColor: string
   borderColor: string
   iconBorderColor: string
@@ -1210,10 +1218,18 @@ function ExpandablePlayerCard({
     >
       <div className="flex items-center justify-center gap-2 text-center">
         <span
-          className="flex h-7 w-7 items-center justify-center rounded-full border"
+          className="flex h-10 w-10 items-center justify-center rounded-lg border"
           style={{ borderColor: iconBorderColor, color: accentColor, background: iconBackground }}
         >
-          {icon}
+          {logoSrc ? (
+            <img
+              src={logoSrc}
+              alt={logoAlt || `${name} logo`}
+              className="h-8 w-8 object-contain"
+            />
+          ) : (
+            icon
+          )}
         </span>
         <p className="flex-1 font-semibold" style={{ color: '#1A2332' }}>{name}</p>
         <button
@@ -1237,6 +1253,18 @@ function ExpandablePlayerCard({
         <div className="pt-3">
           <p className="text-sm mb-2" style={{ color: '#4A5568', lineHeight: '1.65' }}>{body}</p>
           <p className="text-sm pt-1" style={{ color: accentColor, lineHeight: '1.65' }}>• {note}</p>
+          {companyUrl ? (
+            <a
+              href={companyUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 pt-3 text-sm font-semibold"
+              style={{ color: accentColor }}
+            >
+              {companyLinkLabel}
+              <ExternalLink size={14} />
+            </a>
+          ) : null}
         </div>
       ) : null}
     </div>
@@ -1297,17 +1325,44 @@ function CompetitorSection() {
               </div>
               <div className="grid items-start gap-4 md:grid-cols-4">
                 {[
-                  ['Foresight Canada', 'Turns connections into real outcomes like funding and growth.', 'People engage because they know what they will gain.'],
-                  ['Green Economy Canada', 'Focuses on measurable impact and real progress.', 'People stay because they see results.'],
-                  ['Smart Prosperity Institute', 'Delivers value through insights and research.', 'Value does not always need constant interaction.'],
-                  ['Diversity & Sustainability', 'Builds community through identity, inclusion, and sustainability-centred belonging.', 'Shared values can strengthen retention and long-term engagement.'],
-                ].map(([name, body, note]) => (
+                  {
+                    name: 'Foresight Canada',
+                    body: 'Turns connections into real outcomes like funding and growth.',
+                    note: 'People engage because they know what they will gain.',
+                    logoSrc: 'https://foresightcanada.com/wp-content/uploads/2020/02/FSC_HP_120.png',
+                    companyUrl: 'https://foresightcac.com/',
+                  },
+                    {
+                      name: 'Green Economy Canada',
+                      body: 'Focuses on measurable impact and real progress.',
+                      note: 'People stay because they see results.',
+                      logoSrc: 'https://greeneconomy.ca/wp-content/uploads/2018/04/gec.png',
+                      companyUrl: 'https://greeneconomy.ca/',
+                    },
+                    {
+                      name: 'Smart Prosperity Institute',
+                      body: 'Delivers value through insights and research.',
+                      note: 'Value does not always need constant interaction.',
+                      logoSrc: 'https://institute.smartprosperity.ca/sites/all/themes/spi1/images/spi-logo-colour-en.png',
+                      companyUrl: 'https://institute.smartprosperity.ca/',
+                    },
+                  {
+                    name: 'Diversity in Sustainability',
+                    body: 'Builds community through identity, inclusion, and sustainability-centred belonging.',
+                    note: 'Shared values can strengthen retention and long-term engagement.',
+                    logoSrc: 'https://images.squarespace-cdn.com/content/v1/5f197fb4c8cd720bd21113a5/1598993637967-S9LKDT00R21JM5HIMGUU/DISLogo-Grey-Vertical-Light-SM.png',
+                    companyUrl: 'https://www.diversityinsustainability.com/',
+                  },
+                ].map((player) => (
                   <ExpandablePlayerCard
-                    key={name}
-                    name={name}
-                    body={body}
-                    note={note}
+                    key={player.name}
+                    name={player.name}
+                    body={player.body}
+                    note={player.note}
                     icon={<MapPin size={14} />}
+                    logoSrc={player.logoSrc}
+                    companyUrl={player.companyUrl}
+                    companyLinkLabel="Click here to view company"
                     accentColor="#0D7377"
                     borderColor="rgba(13,115,119,0.1)"
                     iconBorderColor="rgba(13,115,119,0.16)"
@@ -1326,16 +1381,37 @@ function CompetitorSection() {
               </div>
               <div className="grid items-start gap-4 md:grid-cols-3">
                 {[
-                  ['Climate Tech Cities', 'Connects climate ecosystems across cities.', 'Expands opportunities globally.'],
-                  ['Climate & Capital Connect', 'Offers curated 1:1 networking and paid membership.', 'People pay for direct, meaningful connections.'],
-                  ['Climate Tech Coalition', 'Creates exclusive networks with investor matchmaking.', 'Exclusivity increases perceived value.'],
-                ].map(([name, body, note]) => (
+                  {
+                    name: 'Climate Tech Cities',
+                    body: 'Connects climate ecosystems across cities.',
+                    note: 'Expands opportunities globally.',
+                    logoSrc: 'https://images.squarespace-cdn.com/content/v1/62d703de119d11505534ebdf/9f40f656-41d3-4afd-805d-ba1234ae7a0f/ctc+logo+squarespace.png',
+                    companyUrl: 'https://www.climatetechcities.com/',
+                  },
+                  {
+                    name: 'Climate & Capital Connect',
+                    body: 'Offers curated 1:1 networking and paid membership.',
+                    note: 'People pay for direct, meaningful connections.',
+                    logoSrc: 'https://static.wixstatic.com/media/99da11_f1816f9500e041df875f0a1eecc31964~mv2.png/v1/fill/w_2364,h_846,al_c/99da11_f1816f9500e041df875f0a1eecc31964~mv2.png',
+                    companyUrl: 'https://www.climateconnect.club/',
+                  },
+                  {
+                    name: 'Climate Tech Coalition',
+                    body: 'Creates exclusive networks with investor matchmaking.',
+                    note: 'Exclusivity increases perceived value.',
+                    logoSrc: 'https://user-images.strikinglycdn.com/res/hrscywv4p/image/upload/c_limit,fl_lossy,h_64,w_64,q_auto/907932/636561_696929.png',
+                    companyUrl: 'https://www.theatlascapital.com/the-coalition',
+                  },
+                ].map((player) => (
                   <ExpandablePlayerCard
-                    key={name}
-                    name={name}
-                    body={body}
-                    note={note}
+                    key={player.name}
+                    name={player.name}
+                    body={player.body}
+                    note={player.note}
                     icon={<Globe size={14} />}
+                    logoSrc={player.logoSrc}
+                    companyUrl={player.companyUrl}
+                    companyLinkLabel="Click here to view company"
                     accentColor="#27ae60"
                     borderColor="rgba(46,204,113,0.1)"
                     iconBorderColor="rgba(46,204,113,0.18)"
