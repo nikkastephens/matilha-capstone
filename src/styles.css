@@ -36,6 +36,16 @@ body {
   background: var(--white);
 }
 
+.text-xs {
+  font-size: 0.875rem;
+  line-height: 1.45rem;
+}
+
+.text-sm {
+  font-size: 1rem;
+  line-height: 1.65rem;
+}
+
 h2,
 h3,
 h4,
@@ -341,6 +351,7 @@ button,
 /* Section padding */
 .section-pad {
   padding: 96px 24px;
+  scroll-margin-top: 88px;
 }
 
 @media (max-width: 768px) {
