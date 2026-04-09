@@ -72,44 +72,35 @@ function StickyNav() {
   const [activeSection, setActiveSection] = useState('home')
   const navLockUntilRef = useRef(0)
 
-  const getNavGroup = (sectionId: string) => {
-    if (sectionId === 'home') return 'home'
-    if (sectionId === 'intro') return 'about'
-    if (sectionId === 'challenge' || sectionId === 'competitors') return 'analysis'
-    if (sectionId === 'survey' || sectionId === 'conversion') return 'insights'
-    if (sectionId === 'marketing' || sectionId === 'membership' || sectionId === 'conclusion' || sectionId === 'recommendations') return 'strategy'
-    return 'home'
-  }
+  const navLinks = [
+    { id: 'home', href: '#home', label: 'Home' },
+    { id: 'intro', href: '#intro', label: 'About' },
+    { id: 'challenge', href: '#challenge', label: 'Challenge' },
+    { id: 'marketing', href: '#marketing', label: 'Marketing' },
+    { id: 'competitors', href: '#competitors', label: 'Competitors' },
+    { id: 'survey', href: '#survey', label: 'Survey' },
+    { id: 'conversion', href: '#conversion', label: 'Conversion' },
+    { id: 'membership', href: '#membership', label: 'Membership' },
+    { id: 'conclusion', href: '#conclusion', label: 'Conclusion' },
+    { id: 'recommendations', href: '#recommendations', label: 'Recommendations' },
+  ]
 
   useEffect(() => {
-    const sections = [
-      'home', 'intro', 'challenge', 'marketing',
-      'competitors', 'survey', 'conversion', 'membership',
-      'conclusion', 'recommendations'
-    ]
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (Date.now() < navLockUntilRef.current) return
-          if (entry.isIntersecting) setActiveSection(getNavGroup(entry.target.id))
+          if (entry.isIntersecting) setActiveSection(entry.target.id)
         })
       },
       { threshold: 0.3 }
     )
-    sections.forEach((id) => {
+    navLinks.map((link) => link.id).forEach((id) => {
       const el = document.getElementById(id)
       if (el) observer.observe(el)
     })
     return () => observer.disconnect()
   }, [])
-
-  const navLinks = [
-    { href: '#home', label: 'Home' },
-    { href: '#intro', label: 'About' },
-    { href: '#marketing', label: 'Analysis' },
-    { href: '#survey', label: 'Insights' },
-    { href: '#recommendations', label: 'Strategy' },
-  ]
 
   return (
     <nav
@@ -124,23 +115,22 @@ function StickyNav() {
           
 
           {/* Desktop Nav */}
-          <div className="hidden xl:flex items-center justify-center gap-2 w-full">
+          <div className="hidden xl:flex items-center justify-center gap-2 w-full flex-wrap py-2">
             {navLinks.map((link) => {
-              const id = link.label.toLowerCase()
               return (
                 <a
                   key={link.href}
                   href={link.href}
                   onClick={() => {
                     navLockUntilRef.current = Date.now() + 1200
-                    setActiveSection(id)
+                    setActiveSection(link.id)
                   }}
                   className={`px-1.5 py-0.5 rounded-lg text-xs font-medium transition-all duration-200 ${
-                    activeSection === id
+                    activeSection === link.id
                       ? 'text-white'
                       : 'text-gray-600 hover:text-teal-700'
                   }`}
-                  style={activeSection === id ? { background: '#0D7377' } : {}}
+                  style={activeSection === link.id ? { background: '#0D7377' } : {}}
                 >
                   {link.label}
                 </a>
@@ -171,7 +161,7 @@ function StickyNav() {
                 style={{ color: '#0D7377' }}
                 onClick={() => {
                   navLockUntilRef.current = Date.now() + 1200
-                  setActiveSection(link.label.toLowerCase())
+                  setActiveSection(link.id)
                   setMenuOpen(false)
                 }}
               >
@@ -305,7 +295,7 @@ function HeroSection() {
                   {item.title}
                 </h3>
               </div>
-              <p className="text-xs sm:text-sm mb-4 flex-1 whitespace-pre-line" style={{ color: item.bodyColor, lineHeight: '1.65' }}>
+              <p className="text-sm mb-4 flex-1 whitespace-pre-line" style={{ color: item.bodyColor, lineHeight: '1.65' }}>
                 {item.body}
               </p>
               <span className="inline-flex items-center gap-2 text-sm mt-auto" style={{ color: item.color }}>
@@ -360,6 +350,67 @@ function BridgeText({ children }: { children: ReactNode }) {
 }
 
 // ─── Intro Section ─────────────────────────────────────────────────────
+function TeamMemberCard({
+  member,
+  index,
+}: {
+  member: {
+    name: string
+    role: string
+    bio: string
+    color: string
+    image: string
+  }
+  index: number
+}) {
+  const [isOpen, setIsOpen] = useState(false)
+
+  return (
+    <div
+      className={`card-hover reveal reveal-delay-${index + 1} rounded-[28px] p-6 text-center border overflow-hidden relative`}
+      style={{
+        background: `linear-gradient(160deg, rgba(255,255,255,0.99) 0%, ${member.color}0B 100%)`,
+        borderColor: `${member.color}22`,
+        boxShadow: '0 16px 34px rgba(16,39,52,0.08)',
+      }}
+    >
+      <div className="absolute inset-x-0 top-0 h-1.5" style={{ background: `linear-gradient(90deg, ${member.color} 0%, ${member.color}aa 100%)` }} />
+      <div className="absolute -top-6 -right-6 h-20 w-20 rounded-full" style={{ background: `radial-gradient(circle, ${member.color}18 0%, ${member.color}00 72%)` }} />
+      <img
+        src={`${import.meta.env.BASE_URL}${member.image}`}
+        alt={member.name}
+        className="w-20 h-20 rounded-full mx-auto mb-4 object-cover relative"
+        style={{ border: `3px solid ${member.color}`, boxShadow: `0 12px 24px ${member.color}24` }}
+      />
+      <h4 className="font-bold text-[15px] mb-1 leading-tight" style={{ color: '#1A2332' }}>{member.name}</h4>
+      <p
+        className="inline-flex items-center justify-center rounded-full px-3 py-1 text-[10px] font-semibold mb-3"
+        style={{ color: member.color, background: `${member.color}12` }}
+      >
+        {member.role}
+      </p>
+      <button
+        type="button"
+        aria-expanded={isOpen}
+        aria-label={`${isOpen ? 'Hide' : 'Show'} bio for ${member.name}`}
+        className="mx-auto mb-3 flex h-9 w-9 items-center justify-center rounded-full border transition-transform duration-200"
+        style={{
+          borderColor: `${member.color}22`,
+          color: member.color,
+          background: `${member.color}12`,
+          transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+        }}
+        onClick={() => setIsOpen((open) => !open)}
+      >
+        <ChevronDown size={18} />
+      </button>
+      {isOpen ? (
+        <p className="text-xs md:text-[12px]" style={{ color: '#5B6878', lineHeight: '1.72' }}>{member.bio}</p>
+      ) : null}
+    </div>
+  )
+}
+
 function IntroSection() {
   const teamMembers = [
     {
@@ -391,7 +442,7 @@ function IntroSection() {
       image: 'john.jpg',
     },
     {
-      name: 'Yashpreet Kaur Sohi',
+      name: 'Yashpreet Sohi',
       role: 'RESEARCH ANALYST',
       bio: 'Major in Supply Chain Management. Market research, data collection, competitive analysis, and generating insights to support strategic decision-making and recommendations.',
       color: '#0D7377',
@@ -538,34 +589,9 @@ function IntroSection() {
           </div>
           </div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 mb-2 mt-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 items-start gap-5 mb-2 mt-12">
           {teamMembers.map((member, i) => (
-            <div
-              key={member.name}
-              className={`card-hover reveal reveal-delay-${i + 1} rounded-[28px] p-6 text-center border overflow-hidden relative`}
-              style={{
-                background: `linear-gradient(160deg, rgba(255,255,255,0.99) 0%, ${member.color}0B 100%)`,
-                borderColor: `${member.color}22`,
-                boxShadow: '0 16px 34px rgba(16,39,52,0.08)',
-              }}
-            >
-              <div className="absolute inset-x-0 top-0 h-1.5" style={{ background: `linear-gradient(90deg, ${member.color} 0%, ${member.color}aa 100%)` }} />
-              <div className="absolute -top-6 -right-6 h-20 w-20 rounded-full" style={{ background: `radial-gradient(circle, ${member.color}18 0%, ${member.color}00 72%)` }} />
-              <img
-                src={`${import.meta.env.BASE_URL}${member.image}`}
-                alt={member.name}
-                className="w-20 h-20 rounded-full mx-auto mb-4 object-cover relative"
-                style={{ border: `3px solid ${member.color}`, boxShadow: `0 12px 24px ${member.color}24` }}
-              />
-              <h4 className="font-bold text-[15px] mb-1 leading-tight" style={{ color: '#1A2332' }}>{member.name}</h4>
-              <p
-                className="inline-flex items-center justify-center rounded-full px-3 py-1 text-[10px] font-semibold mb-3"
-                style={{ color: member.color, background: `${member.color}12` }}
-              >
-                {member.role}
-              </p>
-              <p className="text-xs" style={{ color: '#5B6878', lineHeight: '1.72' }}>{member.bio}</p>
-            </div>
+            <TeamMemberCard key={member.name} member={member} index={i} />
           ))}
         </div>
 
@@ -1035,7 +1061,7 @@ function MarketingSection() {
                           }}
                         >
                           <div
-                            className="mb-3 inline-flex min-w-[62px] h-9 rounded-xl px-3 items-center justify-center text-[11px]"
+                            className="mb-3 inline-flex min-w-[72px] h-10 rounded-xl px-3 items-center justify-center text-[13px]"
                             style={{
                               background: '#DDF3EA',
                               border: '1px solid rgba(13,115,119,0.18)',
@@ -1045,7 +1071,7 @@ function MarketingSection() {
                           >
                             Email #{index + 1}
                           </div>
-                          <p className="text-sm flex-1" style={{ color: '#4A5568', lineHeight: '1.65' }}>{item}</p>
+                          <p className="text-base flex-1" style={{ color: '#4A5568', lineHeight: '1.75' }}>{item}</p>
                         </div>
                       ))}
                     </div>
@@ -1153,6 +1179,70 @@ function MarketingSection() {
 }
 
 // ─── Competitor Research Section ──────────────────────────────────────
+function ExpandablePlayerCard({
+  name,
+  body,
+  note,
+  icon,
+  accentColor,
+  borderColor,
+  iconBorderColor,
+  iconBackground,
+}: {
+  name: string
+  body: string
+  note: string
+  icon: ReactNode
+  accentColor: string
+  borderColor: string
+  iconBorderColor: string
+  iconBackground: string
+}) {
+  const [isOpen, setIsOpen] = useState(false)
+
+  return (
+    <div
+      className="card-hover self-start rounded-[20px] border bg-white px-4 py-4 min-h-[88px] flex flex-col justify-center"
+      style={{
+        borderColor,
+        boxShadow: isOpen ? '0 16px 28px rgba(16,39,52,0.08)' : '0 12px 24px rgba(16,39,52,0.05)',
+      }}
+    >
+      <div className="flex items-center justify-center gap-2 text-center">
+        <span
+          className="flex h-7 w-7 items-center justify-center rounded-full border"
+          style={{ borderColor: iconBorderColor, color: accentColor, background: iconBackground }}
+        >
+          {icon}
+        </span>
+        <p className="flex-1 font-semibold" style={{ color: '#1A2332' }}>{name}</p>
+        <button
+          type="button"
+          aria-expanded={isOpen}
+          aria-label={`${isOpen ? 'Hide' : 'Show'} details for ${name}`}
+          className="flex h-8 w-8 items-center justify-center rounded-full border transition-transform duration-200"
+          style={{
+            borderColor: iconBorderColor,
+            color: accentColor,
+            background: iconBackground,
+            transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+          }}
+          onClick={() => setIsOpen((open) => !open)}
+        >
+          <ChevronDown size={16} />
+        </button>
+      </div>
+
+      {isOpen ? (
+        <div className="pt-3">
+          <p className="text-sm mb-2" style={{ color: '#4A5568', lineHeight: '1.65' }}>{body}</p>
+          <p className="text-sm pt-1" style={{ color: accentColor, lineHeight: '1.65' }}>• {note}</p>
+        </div>
+      ) : null}
+    </div>
+  )
+}
+
 function CompetitorSection() {
   return (
     <section id="competitors" className="section-pad bg-[#E1F0EA]">
@@ -1205,25 +1295,24 @@ function CompetitorSection() {
                 </div>
                 <h4 className="text-lg font-bold" style={{ color: '#1A2332' }}>Local Players</h4>
               </div>
-              <div className="grid gap-4 md:grid-cols-4">
+              <div className="grid items-start gap-4 md:grid-cols-4">
                 {[
                   ['Foresight Canada', 'Turns connections into real outcomes like funding and growth.', 'People engage because they know what they will gain.'],
                   ['Green Economy Canada', 'Focuses on measurable impact and real progress.', 'People stay because they see results.'],
                   ['Smart Prosperity Institute', 'Delivers value through insights and research.', 'Value does not always need constant interaction.'],
                   ['Diversity & Sustainability', 'Builds community through identity, inclusion, and sustainability-centred belonging.', 'Shared values can strengthen retention and long-term engagement.'],
                 ].map(([name, body, note]) => (
-                  <div key={name} className="card-hover h-full rounded-[20px] border bg-white px-4 py-4" style={{ borderColor: 'rgba(13,115,119,0.1)', boxShadow: '0 12px 24px rgba(16,39,52,0.05)' }}>
-                    <div>
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="flex h-7 w-7 items-center justify-center rounded-full border" style={{ borderColor: 'rgba(13,115,119,0.16)', color: '#0D7377', background: 'rgba(13,115,119,0.04)' }}>
-                          <MapPin size={14} />
-                        </span>
-                        <p className="font-semibold" style={{ color: '#1A2332' }}>{name}</p>
-                      </div>
-                      <p className="text-sm mb-2" style={{ color: '#4A5568', lineHeight: '1.65' }}>{body}</p>
-                      <p className="text-sm pt-1" style={{ color: '#0D7377', lineHeight: '1.65' }}>• {note}</p>
-                    </div>
-                  </div>
+                  <ExpandablePlayerCard
+                    key={name}
+                    name={name}
+                    body={body}
+                    note={note}
+                    icon={<MapPin size={14} />}
+                    accentColor="#0D7377"
+                    borderColor="rgba(13,115,119,0.1)"
+                    iconBorderColor="rgba(13,115,119,0.16)"
+                    iconBackground="rgba(13,115,119,0.04)"
+                  />
                 ))}
               </div>
             </div>
@@ -1235,24 +1324,23 @@ function CompetitorSection() {
                 </div>
                 <h4 className="text-lg font-bold" style={{ color: '#1A2332' }}>Global Players</h4>
               </div>
-              <div className="grid gap-4 md:grid-cols-3">
+              <div className="grid items-start gap-4 md:grid-cols-3">
                 {[
                   ['Climate Tech Cities', 'Connects climate ecosystems across cities.', 'Expands opportunities globally.'],
                   ['Climate & Capital Connect', 'Offers curated 1:1 networking and paid membership.', 'People pay for direct, meaningful connections.'],
                   ['Climate Tech Coalition', 'Creates exclusive networks with investor matchmaking.', 'Exclusivity increases perceived value.'],
                 ].map(([name, body, note]) => (
-                  <div key={name} className="card-hover h-full rounded-[20px] border bg-white px-4 py-4" style={{ borderColor: 'rgba(46,204,113,0.1)', boxShadow: '0 12px 24px rgba(16,39,52,0.05)' }}>
-                    <div>
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="flex h-7 w-7 items-center justify-center rounded-full border" style={{ borderColor: 'rgba(46,204,113,0.18)', color: '#27ae60', background: 'rgba(46,204,113,0.05)' }}>
-                          <Globe size={14} />
-                        </span>
-                        <p className="font-semibold" style={{ color: '#1A2332' }}>{name}</p>
-                      </div>
-                      <p className="text-sm mb-2" style={{ color: '#4A5568', lineHeight: '1.65' }}>{body}</p>
-                      <p className="text-sm pt-1" style={{ color: '#27ae60', lineHeight: '1.65' }}>• {note}</p>
-                    </div>
-                  </div>
+                  <ExpandablePlayerCard
+                    key={name}
+                    name={name}
+                    body={body}
+                    note={note}
+                    icon={<Globe size={14} />}
+                    accentColor="#27ae60"
+                    borderColor="rgba(46,204,113,0.1)"
+                    iconBorderColor="rgba(46,204,113,0.18)"
+                    iconBackground="rgba(46,204,113,0.05)"
+                  />
                 ))}
               </div>
             </div>
@@ -1410,8 +1498,8 @@ function PieChartPlaceholder({ title }: { title: string }) {
           {legendItems.map((item) => (
             <div key={item.label} className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ background: item.color }} />
-              <span className="text-xs" style={{ color: '#4A5568' }}>{item.label}</span>
-              <span className="text-xs font-bold ml-auto pl-4" style={{ color: '#1A2332' }}>{item.pct}</span>
+              <span className="text-sm" style={{ color: '#4A5568' }}>{item.label}</span>
+              <span className="text-sm font-bold ml-auto pl-4" style={{ color: '#1A2332' }}>{item.pct}</span>
             </div>
           ))}
         </div>
@@ -1429,8 +1517,8 @@ function HBarChartPlaceholder({ title, rows }: { title: string; rows: { label: s
         {rows.map((row) => (
           <div key={row.label}>
             <div className="flex justify-between mb-1">
-              <span className="text-xs" style={{ color: '#4A5568' }}>{row.label}</span>
-              <span className="text-xs font-bold" style={{ color: '#1A2332' }}>{row.pct}%</span>
+              <span className="text-sm" style={{ color: '#4A5568' }}>{row.label}</span>
+              <span className="text-sm font-bold" style={{ color: '#1A2332' }}>{row.pct}%</span>
             </div>
             <div className="bg-gray-100 rounded-full h-6 overflow-hidden">
               <div className={`h-bar ${row.type || ''}`} style={{ width: `${row.pct}%` }} />
@@ -1445,7 +1533,9 @@ function HBarChartPlaceholder({ title, rows }: { title: string; rows: { label: s
 
 // ─── Survey Section ────────────────────────────────────────────────────
 function SurveySection() {
+  const [areSurveyQuestionsOpen, setAreSurveyQuestionsOpen] = useState(false)
   const [openQuestion, setOpenQuestion] = useState<string | null>('q1')
+  const [areAdditionalChartsOpen, setAreAdditionalChartsOpen] = useState(false)
 
   const surveyQuestions = [
     {
@@ -1652,7 +1742,7 @@ function SurveySection() {
               <div key={label} className="flex-1 basis-0 min-w-0 h-full grid grid-rows-[126px_24px] items-end">
                 <div className="w-full h-[126px] pt-5 flex items-end justify-center">
                   <div className="w-full max-w-[76px] flex flex-col justify-end items-center">
-                    <p className="text-xs font-bold text-center mb-1.5" style={{ color: '#1A2332' }}>{value}</p>
+                    <p className="text-sm font-bold text-center mb-1.5" style={{ color: '#1A2332' }}>{value}</p>
                     <div
                       className="w-full rounded-t-[18px] min-h-[12px] transition-all duration-700"
                       style={{
@@ -1713,9 +1803,9 @@ function SurveySection() {
           >
             <div className="survey-donut-inner">
               <div className="text-center">
-                <p className="text-xs" style={{ color: '#718096' }}>{centerLabel}</p>
+                <p className="text-sm" style={{ color: '#718096' }}>{centerLabel}</p>
                 <p className="text-2xl font-bold" style={{ color: '#1A2332' }}>{Math.round((yesCount / total) * 100)}%</p>
-                <p className="text-xs font-semibold" style={{ color: '#1B8F52' }}>Yes</p>
+                <p className="text-sm font-semibold" style={{ color: '#1B8F52' }}>Yes</p>
               </div>
             </div>
           </div>
@@ -1918,43 +2008,75 @@ function SurveySection() {
               </p>
             </div>
 
-            <div className="space-y-4">
-              {surveyQuestions.map((question) => {
-                const isOpen = openQuestion === question.id
-                return (
-                  <div
-                    key={question.id}
-                    className="card-hover rounded-[24px] border bg-white overflow-hidden relative"
-                    style={{
-                      background: 'linear-gradient(160deg, rgba(255,255,255,0.99) 0%, rgba(242,249,248,0.96) 100%)',
-                      borderColor: isOpen ? 'rgba(13,115,119,0.18)' : '#E8ECEF',
-                      boxShadow: isOpen ? '0 16px 34px rgba(13,115,119,0.12)' : '0 10px 24px rgba(16,39,52,0.05)',
-                    }}
-                  >
-                    <div className="absolute inset-x-0 top-0 h-1" style={{ background: isOpen ? 'linear-gradient(90deg, #0D7377 0%, #14BDAC 100%)' : 'linear-gradient(90deg, rgba(13,115,119,0.18) 0%, rgba(20,189,172,0.16) 100%)' }} />
-                    <button className="w-full flex items-start gap-4 px-5 py-5 text-left" onClick={() => setOpenQuestion(isOpen ? null : question.id)}>
-                      <div className="min-w-[52px] h-[52px] rounded-xl flex items-center justify-center text-sm" style={{ background: 'linear-gradient(135deg, rgba(13,115,119,0.12) 0%, rgba(20,189,172,0.08) 100%)', color: '#0D7377', fontFamily: 'Space Mono, monospace', fontWeight: 700 }}>
-                        Q{question.number}
-                      </div>
-                      <div className="flex-1 pt-1">
-                        <p className="font-semibold" style={{ color: '#1A2332', lineHeight: '1.65' }}>{question.text}</p>
-                      </div>
-                      <div className="pt-2" style={{ color: '#9CA3AF' }}>
-                        {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
-                      </div>
-                    </button>
-                    {isOpen ? (
-                      <div className="px-5 pb-5">
-                        <div className="ml-[68px] rounded-[18px] border px-4 py-4" style={{ borderColor: 'rgba(13,115,119,0.1)', background: 'linear-gradient(135deg, rgba(248,250,251,1) 0%, rgba(240,248,247,1) 100%)', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.6)' }}>
-                          <p className="text-sm" style={{ color: '#4A5568', lineHeight: '1.75' }}>
-                            {question.detail || 'This question was included to help validate assumptions around engagement, value delivery, and the transition toward a premium membership model.'}
-                          </p>
+            <div
+              className="card-hover rounded-[24px] border bg-white overflow-hidden relative"
+              style={{
+                background: 'linear-gradient(160deg, rgba(255,255,255,0.99) 0%, rgba(242,249,248,0.96) 100%)',
+                borderColor: areSurveyQuestionsOpen ? 'rgba(13,115,119,0.18)' : '#E8ECEF',
+                boxShadow: areSurveyQuestionsOpen ? '0 16px 34px rgba(13,115,119,0.12)' : '0 10px 24px rgba(16,39,52,0.05)',
+              }}
+            >
+              <div className="absolute inset-x-0 top-0 h-1" style={{ background: areSurveyQuestionsOpen ? 'linear-gradient(90deg, #0D7377 0%, #14BDAC 100%)' : 'linear-gradient(90deg, rgba(13,115,119,0.18) 0%, rgba(20,189,172,0.16) 100%)' }} />
+              <button
+                className="w-full flex items-center gap-4 px-5 py-4 text-left"
+                onClick={() => setAreSurveyQuestionsOpen((open) => !open)}
+              >
+                <div className="min-w-[52px] h-[52px] rounded-xl flex items-center justify-center text-sm" style={{ background: 'linear-gradient(135deg, rgba(13,115,119,0.12) 0%, rgba(20,189,172,0.08) 100%)', color: '#0D7377', fontFamily: 'Space Mono, monospace', fontWeight: 700 }}>
+                  <ArrowRight size={20} />
+                </div>
+                <div className="flex-1">
+                  <p className="font-semibold" style={{ color: '#1A2332', lineHeight: '1.3' }}>
+                    View All Survey Questions Here
+                  </p>
+                </div>
+                <div style={{ color: '#9CA3AF' }}>
+                  {areSurveyQuestionsOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+                </div>
+              </button>
+              {areSurveyQuestionsOpen ? (
+                <div className="px-5 pb-5">
+                  <div className="rounded-[18px] border px-4 py-4 space-y-3" style={{ borderColor: 'rgba(13,115,119,0.1)', background: 'linear-gradient(135deg, rgba(248,250,251,1) 0%, rgba(240,248,247,1) 100%)', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.6)' }}>
+                    {surveyQuestions.map((question) => {
+                      const isOpen = openQuestion === question.id
+                      return (
+                        <div
+                          key={question.id}
+                          className="rounded-[16px] border bg-white overflow-hidden relative"
+                          style={{
+                            borderColor: isOpen ? 'rgba(13,115,119,0.16)' : 'rgba(13,115,119,0.08)',
+                            background: 'rgba(255,255,255,0.9)',
+                            boxShadow: isOpen ? '0 10px 24px rgba(13,115,119,0.08)' : 'none',
+                          }}
+                        >
+                          <button
+                            className="w-full flex items-start gap-4 px-4 py-4 text-left"
+                            onClick={() => setOpenQuestion(isOpen ? null : question.id)}
+                          >
+                            <div className="min-w-[52px] h-[52px] rounded-xl flex items-center justify-center text-sm" style={{ background: 'linear-gradient(135deg, rgba(13,115,119,0.12) 0%, rgba(20,189,172,0.08) 100%)', color: '#0D7377', fontFamily: 'Space Mono, monospace', fontWeight: 700 }}>
+                              Q{question.number}
+                            </div>
+                            <div className="flex-1 pt-1">
+                              <p className="font-semibold" style={{ color: '#1A2332', lineHeight: '1.65' }}>{question.text}</p>
+                            </div>
+                            <div className="pt-2" style={{ color: '#9CA3AF' }}>
+                              {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+                            </div>
+                          </button>
+                          {isOpen ? (
+                            <div className="px-4 pb-4">
+                              <div className="ml-[68px] rounded-[14px] border px-4 py-4" style={{ borderColor: 'rgba(13,115,119,0.1)', background: 'linear-gradient(135deg, rgba(248,250,251,1) 0%, rgba(240,248,247,1) 100%)' }}>
+                                <p className="text-sm" style={{ color: '#4A5568', lineHeight: '1.75' }}>
+                                  {question.detail || 'This question was included to help validate assumptions around engagement, value delivery, and the transition toward a premium membership model.'}
+                                </p>
+                              </div>
+                            </div>
+                          ) : null}
                         </div>
-                      </div>
-                    ) : null}
+                      )
+                    })}
                   </div>
-                )
-              })}
+                </div>
+              ) : null}
             </div>
           </div>
 
@@ -2040,84 +2162,116 @@ function SurveySection() {
               />
             </div>
 
-            <div className="mb-10">
-              <StatColumns
-                title="Most Valuable Services & Opportunities"
-                badge="Mentorship leads the demand"
-                rows={servicePreferences}
-                colors={['#F4D03F', '#2ECC71', '#14BDAC', '#8ED8B4', '#BDEADD', '#DDE8E7']}
-              />
-            </div>
+            <div
+              className="card-hover rounded-[24px] border bg-white overflow-hidden relative mb-10"
+              style={{
+                background: 'linear-gradient(160deg, rgba(255,255,255,0.99) 0%, rgba(242,249,248,0.96) 100%)',
+                borderColor: areAdditionalChartsOpen ? 'rgba(13,115,119,0.18)' : '#E8ECEF',
+                boxShadow: areAdditionalChartsOpen ? '0 16px 34px rgba(13,115,119,0.12)' : '0 10px 24px rgba(16,39,52,0.05)',
+              }}
+            >
+              <div className="absolute inset-x-0 top-0 h-1" style={{ background: areAdditionalChartsOpen ? 'linear-gradient(90deg, #0D7377 0%, #14BDAC 100%)' : 'linear-gradient(90deg, rgba(13,115,119,0.18) 0%, rgba(20,189,172,0.16) 100%)' }} />
+              <button
+                className="w-full flex items-center gap-4 px-5 py-4 text-left"
+                onClick={() => setAreAdditionalChartsOpen((open) => !open)}
+              >
+                <div className="min-w-[52px] h-[52px] rounded-xl flex items-center justify-center"
+                  style={{ background: 'linear-gradient(135deg, rgba(13,115,119,0.12) 0%, rgba(20,189,172,0.08) 100%)', color: '#0D7377' }}
+                >
+                  <ArrowRight size={20} />
+                </div>
+                <div className="flex-1">
+                  <p className="font-semibold" style={{ color: '#1A2332', lineHeight: '1.3' }}>
+                    View Additional Survey Graphs Here
+                  </p>
+                </div>
+                <div style={{ color: '#9CA3AF' }}>
+                  {areAdditionalChartsOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+                </div>
+              </button>
+              {areAdditionalChartsOpen ? (
+                <div className="px-5 pb-5">
+                  <div className="rounded-[18px] border px-4 py-4 space-y-6" style={{ borderColor: 'rgba(13,115,119,0.1)', background: 'linear-gradient(135deg, rgba(248,250,251,1) 0%, rgba(240,248,247,1) 100%)', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.6)' }}>
+                    <StatColumns
+                      title="Most Valuable Services & Opportunities"
+                      badge="Mentorship leads the demand"
+                      rows={servicePreferences}
+                      colors={['#F4D03F', '#2ECC71', '#14BDAC', '#8ED8B4', '#BDEADD', '#DDE8E7']}
+                    />
 
-            <div className="space-y-6 mb-10">
-              <div className="grid gap-5 lg:grid-cols-2 items-stretch">
-                <ResultBars
-                  title="Mission Alignment"
-                  badge="78% strongly align"
-                  rows={missionAlignment}
-                  accent="#0D7377"
-                  badgeStyle={{ background: 'rgba(13,115,119,0.10)', color: '#0A5C60' }}
-                  trackColor="#EAF0F1"
-                  rowColors={['#0D7377', '#14BDAC', '#BFD8D8', '#D9E8E8', '#E8ECEF']}
-                  highlightLabel="Very strongly"
-                />
-                <ResultBars
-                  title="Communication Platform Usage"
-                  badge="Engagement is mostly occasional"
-                  rows={platformUsage}
-                  accent="#14BDAC"
-                  badgeStyle={{ background: 'rgba(20,189,172,0.12)', color: '#0D7377' }}
-                  trackColor="#EAF0F1"
-                  rowColors={['#8ED8D1', '#7DD0C8', '#BFE7E2', '#6DC8C0', '#14BDAC', '#DCE8EA']}
-                  highlightLabel="Rarely"
-                />
-              </div>
+                    <div className="space-y-6">
+                      <div className="grid gap-5 lg:grid-cols-2 items-stretch">
+                        <ResultBars
+                          title="Mission Alignment"
+                          badge="78% strongly align"
+                          rows={missionAlignment}
+                          accent="#0D7377"
+                          badgeStyle={{ background: 'rgba(13,115,119,0.10)', color: '#0A5C60' }}
+                          trackColor="#EAF0F1"
+                          rowColors={['#0D7377', '#14BDAC', '#BFD8D8', '#D9E8E8', '#E8ECEF']}
+                          highlightLabel="Very strongly"
+                        />
+                        <ResultBars
+                          title="Communication Platform Usage"
+                          badge="Engagement is mostly occasional"
+                          rows={platformUsage}
+                          accent="#14BDAC"
+                          badgeStyle={{ background: 'rgba(20,189,172,0.12)', color: '#0D7377' }}
+                          trackColor="#EAF0F1"
+                          rowColors={['#8ED8D1', '#7DD0C8', '#BFE7E2', '#6DC8C0', '#14BDAC', '#DCE8EA']}
+                          highlightLabel="Rarely"
+                        />
+                      </div>
 
-              <div className="grid gap-5 lg:grid-cols-2 items-stretch">
-                <StatDonut
-                  title="Interest in Premium Membership"
-                  badge="57% would join"
-                  rows={premiumInterest}
-                  colors={['#2ECC71', '#E8ECEF', '#A7DFAE']}
-                  centerLabel="Share saying"
-                />
-                <ResultBars
-                  title="Likely Behaviour if Platform Becomes Paid"
-                  badge="Most would consider joining"
-                  rows={paidBehavior}
-                  accent="#0D7377"
-                  badgeStyle={{ background: 'rgba(13,115,119,0.10)', color: '#0A5C60' }}
-                  trackColor="#EDF2F3"
-                  rowColors={['#70D2C7', '#0D7377', '#A7D8D8', '#DCE6E8', '#E8ECEF']}
-                  highlightLabel="Consider joining"
-                />
-              </div>
+                      <div className="grid gap-5 lg:grid-cols-2 items-stretch">
+                        <StatDonut
+                          title="Interest in Premium Membership"
+                          badge="57% would join"
+                          rows={premiumInterest}
+                          colors={['#2ECC71', '#E8ECEF', '#A7DFAE']}
+                          centerLabel="Share saying"
+                        />
+                        <ResultBars
+                          title="Likely Behaviour if Platform Becomes Paid"
+                          badge="Most would consider joining"
+                          rows={paidBehavior}
+                          accent="#0D7377"
+                          badgeStyle={{ background: 'rgba(13,115,119,0.10)', color: '#0A5C60' }}
+                          trackColor="#EDF2F3"
+                          rowColors={['#70D2C7', '#0D7377', '#A7D8D8', '#DCE6E8', '#E8ECEF']}
+                          highlightLabel="Consider joining"
+                        />
+                      </div>
 
-              <div className="grid gap-5 lg:grid-cols-2 items-stretch">
-                <ResultBars
-                  title="Willingness to Pay"
-                  badge="Price sensitivity is high"
-                  rows={willingnessToPay}
-                  accent="#F4D03F"
-                  badgeStyle={{ background: 'rgba(244,208,63,0.18)', color: '#8B6B00' }}
-                  trackColor="#F7F1D8"
-                  rowColors={['#F4D03F', '#E9BE2D', '#DDAF22', '#D09F19', '#C78F12']}
-                  highlightLabel="Less than 100 USD annually"
-                />
+                      <div className="grid gap-5 lg:grid-cols-2 items-stretch">
+                        <ResultBars
+                          title="Willingness to Pay"
+                          badge="Price sensitivity is high"
+                          rows={willingnessToPay}
+                          accent="#F4D03F"
+                          badgeStyle={{ background: 'rgba(244,208,63,0.18)', color: '#8B6B00' }}
+                          trackColor="#F7F1D8"
+                          rowColors={['#F4D03F', '#E9BE2D', '#DDAF22', '#D09F19', '#C78F12']}
+                          highlightLabel="Less than 100 USD annually"
+                        />
 
-                <StatGridCard
-                  title="Company Revenue Snapshot"
-                  badge="Directional context only"
-                  description="Only 10 respondents answered this question, so this serves as directional context rather than a complete financial profile."
-                  stats={[
-                    ['Mean', '2,434,000'],
-                    ['Median', '450,000'],
-                    ['Min', '0'],
-                    ['Max', '20,000,000'],
-                  ]}
-                  rangeText="Min-Max: 0 to 20,000,000"
-                />
-              </div>
+                        <StatGridCard
+                          title="Company Revenue Snapshot"
+                          badge="Directional context only"
+                          description="Only 10 respondents answered this question, so this serves as directional context rather than a complete financial profile."
+                          stats={[
+                            ['Mean', '2,434,000'],
+                            ['Median', '450,000'],
+                            ['Min', '0'],
+                            ['Max', '20,000,000'],
+                          ]}
+                          rangeText="Min-Max: 0 to 20,000,000"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : null}
             </div>
           </div>
         </div>
@@ -3415,6 +3569,8 @@ function RecommendationsSection() {
     },
   ]
 
+  const [openRecommendations, setOpenRecommendations] = useState<Record<number, boolean>>({})
+
   return (
     <section id="recommendations" className="section-pad bg-white">
       <div className="max-w-5xl mx-auto">
@@ -3579,21 +3735,34 @@ function RecommendationsSection() {
           </div>
         </div>
 
-        <div className="mb-14 grid gap-8 lg:grid-cols-2">
-          {recs.map((rec, i) => (
+        <div className="mb-14 grid items-start gap-8 lg:grid-cols-2">
+          {recs.map((rec, i) => {
+            const isOpen = !!openRecommendations[rec.number]
+
+            return (
             <div
               key={rec.number}
-              className={`reveal reveal-delay-${i + 1} card-hover rounded-[28px] border overflow-hidden relative`}
+              className={`reveal reveal-delay-${i + 1} card-hover self-start rounded-[28px] border overflow-hidden relative`}
               style={{
                 background: `linear-gradient(160deg, rgba(255,255,255,0.99) 0%, ${rec.color}08 100%)`,
                 borderColor: `${rec.color}22`,
                 boxShadow: '0 16px 36px rgba(16,39,52,0.08)',
+                minHeight: isOpen ? undefined : '164px',
               }}
             >
               <div className="absolute inset-x-0 top-0 h-1.5" style={{ background: `linear-gradient(90deg, ${rec.color} 0%, ${rec.color}bb 100%)` }} />
-              <div className="flex flex-col md:flex-row">
-                <div className="p-6 md:p-8 flex-1">
-                  <div className="flex items-start gap-4 mb-5">
+              <div className="flex h-full flex-col md:flex-row">
+                <div className={`p-6 md:p-8 flex-1 ${isOpen ? '' : 'flex min-h-[148px] items-center'}`}>
+                  <button
+                    type="button"
+                    className={`flex w-full gap-4 text-left ${isOpen ? 'items-start mb-2' : 'items-center'}`}
+                    onClick={() =>
+                      setOpenRecommendations((current) => ({
+                        ...current,
+                        [rec.number]: !current[rec.number],
+                      }))
+                    }
+                  >
                     <div
                       className="rec-number flex-shrink-0"
                       style={{
@@ -3603,11 +3772,16 @@ function RecommendationsSection() {
                     >
                       {rec.number}
                     </div>
-                    <div>
+                    <div className={`flex-1 ${isOpen ? '' : 'max-w-[280px]'}`}>
                       <p className="text-xs font-semibold uppercase tracking-[0.22em] mb-1.5" style={{ color: rec.color }}>{rec.label}</p>
                       <h3 className="text-[1.4rem] leading-tight font-bold" style={{ color: '#1A2332' }}>{rec.title}</h3>
                     </div>
-                  </div>
+                    <div className={`ml-auto ${isOpen ? 'pt-1' : ''}`} style={{ color: '#9CA3AF' }}>
+                      {isOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+                    </div>
+                  </button>
+                  {isOpen ? (
+                    <>
                   <p className="text-sm leading-relaxed mb-5" style={{ color: '#4A5568', lineHeight: '1.85' }}>{rec.body}</p>
                   {'bodySecondary' in rec && rec.bodySecondary ? (
                     <p
@@ -3656,10 +3830,12 @@ function RecommendationsSection() {
                       ))}
                     </ul>
                   </div>
+                    </>
+                  ) : null}
                 </div>
               </div>
             </div>
-          ))}
+          )})}
         </div>
 
         <div
@@ -3702,10 +3878,10 @@ function RecommendationsSection() {
                         <p.icon className="h-4 w-4" />
                       </span>
                       <div className="h-1.5 w-10 rounded-full" style={{ background: p.color }} />
-                      <p className="text-xs font-bold uppercase tracking-wider" style={{ color: p.color }}>{p.phase}</p>
+                      <p className="text-sm font-bold uppercase tracking-wider" style={{ color: p.color }}>{p.phase}</p>
                     </div>
-                    <p className="font-extrabold text-[16px] mb-0.5" style={{ color: p.color }}>{p.label}</p>
-                    <p className="text-[13px] mt-0.5" style={{ color: '#4A5568', lineHeight: '1.55' }}>{p.text}</p>
+                    <p className="font-extrabold text-[18px] mb-1" style={{ color: p.color }}>{p.label}</p>
+                    <p className="text-[15px] mt-0.5" style={{ color: '#4A5568', lineHeight: '1.65' }}>{p.text}</p>
                   </div>
                 </div>
                 {i < 4 ? (
@@ -3818,7 +3994,7 @@ function Footer() {
             </div>
             <div className="mb-4 space-y-2 text-sm leading-relaxed">
               <p style={{ color: '#E5E7EB' }}>
-                Aasiyah Rasheed, Lais Garcia, Nikka Stephens, John Salinas, and Yashpreet Kaur Sohi
+                Aasiyah Rasheed, Lais Garcia, Nikka Stephens, John Salinas, and Yashpreet Sohi
               </p>
               <p>
                 Business Diploma Integrative Experience Capston (ACWE-300-E1)
@@ -3849,7 +4025,7 @@ function Footer() {
         </div>
 
         <div className="border-t pt-6 flex items-center justify-between gap-3" style={{ borderColor: 'rgba(255,255,255,0.08)' }}>
-          <p className="text-xs">© 2026 Matilha Capstone Project. All rights reserved.</p>
+          <p className="text-sm">© 2026 Matilha Capstone Project. All rights reserved.</p>
         </div>
       </div>
     </footer>
