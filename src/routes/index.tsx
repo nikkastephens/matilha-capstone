@@ -86,20 +86,33 @@ function StickyNav() {
   ]
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (Date.now() < navLockUntilRef.current) return
-          if (entry.isIntersecting) setActiveSection(entry.target.id)
-        })
-      },
-      { threshold: 0.3 }
-    )
-    navLinks.map((link) => link.id).forEach((id) => {
-      const el = document.getElementById(id)
-      if (el) observer.observe(el)
-    })
-    return () => observer.disconnect()
+    const updateActiveSection = () => {
+      if (Date.now() < navLockUntilRef.current) return
+
+      const scrollPosition = window.scrollY + 140
+      const sections = navLinks
+        .map((link) => document.getElementById(link.id))
+        .filter((section): section is HTMLElement => Boolean(section))
+
+      let currentSection = sections[0]?.id ?? 'home'
+
+      sections.forEach((section) => {
+        if (section.offsetTop <= scrollPosition) {
+          currentSection = section.id
+        }
+      })
+
+      setActiveSection(currentSection)
+    }
+
+    updateActiveSection()
+    window.addEventListener('scroll', updateActiveSection, { passive: true })
+    window.addEventListener('resize', updateActiveSection)
+
+    return () => {
+      window.removeEventListener('scroll', updateActiveSection)
+      window.removeEventListener('resize', updateActiveSection)
+    }
   }, [])
 
   return (
@@ -3378,11 +3391,6 @@ function ConclusionSection() {
                 ))}
               </div>
 
-              <div className="mt-5 rounded-[22px] border px-5 py-5 text-center" style={{ borderColor: 'rgba(13,115,119,0.12)', background: 'rgba(255,255,255,0.82)' }}>
-                <p className="text-base md:text-[18px] font-semibold" style={{ color: '#16313A', lineHeight: '1.8' }}>
-                  The current strategy reflects what the organization believes members want, but not what members are clearly demonstrating through behaviour.
-                </p>
-              </div>
             </div>
 
             <div className="mx-auto mb-7 h-px max-w-3xl bg-gradient-to-r from-transparent via-white/35 to-transparent" />
@@ -3398,13 +3406,13 @@ function ConclusionSection() {
                   textShadow: '0 10px 24px rgba(7,42,46,0.18)',
                 }}
               >
-                Greentech Alliance{' '}
-                <span style={{ color: 'rgba(255,244,195,0.98)' }}>risks</span>{' '}
-                building its future on{' '}
-                <span style={{ color: 'rgba(206,236,255,0.98)' }}>assumptions</span>{' '}
-                <span style={{ color: 'rgba(255,244,195,0.98)' }}>not validated</span>{' '}
-                by{' '}
-                <span style={{ color: 'rgba(210,255,225,0.98)' }}>member behaviour.</span>
+                Greentech Alliance will benefit from{' '}
+                <span style={{ color: 'rgba(255,244,195,0.98)' }}>refining its concept</span>{' '}
+                and{' '}
+                <span style={{ color: 'rgba(206,236,255,0.98)' }}>strategically planning</span>{' '}
+                its platform launch to ensure it is grounded in{' '}
+                <span style={{ color: 'rgba(255,244,195,0.98)' }}>correctly interpreted</span>{' '}
+                <span style={{ color: 'rgba(210,255,225,0.98)' }}>member needs.</span>
               </p>
             </div>
             <p className="mt-7 text-lg md:text-[22px] font-medium max-w-3xl mx-auto" style={{ color: 'rgba(233,255,244,0.92)', lineHeight: '1.75' }}>
